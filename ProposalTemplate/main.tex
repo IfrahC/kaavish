@@ -15,15 +15,15 @@
 \title{Project Title}  % the title of your project
 \newcommand\shorttitle{\thetitle}  % if needed: a shorter title for the document header
 % Team members.
-\newcommand\firstname{Student 1}  % full name
-\newcommand\firstid{id01}         % ID, e.g. xy01234
-\newcommand\secondname{Student 2} % full name
-\newcommand\secondid{id02}        % ID, e.g. xy01234
-\newcommand\thirdname{Student 3}  % full name
-\newcommand\thirdid{id03}         % ID, e.g. xy01234
+\newcommand\firstname{Ifrah Chishti}  % full name
+\newcommand\firstid{ic08351}         % ID, e.g. xy01234
+\newcommand\secondname{Naaseh Sajid} % full name
+\newcommand\secondid{ms08085}        % ID, e.g. xy01234
+\newcommand\thirdname{Aina Shakeel}  % full name
+\newcommand\thirdid{as08430}         % ID, e.g. xy01234
 % Uncomment the rows for the next 2 students if and as needed.
-% \newcommand\fourthname{Student 4} % full name
-% \newcommand\fourthid{id04}        % ID, e.g. xy01234
+\newcommand\fourthname{Zain Hatim} % full name
+\newcommand\fourthid{zh08343}        % ID, e.g. xy01234
 % \newcommand\fifthname{Student 5}  % full name
 % \newcommand\fifthid{id05}         % ID, e.g. xy01234
 
@@ -34,11 +34,11 @@
 \pagestyle{fancy}
 \lhead{Kaavish Proposal}
 \chead{\shorttitle}
-\rhead{Fall 2023}
+\rhead{Fall 2025}
 \cfoot{Page \thepage}
 \renewcommand{\footrulewidth}{0.4pt}
 
-\newcommand\instruction[1]{\textit{#1}}
+\newenvironment{instruction}{\itshape}{}
 
 \begin{document}
 
@@ -49,10 +49,30 @@
 % DATA: Populate the rest of the document as instructed.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Abstract}
-\instruction{Please write a 500-600 word abstract on the project idea. It should not be very technically written but should be understandable by anyone.}
+\begin{instruction}
+    CodeSchool is a global coding literacy platform for children aged 6 - 16, delivering more than 2,000 classes across 20 countries. With a mission to make coding a universal literacy, the organization combines an engaging, game-based curriculum with trained instructors who can inspire the next generation of digital creators. Much like how Uber seamlessly connects riders with drivers, CodeSchool envisions a platform that can intelligently connect students with the right instructor, at the right time, using the right curriculum—whether classes are delivered online or onsite. To achieve this vision at scale, the platform must evolve from a system dependent on manual operations into one that is automated, intelligent, and easy to use.
+
+    Currently, managing the lifecycle of classes at CodeSchool is a complex, time-consuming process. Instructors and administrators rely on spreadsheets to schedule classes, assign students, generate Zoom links, and track progress. Evaluations of teaching quality are also carried out manually, with the team watching recorded sessions and giving scores based on observations. While effective at a smaller scale, this system becomes increasingly difficult to manage as CodeSchool grows, leaving room for scheduling conflicts, inefficiencies, and limited insight into teaching quality. These challenges risk slowing down the organization's ability to expand while maintaining its high standard of student learning outcomes.
+
+    The proposed solution is a web-based platform designed to act as a central instructor portal—streamlining operations, automating repetitive tasks, and enabling data-driven insights. At its core, the platform addresses three key areas: class scheduling, student-instructor matching, and performance evaluation.
+
+    First, the platform will automate class scheduling. By factoring in instructor availability, coding language expertise, and student age and proficiency, it will generate conflict-free schedules. This not only saves administrative effort but also ensures that classes run smoothly without last-minute rescheduling.
+
+    Second, the platform will transform how students are assigned to instructors. Instead of a manual process that relies on human judgment, the system will use a recommendation model inspired by machine learning. Much like matching services in other industries, this model will prioritize placing students with instructors best suited to their learning needs—whether that is based on teaching style, technical strengths, or experience with specific age groups. This will also follow a round robin model to ensure fair distribution of students among instructors, allowing instructors to experience teaching different age groups and fostering a more versatile teaching approach. The result is a more personalized and effective learning experience for every student.
+
+    % Third, to support the logistics of virtual teaching, the platform will integrate with the Zoom API to automatically generate and distribute meeting links for each scheduled class. This eliminates another manual step and ensures that both students and instructors always have seamless access to their sessions.
+
+    Finally, the platform will introduce a more advanced approach to instructor performance analysis. Rather than relying solely on manual reviews, it will leverage automated transcription and analysis of Zoom recordings. Using metrics such as clarity, pacing, student engagement, and adherence to curriculum (just to name a few), the system will provide instructors with actionable feedback. This not only supports professional growth but also ensures that students consistently receive high-quality instruction.
+
+    By bringing these features together into one unified dashboard, the project aims to reduce operational overhead while enabling scalability. Instructors will gain a clear and organized view of their teaching responsibilities, student assignments, and performance metrics. Administrators will benefit from real-time data and analytics that guide decision-making. Most importantly, students will experience smoother, better-matched, and higher-quality instruction—helping CodeSchool continue its mission of making coding a universal literacy.
+
+    In sum, this project is not just a technical upgrade but a step toward reimagining how educational platforms can operate at scale. By blending automation with data-driven insights, it empowers instructors to focus on what they do best—teaching—while the system handles the background logistics. The result is a more efficient, reliable, and impactful platform that supports CodeSchool's global ambitions.
+\end{instruction}
 
 \section{Problem definition}
-\instruction{Describe the problem that the project addresses.}
+\instruction{
+    Currently, managing the lifecycle of classes at CodeSchool is a complex, time-consuming process. Instructors and administrators rely on spreadsheets to schedule classes, assign students, generate Zoom links, and track progress. Evaluations of teaching quality are also carried out manually, with staff watching recorded sessions and giving scores based on observations. While effective at a smaller scale, this system becomes increasingly difficult to manage as CodeSchool grows, leaving room for scheduling conflicts, inefficiencies, and limited insight into teaching quality. These challenges risk slowing down the organization’s ability to expand while maintaining its high standard of student learning outcomes.
+}
 
 \section{Social relevance}
 \instruction{Describe any societal problem that the project addresses.}
