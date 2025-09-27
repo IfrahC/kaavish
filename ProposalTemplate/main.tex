@@ -86,20 +86,76 @@
     Compared with existing solutions, which often rely on spreadsheets, messaging apps, or generic learning management systems, this platform is purpose-built for coding education at scale. Tools like Zoom and Google Classroom are excellent for video delivery and content sharing, but they do not address the deeper challenge of intelligently matching students to instructors or evaluating teaching quality. Likewise, traditional CRMs or scheduling tools may handle logistics but lack an educational focus and offer no integration with performance analytics. The added value of this project lies in combining all these elements—matching, scheduling, conferencing, and evaluation—into a single, seamless experience. Current solutions operate in silos, but this platform brings them together into one cohesive ecosystem, making it uniquely positioned to scale and sustain quality learning worldwide.
 }
 
-\section{CS contribution}
-\instruction{Describe the CS component of the project, e.g. the higher level CS courses that contribute to it.}
+\section{CS Contribution}
+The project integrates concepts from multiple areas of Computer Science, directly reflecting the knowledge and skills gained through the courses offered at Habib. Key contributions include:
+
+\begin{itemize}
+    \item \textbf{Deep Learning:} Applying advanced machine learning techniques to evaluate instructor performance. Models are trained on audio and text data using frameworks such as TensorFlow and PyTorch, leveraging Natural Language Processing (NLP), sentiment analysis, and speech recognition to generate meaningful effectiveness scores.
+    
+    \item \textbf{Algorithm Design and Analysis:} Developing an intelligent scheduling engine that uses optimization techniques, such as greedy algorithms and genetic algorithms, to minimize conflicts and maximize student--instructor matching efficiency. Algorithmic complexity analysis ensures the system remains efficient at scale.
+    
+    \item \textbf{Data Structures and Algorithms:} Implementing efficient data management through appropriate structures (heaps, graphs, hash maps) to handle scheduling, student allocation, and query processing. These choices ensure low-latency responses and robust handling of large datasets.
+    
+    \item \textbf{Web and Mobile Development:} Designing and building a scalable, user-friendly application accessible across devices. This includes developing modular front-end and back-end architectures, integrating APIs (Zoom, scheduling, billing), and ensuring usability through responsive design and intuitive dashboards for instructors, students, and administrators.
+    
+    \item \textbf{Software Engineering:} Developing a modular, scalable web application that integrates multiple APIs (Zoom, scheduling, billing). Emphasis is placed on maintainability, usability, and meeting non-functional requirements such as reliability and availability.
+\end{itemize}
+
+Collectively, these contributions demonstrate the application of theoretical knowledge to solve real-world problems, bridging advanced algorithms, deep learning, and scalable software engineering practices.
+
+
 
 \section{Scope and Deliverables}
-\instruction{Justify the scope of the project with respect to the size of the team and the year long duration. List the foreseeable deliverables.}
+Given the year-long duration and a team of four members, the project scope is quite feasible considering how we will all be working according to our strengths. The system is divided into manageable modules that allow development to continue side by side instead of waiting for each module to finish. The scope includes:
+
+\begin{itemize}
+    \item Development of an instructor portal with availability management and performance analytics.
+    \item Implementation of a scheduling technique that assigns classes automatically while preventing conflicts.
+    \item Creation of a student--instructor matching algorithm leveraging computational intelligence.
+    \item Integration with the Zoom API for automated link generation and distribution.
+    \item Machine learning models for instructor performance analysis based on audio and text data from class recordings.
+    \item Administrative dashboard providing reporting, analytics, and payment processing.
+\end{itemize}
+
+\textbf{Deliverables:}
+\begin{itemize}
+    \item Functional web-based platform with separate dashboards for instructors, students, and administrators.
+    \item Database schema and implementation for managing schedules, profiles, and performance records.
+    \item Smart scheduling engine with optimization-based algorithms (this will include the relevant ML models as well).
+    \item Documentation including design artifacts and API specifications.
+    \item Deployment-ready system demonstration.
+\end{itemize}
+
 
 \section{Feasibility}
 \instruction{List the resources, e.g. datasets, compute resources, software libraries, hardware, required for the project. Mention how you expect to access and utilize them for the project.}
 
 \section{Team dynamics}
-\instruction{Justify the suitability of the team members to the project. For example, their relevant courses, projects, internships, or research.}
+The project team consists of four members, each bringing complementary expertise across backend development, frontend design, databases, and machine learning. This distribution of roles ensures that the interdisciplinary requirements of the system are well-covered and integration can be achieved smoothly.
+
+\begin{itemize}
+    \item \textbf{Naaseh Sajid (ms08085):} Specializes in backend development, API integration, and database management. Skilled in Node.js, Next.js, Ruby on Rails, React, Python, and PostgreSQL. He is responsible for developing the backend services that connect the web application with the database and evaluation modules, as well as maintaining and populating the database.
+    
+    \item \textbf{Ifrah Chishti (ic08351):} Contributes to both frontend and backend development, with additional expertise in databases and machine learning. Experienced in Node.js, Python, PostgreSQL, and data science. She is primarily responsible for implementing design and code logic aligned with CodeSchool’s requirements, while also providing backend support alongside Naaseh and Aina.
+    
+    \item \textbf{Aina Shakeel (as08430):} Focuses on machine learning and computational intelligence. Proficient in Python, TensorFlow, Scikit-learn, and deep learning techniques. She is tasked with developing and integrating the student–instructor matching model, and also supports backend architecture to enable robust data collection for future performance analytics.
+    
+    \item \textbf{Zain Hatim (zh08343):} Specializes in frontend design and user experience. Skilled in React, React Native, Node.js, and Python. He is responsible for building the frontend interface in React, ensuring usability, simplicity, and an aesthetically appealing design, as well as addressing any UI/UX issues that arise.
+\end{itemize}
+
 
 \section{Tech stack}
-\instruction{Write details of the tech stack you will use for this project for e.g. if you are using MERN stack, you can write MongoDB, Express, React and NodeJS etc.}
+The project employs a modern and scalable technology stack, chosen for its robustness and ability to support modular development.
+
+\begin{itemize}
+    \item \textbf{Frontend:} React.js / Next.js for building responsive, component-based UIs with smooth state management and routing.
+    \item \textbf{Backend:} Ruby on Rails or Next.js (API routes) to implement RESTful services for scheduling, user management, and system logic.
+    \item \textbf{Machine Learning:} Python with libraries such as TensorFlow, PyTorch, and SpeechRecognition for audio feature extraction, NLP-based analysis, and building instructor performance models.
+    \item \textbf{Database:} PostgreSQL as the primary relational database for storing instructor availability, student profiles, class schedules, and performance metrics.
+    \item \textbf{Video Conferencing Integration:} Zoom API for automatic meeting creation and link distribution; Google Meet as a fallback option.
+    \item \textbf{Deployment and Version Control:} Git/GitHub for version control, Docker for containerization, and cloud-based hosting (e.g., AWS or Heroku) for deployment and scalability.
+\end{itemize}
+
 
 \section{References}
 \instruction{List your references.}
