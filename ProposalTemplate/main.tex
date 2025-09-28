@@ -12,7 +12,7 @@
 % BEGIN METADATA: Edit the following as appropriate
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{Project Title}  % the title of your project
+\title{CodeSchool CMS}  % the title of your project
 \newcommand\shorttitle{\thetitle}  % if needed: a shorter title for the document header
 % Team members.
 \newcommand\firstname{Ifrah Chishti}  % full name
@@ -110,7 +110,7 @@ Given the year-long duration and a team of four members, the project scope is qu
 
 \begin{itemize}
     \item Development of an instructor portal with availability management and performance analytics.
-    \item Implementation of a scheduling technique that assigns classes automatically while preventing conflicts.
+    \item Implementation of a scheduling algorithm that assigns classes automatically while preventing conflicts.
     \item Creation of a student--instructor matching algorithm leveraging computational intelligence.
     \item Integration with the Zoom API for automated link generation and distribution.
     \item Machine learning models for instructor performance analysis based on audio and text data from class recordings.
@@ -119,7 +119,7 @@ Given the year-long duration and a team of four members, the project scope is qu
 
 \textbf{Deliverables:}
 \begin{itemize}
-    \item Functional web-based platform with separate dashboards for instructors, students, and administrators.
+    \item Functional web-based platform with separate dashboards for instructors and administrators.
     \item Database schema and implementation for managing schedules, profiles, and performance records.
     \item Smart scheduling engine with optimization-based algorithms (this will include the relevant ML models as well).
     \item Documentation including design artifacts and API specifications.
@@ -128,7 +128,53 @@ Given the year-long duration and a team of four members, the project scope is qu
 
 
 \section{Feasibility}
-\instruction{List the resources, e.g. datasets, compute resources, software libraries, hardware, required for the project. Mention how you expect to access and utilize them for the project.}
+The project can be built with tools and resources we already have or can access.
+
+\subsection*{Datasets}
+\begin{itemize}
+	\item Zoom video recordings from CodeSchool classes.
+	\item Zoom audio recordings for speech and engagement analysis.
+	\item Transcribed data for text-based evaluation.
+	\item Student and instructor profiles for scheduling and matching.
+\end{itemize}
+
+\subsection*{Compute resources}
+\begin{itemize}
+	\item Each team member has a laptop with enough power for coding and basic tests.
+	\item For training heavy models, we will use cloud platforms like Google Colab or AWS.
+\end{itemize}
+
+\subsection*{Software}
+\begin{itemize}
+	\item Machine learning: TensorFlow, PyTorch, Scikit-learn.
+	\item Backend: Node.js, Ruby on Rails.
+	\item Frontend: React.js, Next.js.
+	\item Database: PostgreSQL.
+\end{itemize}
+
+\subsection*{Hardware}
+\begin{itemize}
+	\item Standard laptops are enough for development.
+	\item For training models, we can use the university GPU.
+	\item If models or data are large, we will use Google Colab Pro, which we may need to buy.
+	\item The choice depends on dataset size and how complex our models are.
+\end{itemize}
+
+\subsection*{Access}
+\begin{itemize}
+	\item All required tools are free or open source.
+	\item Student credits from cloud services cover large training jobs.
+	\item Zoom API provides integration for recordings and class links.
+\end{itemize}
+
+\subsection*{Risks and fixes}
+\begin{itemize}
+	\item If Zoom data is incomplete, we will use stored transcripts and profiles for testing.
+	\item If local machines are slow, we will use cloud GPUs.
+\end{itemize}
+
+\subsection*{Conclusion}
+The project is realistic. The tools are ready, the data is available, and the plan is clear.
 
 \section{Team dynamics}
 The project team consists of four members, each bringing complementary expertise across backend development, frontend design, databases, and machine learning. This distribution of roles ensures that the interdisciplinary requirements of the system are well-covered and integration can be achieved smoothly.
@@ -136,7 +182,7 @@ The project team consists of four members, each bringing complementary expertise
 \begin{itemize}
     \item \textbf{Naaseh Sajid (ms08085):} Specializes in backend development, API integration, and database management. Skilled in Node.js, Next.js, Ruby on Rails, React, Python, and PostgreSQL. He is responsible for developing the backend services that connect the web application with the database and evaluation modules, as well as maintaining and populating the database.
     
-    \item \textbf{Ifrah Chishti (ic08351):} Contributes to both frontend and backend development, with additional expertise in databases and machine learning. Experienced in Node.js, Python, PostgreSQL, and data science. She is primarily responsible for implementing design and code logic aligned with CodeSchool’s requirements, while also providing backend support alongside Naaseh and Aina.
+    \item \textbf{Ifrah Chishti (ic08351):} Contributes to both frontend and backend development, with additional expertise in databases and data science. Experienced in Node.js, Python, PostgreSQL, and data science. She is primarily responsible for implementing design and code logic aligned with CodeSchool’s requirements, while also providing backend support alongside Naaseh and Aina.
     
     \item \textbf{Aina Shakeel (as08430):} Focuses on machine learning and computational intelligence. Proficient in Python, TensorFlow, Scikit-learn, and deep learning techniques. She is tasked with developing and integrating the student–instructor matching model, and also supports backend architecture to enable robust data collection for future performance analytics.
     
@@ -157,8 +203,28 @@ The project employs a modern and scalable technology stack, chosen for its robus
 \end{itemize}
 
 
-\section{References}
-\instruction{List your references.}
+% References section
+\begin{thebibliography}{00}
+
+\bibitem{demszky2023}
+D.~Demszky and J.~Liu, ``M-Powering Teachers: Natural Language Processing Powered Feedback Improves 1:1 Instruction and Student Outcomes,'' \emph{EdWorkingPaper}, no.~23-759, May 2023. [Online]. Available: \url{https://edworkingpapers.com/sites/default/files/ai23-759.pdf}
+
+\bibitem{suresh2022}
+A.~Suresh, J.~Jacobs, C.~Harty, M.~Perkoff, J.~H. Martin, and T.~Sumner, ``The TalkMoves Dataset: K-12 Mathematics Lesson Transcripts Annotated for Teacher and Student Discursive Moves,'' \emph{arXiv preprint arXiv:2204.09652}, Apr. 2022. [Online]. Available: \url{https://arxiv.org/pdf/2204.09652}
+
+\bibitem{suresh2021}
+A.~Suresh, J.~Jacobs, V.~Lai, C.~Tan, W.~Ward, J.~H. Martin, and T.~Sumner, ``Using Transformers to Provide Teachers with Personalized Feedback on their Classroom Discourse: The TalkMoves Application,'' \emph{arXiv preprint arXiv:2105.07949}, Apr. 2021. [Online]. Available: \url{https://arxiv.org/pdf/2105.07949}
+
+\bibitem{sbeity2014}
+I.~Sbeity, M.~Dbouk, and H.~Kobeissi, ``Combining the Analytical Hierarchy Process and the Genetic Algorithm to Solve the Timetable Problem,'' \emph{arXiv preprint arXiv:1409.2650}, Sept. 2014. [Online]. Available: \url{https://arxiv.org/pdf/1409.2650}
+
+% \bibitem{hosny2013}
+% M.~I. Hosny and S.~Fatima, ``A Survey of Genetic Algorithms for the University Timetabling Problem,'' 2013. [Online]. Available: \url{https://www.researchgate.net/publication/258262948_A_Survey_of_Genetic_Algorithms_for_the_University_Timetabling_Problem}
+
+% \bibitem{hooshmand2013}
+% S.~Hooshmand, M.~Behshameh, and O.~Hamidi, ``A Tabu Search Algorithm with Efficient Diversification Strategy for High School Timetabling Problem,'' \emph{arXiv preprint arXiv:1309.3285}, Sept. 2013. [Online]. Available: \url{https://arxiv.org/pdf/1309.3285}
+
+\end{thebibliography}
 
 % External advisor undertaking.
 \input{external}
