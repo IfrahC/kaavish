@@ -1,32 +1,34 @@
     \documentclass{article}
 
-    \usepackage{array}
-    \usepackage{etoolbox}
-    \usepackage{fancyhdr}
-    \usepackage{geometry} 
-    \usepackage{graphicx}
-    \usepackage{soul}
-    \usepackage{titling}
-    \usepackage{url}
+\usepackage{array}
+\usepackage{etoolbox}
+\usepackage{fancyhdr}
+\usepackage{geometry} 
+\usepackage{graphicx}
+\usepackage{soul}
+\usepackage{titling}
+\usepackage{url}
+\setlength{\parindent}{0pt}   % no indentation
+\setlength{\parskip}{1em}     % add vertical space between paragraphs
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % BEGIN METADATA: Edit the following as appropriate
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    \title{CodeSchool CMS}  % the title of your project
-    \newcommand\shorttitle{\thetitle}  % if needed: a shorter title for the document header
-    % Team members.
-    \newcommand\firstname{Ifrah Chishti}  % full name
-    \newcommand\firstid{ic08351}         % ID, e.g. xy01234
-    \newcommand\secondname{Naaseh Sajid} % full name
-    \newcommand\secondid{ms08085}        % ID, e.g. xy01234
-    \newcommand\thirdname{Aina Shakeel}  % full name
-    \newcommand\thirdid{as08430}         % ID, e.g. xy01234
-    % Uncomment the rows for the next 2 students if and as needed.
-    \newcommand\fourthname{Zain Hatim} % full name
-    \newcommand\fourthid{zh08343}        % ID, e.g. xy01234
-    % \newcommand\fifthname{Student 5}  % full name
-    % \newcommand\fifthid{id05}         % ID, e.g. xy01234
+\title{CodeSchool CMS}  % the title of your project
+\newcommand\shorttitle{\thetitle}  % if needed: a shorter title for the document header
+% Team members.
+\newcommand\firstname{Aina Shakeel}  % full name
+\newcommand\firstid{as08430}         % ID, e.g. xy01234
+\newcommand\secondname{Ifrah Chisti} % full name
+\newcommand\secondid{ic08351}        % ID, e.g. xy01234
+\newcommand\thirdname{Naaseh Sajid}  % full name
+\newcommand\thirdid{ms08085}         % ID, e.g. xy01234
+% Uncomment the rows for the next 2 students if and as needed.
+\newcommand\fourthname{Zain Hatim} % full name
+\newcommand\fourthid{zh08343}        % ID, e.g. xy01234
+% \newcommand\fifthname{Student 5}  % full name
+% \newcommand\fifthid{id05}         % ID, e.g. xy01234
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % END METADATA: Do not edit the preamble any further.
@@ -62,22 +64,31 @@
         In summary, this platform offers a robust, scalable solution to the challenges of managing educational content and instructor-student interactions. By automating workflows, leveraging intelligent matching, and providing data-driven insights, it enables educational organizations to operate more efficiently and effectively, supporting the growth and success of digital learning initiatives. \newline
     \end{instruction}
 
-    \section{Problem definition}
-    \instruction{
-        Currently, managing the lifecycle of classes at CodeSchool is a complex, time-consuming process. Instructors and administrators rely on a spreadsheet based system to schedule classes, assign students, generate Zoom links, and track progress. Evaluations of teaching quality are also carried out manually, with the team watching recorded sessions for each instructor and giving scores based on observations. While effective at a smaller scale, this system becomes increasingly difficult to manage as CodeSchool grows, leaving room for scheduling conflicts, inefficiencies, and limited insight into teaching quality. These challenges risk slowing down the organization's ability to expand while maintaining its high standard of student learning outcomes.
-    }
+\section{Problem Definition}
+
+Educational institutions face persistent challenges in managing the full lifecycle of classes. In particular, course scheduling and instructor assignment are complex, multi-dimensional problems that are error-prone, resource-intensive, and difficult to scale when handled manually. These inefficiencies reduce institutional efficiency, drive up staffing costs, and risk negatively impacting instructional quality and student outcomes \cite{xue2024}.
+
+Two major gaps exist:  
+
+(1) \textbf{Educational Timetabling and Matching}---assigning instructors and students to classes under multiple constraints (availability, expertise, student preferences, hybrid teaching modes) remains a computationally complex optimization problem. Recent work on university timetabling with hybrid teaching explicitly models this complexity and confirms that the timetabling problem is NP-hard and challenging in modern educational contexts \cite{modelling_hybrid2024}. Models that integrate student preferences or allocate students to courses algorithmically show how naive/manual scheduling leads to inefficiencies and mismatches \cite{student_timetabling2023}.  
+
+(2) \textbf{Scalable Teacher Development}—--manual evaluation of classes is resource-intensive and inconsistent. Advances in speech and audio analytics show strong potential for automating instructor evaluation, e.g., detecting discourse patterns, engagement cues, and instructional behaviors directly from classroom audio. Such systems can reduce reliance on manual observations and provide consistent, scalable insights \cite{ moorthy2024}. However, fully institution-ready solutions remain scarce.
+
+
+Therefore, the core research question is: \textit{Can we design a configurable, generic Class Management System (CMS) that integrates AI for automated scheduling, intelligent student--instructor matching, and scalable teaching analytics?} To validate this, the system will be developed as a configurable product and evaluated with CodeSchool as an industry test case, using real lesson plans, evaluation rubrics, and instructor performance metrics extracted from recordings.
+
 
     \section{Social relevance}
     \instruction{
         The project addresses the broader societal challenge of ensuring equitable access to quality education in an increasingly digital world. As demand for coding literacy grows globally, many children—particularly in rural areas—lack access to qualified instructors and structured learning opportunities. Current manual systems of scheduling, matching, and evaluation are not scalable, limiting the reach and effectiveness of coding education platforms. By automating these processes and introducing data-driven insights, the project not only streamlines operations but also ensures that students are consistently matched with the right instructors and receive high-quality teaching. In doing so, it supports the mission of making coding a universal literacy, reduces barriers to access, and models how education systems can expand sustainably to meet the needs of diverse learners worldwide.
     }
 
-    \section{Originality/Novelty}
-    \instruction{
-        Solving this problem creates significant value for both learners and educators. By automating class scheduling, student–instructor matching, and performance evaluation, the platform removes operational bottlenecks that traditionally slow down digital education programs. Instructors gain time and clarity to focus on teaching rather than administrative work, while students benefit from being paired with instructors who best fit their learning needs—improving engagement, consistency, and outcomes. For administrators, the centralized dashboard provides real-time visibility into scheduling, payments, and teaching quality, supporting more informed decision-making and sustainable growth.
-
-        Compared with existing solutions, which often rely on spreadsheets, messaging apps, or generic learning management systems, this platform is purpose-built for coding education at scale. Tools like Zoom and Google Classroom are excellent for video delivery and content sharing, but they do not address the deeper challenge of intelligently matching students to instructors or evaluating teaching quality. Likewise, traditional CRMs or scheduling tools may handle logistics but lack an educational focus and offer no integration with performance analytics. The added value of this project lies in combining all these elements—matching, scheduling, conferencing, and evaluation—into a single, seamless experience. Current solutions operate in silos, but this platform brings them together into one cohesive ecosystem, making it uniquely positioned to scale and sustain quality learning worldwide.
-    }
+\section{Originality/Novelty}
+\instruction{
+    Solving this problem creates significant value across the broader education and training sector. By automating class scheduling, learner-instructor matching, and performance evaluation, the platform eliminates operational bottlenecks that often slow down digital and hybrid education programs. Educators gain time and clarity to focus on teaching rather than administrative overhead, while learners benefit from being paired with instructors or mentors who best fit their needs—improving engagement, consistency, and outcomes. For institutions and training providers, the centralized dashboard delivers real-time visibility into scheduling, enrollment, payments, and teaching quality, enabling data-driven decision-making and sustainable growth.
+    
+    Compared with existing solutions, which often rely on fragmented tools like spreadsheets, messaging apps, or generic learning management systems, this platform is purpose-built to address the unique scheduling and performance challenges in skills-based education in an increasingly digital world. While tools such as Zoom, Google Classroom, or Slack are effective for content delivery and communication, they do not solve the deeper challenge of intelligently matching learners to instructors or integrating performance analytics into scheduling. Similarly, traditional CRMs and standalone scheduling tools may handle logistics but lack an educational focus and provide no meaningful insight into teaching outcomes. The value of this project lies in combining these capabilities—matching, scheduling, delivery integration, and analytics—into one cohesive system. Unlike siloed solutions, this platform is designed to scale across institutions and adapt to diverse learning contexts, making it uniquely positioned to drive efficiency and quality in modern education worldwide.
+}
 
     \section{CS Contribution}
     The project integrates concepts from multiple areas of Computer Science, directly reflecting the knowledge and skills gained through the courses offered at Habib. Key contributions include:
@@ -199,23 +210,35 @@
     % References section
     \begin{thebibliography}{00}
 
-    \bibitem{demszky2023}
-    D.~Demszky and J.~Liu, ``M-Powering Teachers: Natural Language Processing Powered Feedback Improves 1:1 Instruction and Student Outcomes,'' \emph{EdWorkingPaper}, no.~23-759, May 2023. [Online]. Available: \url{https://edworkingpapers.com/sites/default/files/ai23-759.pdf}
+% \bibitem{demszky2025}
+% D. Demszky, J. Liu, et al., ``Automated feedback improves teachers' questioning quality in brick-and-mortar classrooms: Opportunities for further enhancement,'' \emph{Computers \& Education: Artificial Intelligence}, 2025. [Online]. Available:https://www.sciencedirect.com/science/article/abs/pii/S0360131524001970
 
-    \bibitem{suresh2022}
-    A.~Suresh, J.~Jacobs, C.~Harty, M.~Perkoff, J.~H. Martin, and T.~Sumner, ``The TalkMoves Dataset: K-12 Mathematics Lesson Transcripts Annotated for Teacher and Student Discursive Moves,'' \emph{arXiv preprint arXiv:2204.09652}, Apr. 2022. [Online]. Available: \url{https://arxiv.org/pdf/2204.09652}
+\bibitem{xue2024}
+G. Xue, O. Felix Offodile, R. Razavi, D.-H. Kwak, and J. Benitez, “Addressing staffing challenges through improved planning: Demand-driven course schedule planning and instructor assignment in higher education,” \emph{Decision Support Systems}, vol. 187, art. 114345, 2024. [Online]. Available: https://www.sciencedirect.com/science/article/pii/S0167923624001787
 
-    \bibitem{suresh2021}
-    A.~Suresh, J.~Jacobs, V.~Lai, C.~Tan, W.~Ward, J.~H. Martin, and T.~Sumner, ``Using Transformers to Provide Teachers with Personalized Feedback on their Classroom Discourse: The TalkMoves Application,'' \emph{arXiv preprint arXiv:2105.07949}, Apr. 2021. [Online]. Available: \url{https://arxiv.org/pdf/2105.07949}
 
-    \bibitem{sbeity2014}
-    I.~Sbeity, M.~Dbouk, and H.~Kobeissi, ``Combining the Analytical Hierarchy Process and the Genetic Algorithm to Solve the Timetable Problem,'' \emph{arXiv preprint arXiv:1409.2650}, Sept. 2014. [Online]. Available: \url{https://arxiv.org/pdf/1409.2650}
+\bibitem{qu2025}
+A. Qu, Y. Wen, J. Zhang, Y. Wen, Y. Zhao, A. Prakash, A. F. Salazar-Gómez, P. P. Liang, and J. Zhao, ``ClassMind: Scaling Classroom Observation and Instructional Feedback with Multimodal AI,'' arXiv:2509.18020, submitted Sep. 22, 2025. [Online]. Available: https://arxiv.org/abs/2509.18020
 
-    % \bibitem{hosny2013}
-    % M.~I. Hosny and S.~Fatima, ``A Survey of Genetic Algorithms for the University Timetabling Problem,'' 2013. [Online]. Available: \url{https://www.researchgate.net/publication/258262948_A_Survey_of_Genetic_Algorithms_for_the_University_Timetabling_Problem}
+% \bibitem{niculescu2025}
+% A. I. Niculescu, J. Ehnes, C. Yi, D. Jiawei, T. C. Pin, J. T. Zhou, V. Subbaraju, T. K. Kuan, T. H. Dat, J. Komar, G. S. Chee, and K. Kwok, ``On the development of AI performance and behavioural measures for teaching and classroom management,'' arXiv:2506.11143, v2, Jul. 14, 2025. [Online]. Available: https://arxiv.org/abs/2506.11143
 
-    % \bibitem{hooshmand2013}
-    % S.~Hooshmand, M.~Behshameh, and O.~Hamidi, ``A Tabu Search Algorithm with Efficient Diversification Strategy for High School Timetabling Problem,'' \emph{arXiv preprint arXiv:1309.3285}, Sept. 2013. [Online]. Available: \url{https://arxiv.org/pdf/1309.3285}
+% \bibitem{salaspilco2022}
+% S. Z. Salas-Pilco, K. Xiao, and X. Hu, ``Artificial Intelligence and Learning Analytics in Teacher Education: A Systematic Review,'' \emph{Education Sciences}, vol. 12, no. 8, art. 569, 2022. doi:10.3390/educsci12080569. [Online]. Available: https://www.mdpi.com/2227-7102/12/8/569
+
+\bibitem{salaspilco2022}
+S. Z. Salas-Pilco, K. Xiao, and X. Hu, “Artificial Intelligence and Learning Analytics in Teacher Education: A Systematic Review,” *Education Sciences*, vol. 12, no. 8, art. no. 569, Aug. 2022. doi:10.3390/educsci12080569. [Online]. Available: https://www.mdpi.com/2227-7102/12/8/569
+
+\bibitem{moorthy2024}
+A. Dhakshina Moorthy, D. Kavitha, R. Logeshwaran, N. V. Vishnu Kumar, and V. Karthick, “PSFAS: Progressive Student Feedback Analysis System for improved teaching learning with intelligent processing of open-responses,” *Journal of Applied Research in Higher Education*, Nov. 2024. doi:10.1108/jarhe-04-2024-0157. [Online]. Available: https://www.emerald.com/jarhe/article-abstract/doi/10.1108/JARHE-04-2024-0157/1255427/PSFAS-Progressive-Student-Feedback-Analysis-System?redirectedFrom=fulltext
+
+\bibitem{modelling_hybrid2024}
+M. Davison, A. Kheiri, and K. G. Zografos, “Modelling and solving the university course timetabling problem with hybrid teaching considerations,” *Journal of Scheduling*, vol. 28, pp. 195–215, 2025 (published online Oct. 2024). [Online]. Available: https://doi.org/10.1007/s10951-024-00817-w 
+
+\bibitem{student_timetabling2023}
+A. R. Mahlous and H. Mahlous, “Student timetabling genetic algorithm accounting for student preferences,” *PeerJ Computer Science*, vol. 9, e1200, 2023. doi:10.7717/peerj-cs.1200. [Online]. Available: https://doi.org/10.7717/peerj-cs.1200 
+
+
 
     \end{thebibliography}
 
