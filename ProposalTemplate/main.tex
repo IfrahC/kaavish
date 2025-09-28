@@ -66,22 +66,19 @@
 
 \section{Problem Definition}
 
-Educational institutions face persistent challenges in managing the full lifecycle of classes. In particular, course scheduling and instructor assignment are complex, multi-dimensional problems that are error-prone, resource-intensive, and difficult to scale when handled manually. These inefficiencies reduce institutional efficiency, drive up staffing costs, and risk negatively impacting instructional quality and student outcomes \cite{xue2024}.
+Educational institutions face persistent challenges in managing the class lifecycle, from complex resource allocation to ensuring scalable instructional quality. Specifically, manual processes for:
 
-Two major gaps exist:  
+\textbf{Course Scheduling and Instructor Matching} are error-prone, computationally challenging (an NP-hard problem), and fail to optimize for evolving constraints such as hybrid teaching models and student preferences, leading to inefficiencies and mismatches in learning environments \cite{xue2024, student_timetabling2023}.
 
-(1) \textbf{Educational Timetabling and Matching}---assigning instructors and students to classes under multiple constraints (availability, expertise, student preferences, hybrid teaching modes) remains a computationally complex optimization problem. Recent work on university timetabling with hybrid teaching explicitly models this complexity and confirms that the timetabling problem is NP-hard and challenging in modern educational contexts \cite{modelling_hybrid2024}. Models that integrate student preferences or allocate students to courses algorithmically show how naive/manual scheduling leads to inefficiencies and mismatches \cite{student_timetabling2023}.  
+\textbf{Scalable Teacher Development} is resource-intensive, inconsistent, and impractical for analyzing the high volume of daily feedback and classroom discourse \cite{moorthy2024, james2023}.
 
-(2) \textbf{Scalable Teacher Development}—--manual evaluation of classes is resource-intensive and inconsistent. Advances in speech and audio analytics show strong potential for automating instructor evaluation, e.g., detecting discourse patterns, engagement cues, and instructional behaviors directly from classroom audio. Such systems can reduce reliance on manual observations and provide consistent, scalable insights \cite{ moorthy2024}. However, fully institution-ready solutions remain scarce.
+The advent of Artificial Intelligence (AI) and Natural Language Processing (NLP) presents a strong potential solution to automate these processes, enabling optimized scheduling and providing consistent, scalable insights into instructor performance directly from classroom data \cite{moorthy2024, james2023}.
 
+\textbf{Core Research Question:}  
 
-Therefore, the core research question is: \textit{Can we design a configurable, generic Class Management System (CMS) that integrates AI for automated scheduling, intelligent student--instructor matching, and scalable teaching analytics?} To validate this, the system will be developed as a configurable product and evaluated with CodeSchool as an industry test case, using real lesson plans, evaluation rubrics, and instructor performance metrics extracted from recordings.
+Can a configurable, generic Class Management System (CMS) be designed and implemented to integrate AI for automated, constraint-based scheduling, intelligent student–instructor matching, and scalable teaching analytics, thereby addressing the core inefficiencies in class lifecycle management?
 
-
-    \section{Social relevance}
-    \instruction{
-        The project addresses the broader societal challenge of ensuring equitable access to quality education in an increasingly digital world. As demand for coding literacy grows globally, many children—particularly in rural areas—lack access to qualified instructors and structured learning opportunities. Current manual systems of scheduling, matching, and evaluation are not scalable, limiting the reach and effectiveness of coding education platforms. By automating these processes and introducing data-driven insights, the project not only streamlines operations but also ensures that students are consistently matched with the right instructors and receive high-quality teaching. In doing so, it supports the mission of making coding a universal literacy, reduces barriers to access, and models how education systems can expand sustainably to meet the needs of diverse learners worldwide.
-    }
+This system will be validated by developing a configurable product and evaluating its performance with an industry test case, such as CodeSchool, using real-world data including lesson plans and instructor performance metrics.
 
 \section{Originality/Novelty}
 \instruction{
@@ -240,6 +237,9 @@ A. R. Mahlous and H. Mahlous, “Student timetabling genetic algorithm accountin
 
 \bibitem{tan2025}
 X.~Tan, G.~Cheng, and M.~H.~Ling, ``Artificial Intelligence in teaching and teacher professional development: A systematic review,'' \emph{Computers and Education: Artificial Intelligence}, vol.~8, p.~100355, 2025. [Online]. Available: \url{https://doi.org/10.1016/j.caeai.2024.100355}
+
+\bibitem{james2023}
+A. James, "Exploring Teacher Discourse with NLP: Pedagogical Patterns, Styles, and Student Impact," *ResearchGate*, 2023. [Online]. Available: https://www.researchgate.net/publication/393413182_Exploring_Teacher_Discourse_with_NLP_Pedagogical_Patterns_Styles_and_Student_Impact. [Accessed: Sep. 28, 2025].
 
 
     \end{thebibliography}
