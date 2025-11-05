@@ -20,11 +20,79 @@ The primary users of this system are instructors working at Code School. They wi
 
 The administrative team will also use the platform to manage instructor recruitment, monitor performance analytics, handle scheduling logistics, and process payments efficiently.
 
+The admin team can also be broken down into three main roles:
+\begin{itemize}
+    \item \textbf{Operations:} Responsible for managing instructor and parent/student profiles. They will use the platform to schedule classes, assign students, and monitor instructor availability.
+    \item \textbf{Evaluations:} Focused on evaluating instructor effectiveness using the integrated performance analysis tools. They will generate reports and provide feedback to instructors based on data-driven insights.
+    \item \textbf{Finance:} Tasked with tracking payments and managing financial records related to instructor compensation. They will utilize the payment management features of the platform to ensure timely and accurate payments.
+\end{itemize}
+
 Overall, the system is designed to serve both instructors and administrators, providing each with the tools and data necessary to ensure smooth operations, high teaching standards, and an improved learning experience for students.
 
-\section{Project gantt chart and deliverables}
-Please include a detailed gantt and details of the deliverables for Kaavish I and II
+\section{Project Gantt Chart and Deliverables}
+
+The TeachWise project spans two semesters (Kaavish I and II), with a clear division of tasks, milestones, and deliverables to ensure systematic progress. Kaavish I focuses on research, design, and implementation of the core modules, while Kaavish II centers on integration, testing, and deployment.
+
+\subsection*{Kaavish I Deliverables (Fall 2025)}
+\begin{itemize}
+    \item Completion of literature review and finalized Software Requirement Specification (SRS).
+    \item Database schema and API design for user management, scheduling, and evaluation modules.
+    \item Instructor portal prototype with profile management and availability scheduling.
+    \item Implementation of the initial scheduling algorithm to automate class assignments.
+    \item Integration with Zoom API for automated meeting link generation.
+    \item Prototype of the administrative dashboard for schedule management and notifications.
+    % \item Midterm progress presentation and documentation submission.
+\end{itemize}
+
+\subsection*{Kaavish II Deliverables (Spring 2026)}
+\begin{itemize}
+    \item Development of ML-assisted student--instructor matching algorithm.
+    \item Integration of instructor performance evaluation model using NLP and audio analytics.
+    \item Full dashboards for instructors and administrators, including payment management.
+    \item Comprehensive system testing: unit, integration, and user acceptance tests.
+    \item Deployment-ready web platform hosted on a cloud environment.
+    \item Final system demonstration, report submission, and documentation handover.
+\end{itemize}
+
+\subsection*{Gantt Chart Overview}
 
 \section{Key Challenges}
 
-This section mentions the key challenges that we foresee in this project and possible ways to address them.
+Developing \textit{TeachWise} involves several technical and organizational challenges that must be addressed to ensure success. The key anticipated challenges and their mitigation strategies are as follows:
+
+\begin{enumerate}
+    \item \textbf{Complex Scheduling Optimization:}  
+    Automating conflict-free class schedules across instructors, students, and time zones is computationally expensive (NP-hard).  
+
+    \textit{Mitigation:} Implement heuristic and hybrid algorithms (e.g., greedy + genetic) for near-optimal solutions.
+
+    \item \textbf{Data Quality and Availability:}  
+    Incomplete or inconsistent input data (e.g., missing availability, incomplete instructor histories) can degrade model performance.  
+
+    \textit{Mitigation:} Apply validation at data-entry points and use fallback defaults or manual overrides when data is insufficient.
+
+    \item \textbf{Integration with External APIs:}  
+    Zoom API rate limits, authentication failures, or changes in endpoints may disrupt automation.  
+
+    \textit{Mitigation:} Implement retry logic, caching, and fallback to Google Meet or pre-stored links.
+
+    \item \textbf{Machine Learning Model Reliability:}  
+    Ensuring that performance evaluation and matching algorithms remain fair, interpretable, and unbiased.  
+
+    \textit{Mitigation:} Use diverse, representative datasets and apply explainable AI (XAI) techniques to interpret results.
+
+    \item \textbf{Recordings Dataset Availability:}  
+    Current records of class sessions may be limited affecting the performance evaluation model.  
+
+    \textit{Mitigation:} Collaborate with Code School to collect recordings and augment training data with synthetic samples if necessary.
+
+    \item \textbf{Scalability and Performance:}  
+    Handling concurrent users and large datasets without latency.  
+
+    \textit{Mitigation:} Optimize database queries, introduce caching, and use asynchronous task queues for ML processing.
+
+    \item \textbf{Ethical and Privacy Considerations:}  
+    Protecting sensitive instructor and student data (including class recordings).  
+
+    \textit{Mitigation:} Enforce strong authentication, encryption (HTTPS, salted passwords), and comply with institutional privacy standards.
+\end{enumerate}
