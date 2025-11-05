@@ -500,9 +500,72 @@ This section details all functions and features of the system. Each requirement 
     \item All changes correctly recorded in logs.
 \end{itemize}
 
-\section{Use Cases}
-
 % This section presents detailed use cases for the system. Each use case includes actors, descriptions, data inputs/outputs, system responses, and additional notes.
+
+
+\section{Non-functional Requirements}
+
+\subsection{Performance Requirements}
+\begin{itemize}
+    \item \textbf{Response Time:} The system should respond to instructor or admin requests (e.g., loading class data, managing students) within a reasonable time (3–5 seconds) under normal network conditions.
+    \item \textbf{Concurrent Users:} The system should support all current instructors concurrently without noticeable performance degradation.
+\end{itemize}
+
+\subsection{Reliability \& Availability}
+\begin{itemize}
+    \item \textbf{Uptime:} The system should maintain availability during the working hours of each instructor.
+    \item \textbf{Error Handling:} In case of unexpected errors (e.g., database disconnection), the system should display user-friendly error messages and attempt automatic recovery.
+\end{itemize}
+
+\subsection{Security Requirements}
+\begin{itemize}
+    \item \textbf{Authentication:} Only authorised users (admins and instructors) should be able to log in, verified through stored usernames and passwords.
+    \item \textbf{Access Control:} Instructors should only have access to their assigned classes, while admins should have full access to all data.
+    \item \textbf{Data Protection:} Sensitive information (passwords, student data, grades) should be encrypted in storage and during transmission (HTTPS).
+\end{itemize}
+
+\subsection{Usability Requirements}
+\begin{itemize}
+    \item \textbf{Interface Simplicity:} The interface should be intuitive and easy to navigate, requiring minimal training for instructors and admins.
+    \item \textbf{Accessibility:} The system should use readable fonts, consistent layouts, and colour contrast suitable for all users.
+    \item \textbf{Feedback:} The system should provide clear feedback for user actions (e.g., confirmation messages on successful operations).
+\end{itemize}
+
+\subsection{Maintainability}
+\begin{itemize}
+    \item \textbf{Modular Design:} The codebase should follow a modular architecture (e.g., MVC or component-based structure) to make updates easier.
+    \item \textbf{Documentation:} The project should include relevant developer documentation for database schema, APIs, and code structure.
+\end{itemize}
+
+\subsection{Portability}
+\begin{itemize}
+    \item \textbf{Browser Compatibility:} The CMS should function correctly on modern browsers (Chrome, Edge, Firefox).
+    \item \textbf{Device Compatibility:} The system should be optimised for desktop use.
+\end{itemize}
+
+\subsection{Compliance \& Ethical Considerations}
+\begin{itemize}
+    \item \textbf{Data Privacy:} The system must comply with general data protection principles (no unauthorised sharing of student information).
+    \item \textbf{Content Integrity:} The system must prevent unauthorised alteration or deletion of class records or grades (ideally via efficient design where no user can supersede their roles).
+\end{itemize}
+
+\section{External Interfaces}
+
+We expect every project to have at least of the following subsections. This section must be aligned with your project deliverables. Please consult with your project supervisor regarding which of the following section(s) you should include in your report
+
+\subsection{User Interfaces}
+This section includes our mockup screens and briefly explains them.
+
+
+
+\subsection{Application Program Interface (API)}
+This section describes the library or API interface to our system.
+
+\subsection{Hardware/Communication Interfaces}
+This section describes our project's specific hardware/network interfaces.
+
+\section{Use Cases}
+This section presents detailed use cases of our system.
 
 \subsection{Use Case 1: Generate Monthly Class Schedule}
 
@@ -601,68 +664,6 @@ Stimulus & Auto-triggered on the 1st of the month or manually by admin. \\ \hlin
 Response & System calculates base pay + bonuses, generates PRF, notifies admin, and after approval notifies instructor. \\ \hline
 Comments & Excludes classes with zero attendance. Bonuses stack. Adjustments require justification. Multi-currency support included. Payment statuses: Pending, Approved, Sent. \\ \hline
 \end{tabular}
-
-\section{Non-functional Requirements}
-
-\subsection{Performance Requirements}
-\begin{itemize}
-    \item \textbf{Response Time:} The system should respond to instructor or admin requests (e.g., loading class data, managing students) within a reasonable time (3–5 seconds) under normal network conditions.
-    \item \textbf{Concurrent Users:} The system should support all current instructors concurrently without noticeable performance degradation.
-\end{itemize}
-
-\subsection{Reliability \& Availability}
-\begin{itemize}
-    \item \textbf{Uptime:} The system should maintain availability during the working hours of each instructor.
-    \item \textbf{Error Handling:} In case of unexpected errors (e.g., database disconnection), the system should display user-friendly error messages and attempt automatic recovery.
-\end{itemize}
-
-\subsection{Security Requirements}
-\begin{itemize}
-    \item \textbf{Authentication:} Only authorised users (admins and instructors) should be able to log in, verified through stored usernames and passwords.
-    \item \textbf{Access Control:} Instructors should only have access to their assigned classes, while admins should have full access to all data.
-    \item \textbf{Data Protection:} Sensitive information (passwords, student data, grades) should be encrypted in storage and during transmission (HTTPS).
-\end{itemize}
-
-\subsection{Usability Requirements}
-\begin{itemize}
-    \item \textbf{Interface Simplicity:} The interface should be intuitive and easy to navigate, requiring minimal training for instructors and admins.
-    \item \textbf{Accessibility:} The system should use readable fonts, consistent layouts, and colour contrast suitable for all users.
-    \item \textbf{Feedback:} The system should provide clear feedback for user actions (e.g., confirmation messages on successful operations).
-\end{itemize}
-
-\subsection{Maintainability}
-\begin{itemize}
-    \item \textbf{Modular Design:} The codebase should follow a modular architecture (e.g., MVC or component-based structure) to make updates easier.
-    \item \textbf{Documentation:} The project should include relevant developer documentation for database schema, APIs, and code structure.
-\end{itemize}
-
-\subsection{Portability}
-\begin{itemize}
-    \item \textbf{Browser Compatibility:} The CMS should function correctly on modern browsers (Chrome, Edge, Firefox).
-    \item \textbf{Device Compatibility:} The system should be optimised for desktop use.
-\end{itemize}
-
-\subsection{Compliance \& Ethical Considerations}
-\begin{itemize}
-    \item \textbf{Data Privacy:} The system must comply with general data protection principles (no unauthorised sharing of student information).
-    \item \textbf{Content Integrity:} The system must prevent unauthorised alteration or deletion of class records or grades (ideally via efficient design where no user can supersede their roles).
-\end{itemize}
-
-\section{External Interfaces}
-
-We expect every project to have at least of the following subsections. This section must be aligned with your project deliverables. Please consult with your project supervisor regarding which of the following section(s) you should include in your report
-
-\subsection{User Interfaces}
-This section includes our mockup screens and briefly explains them.
-
-\subsection{Application Program Interface (API)}
-This section describes the library or API interface to our system.
-
-\subsection{Hardware/Communication Interfaces}
-This section describes our project's specific hardware/network interfaces.
-
-\section{Use Cases}
-This section presents detailed use cases of our system.
 
 \section{Datasets}
 This section describes the specific dataset(s) used to build our system. An appropriate snapshot of the dataset(s) is also included. Futher details, when needed, are presented in the appendix.
