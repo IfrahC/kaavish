@@ -2,22 +2,503 @@ This chapter provides detailed specifications of the system under development.
 
 \section{Functional Requirements}
 
-This section describes each function/feature provided by our system. These functions are logically grouped into modules based on their purpose/users/mode of operations etc (as per our system). A functional hierarchy may look like:
-\begin{outline}
-  \1 Instructor:
-  \2 Profile Management:
-  \3 Availability
-  \3 Language Experties and Preferences
-  \2 Function 2:
-  \3 Sub Function 1
-  \3 Sub Function 2
-  \1 Admin:
-  \2 Student Profile Management:
-  \2 Function 2:
-  \1 .........
-\end{outline}
+% This section describes each function/feature provided by our system. These functions are logically grouped into modules based on their purpose/users/mode of operations etc (as per our system). A functional hierarchy may look like:
+% \begin{outline}
+%   \1 Instructor:
+%   \2 Profile Management:
+%   \3 Availability
+%   \3 Language Experties and Preferences
+%   \2 Function 2:
+%   \3 Sub Function 1
+%   \3 Sub Function 2
+%   \1 Admin:
+%   \2 Student Profile Management:
+%   \2 Function 2:
+%   \1 .........
+% \end{outline}
 
-% --- The above is to be modified as per your project, e.g. a flat list if your system has limited functional requirements.
+
+This section details all functions and features of the system. Each requirement is organised into modules with identifiers, priorities, descriptions, detailed requirements, and acceptance criteria.
+
+\subsection{Instructor Management}
+
+\subsubsection{FR-IM-001: Instructor Profile Management}
+\textbf{  Priority:} High
+
+\textbf{Description:} The system shall maintain comprehensive instructor profiles including availability, expertise, preferences, and performance history.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Profile includes: name, email, contact information, country, coding languages taught, preferred age groups, teaching experience level (XP).
+    \item Instructors set weekly availability (day, start time, end time) with support for multiple time slots and unavailable periods.
+    \item Instructors define class preferences including minimum/maximum classes per month/day.
+    \item Profile automatically tracks teaching history, total classes taught, average ratings, and performance metrics.
+    \item Instructors may update availability and preferences, with changes effective in the next scheduling cycle.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Profile form validates required fields and data types.
+    \item Availability supports multiple time slots per day.
+    \item Historical data is immutable and audit-logged.
+\end{itemize}
+
+\subsection{Student and Parent Management}
+
+\subsubsection{FR-SPM-001: Student Registration and Profile Management}
+\textbf{Priority:} High  
+
+\textbf{Description:} The system shall maintain detailed student profiles linked to parent/guardian accounts.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Student profile includes: name, date of birth, current course/module.
+    \item Parent profile includes: name, email, contact number, country, billing information.
+    \item System automatically calculates student age based on date of birth.
+    \item A parent may register and manage multiple students.
+    \item System tracks student progress across modules and courses.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Multiple students can be linked to one parent account.
+    \item Automatic and accurate age calculation.
+    \item Instructors assigned to a student can access relevant profile data.
+\end{itemize}
+
+\subsubsection{FR-SPM-002: Enrollment Management}
+\textbf{Priority:} High  
+
+\textbf{Description:} The system shall manage student enrollments including subscription status, attendance, and lesson-level feedback.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Enrollment links a student to a scheduled class.
+    \item Subscription statuses: active, pending, suspended, cancelled.
+    \item Attendance recorded for each of four monthly lessons (present/absent).
+    \item Lesson-level data stored: project links, code ratings (0--100), Kahoot scores, instructor comments.
+    \item System auto-calculates average code rating across lessons.
+    \item Instructors recommend next course/module based on performance.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Attendance and performance data editable only by instructors.
+    \item Accurate automatic calculation of average code rating.
+    \item Notification triggered on subscription status changes.
+\end{itemize}
+
+\subsection{Class Scheduling and Assignment}
+
+\subsubsection{FR-CSA-001: Automated Class Scheduling}
+\textbf{Priority:} Critical  
+
+\textbf{Description:} The system shall automatically generate monthly class schedules using instructor availability, student demand, and optimization constraints.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Scheduling algorithm runs monthly after registration close date.
+    \item Algorithm considers:
+    \begin{itemize}
+        \item Instructor availability and min/max class preferences.
+        \item Instructor expertise (languages, age groups), XP.
+        \item Student preferences (time slots, age, language, class type).
+        \item Existing enrollments and progression.
+        \item Zoom account availability (2 accounts; Google Meet fallback).
+    \end{itemize}
+    \item Prevents instructor schedule conflicts.
+    \item Optimizes workload balance and student-instructor fit.
+    \item Schedule includes class day, time, start date, and 4-week frequency.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item No overlapping instructor class times.
+    \item All active students assigned to classes.
+    \item Instructor class count within min/max preferences unless admin override.
+    \item Algorithm completes within 2 hours for up to 200 instructors and 2000 students.
+\end{itemize}
+
+\subsubsection{FR-CSA-002: Intelligent Student--Instructor Matching}
+\textbf{Priority:} Critical  
+
+\textbf{Description:} The system shall match students with instructors using a machine learning--assisted algorithm.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Factors considered:
+    \begin{itemize}
+        \item Student age and instructor preferred age groups.
+        \item Instructor expertise level.
+        \item Historical student performance (ratings, Kahoot scores).
+        \item Instructor teaching effectiveness scores (ML model).
+    \end{itemize}
+    \item Uses round-robin allocation to ensure fairness.
+    \item Prioritizes continuity with previous instructors.
+    \item Alerts admin for small class sizes (fewer than 3 students).
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Matching improves student outcomes relative to random assignment.
+    \item No instructor assigned beyond maximum class preference without override.
+    \item Special cases flagged for manual review.
+    \item Matching executes in under 30 minutes.
+\end{itemize}
+
+\subsubsection{FR-CSA-003: Schedule Publication and Notification}
+\textbf{Priority:} High  
+
+\textbf{Description:} The system shall publish finalized schedules and notify all stakeholders.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Instructor dashboard displays monthly class list with:
+    \begin{itemize}
+        \item Student details (name, age, country)
+        \item Zoom links
+    \end{itemize}
+    \item Start-of-month emails sent to instructors with full schedule and meeting links.
+    \item Students/parents receive schedule email, calendar invite, instructor bio, and meeting links.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item All notifications sent within 24 hours of schedule finalization.
+    \item Emails contain complete and correct details.
+    \item Delivery failures logged for admin review.
+\end{itemize}
+
+\subsection{Video Conferencing Integration}
+
+\subsubsection{FR-VCI-001: Zoom Meeting Generation}
+\textbf{Priority:} Critical  
+
+\textbf{Description:} The system shall automatically generate Zoom meetings for all scheduled classes.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Integrates with Zoom API to create recurring meetings.
+    \item Each meeting includes unique ID, password, join link.
+    \item Meeting settings:
+    \begin{itemize}
+        \item Waiting room enabled
+        \item Recording enabled (cloud)
+        \item Chat disabled
+        \item Duration: 60 minutes
+    \end{itemize}
+    \item Load balancing across 2 Zoom accounts; fallback to Google Meet.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Meetings created for 100\% of scheduled classes.
+    \item No double-booking of Zoom accounts.
+    \item Links accessible to enrolled students and instructors.
+\end{itemize}
+
+\subsubsection{FR-VCI-002: Recording Management}
+\textbf{Priority:} Medium  
+
+\textbf{Description:} The system shall manage storage and access to class recordings.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Automatic download of recordings after each class.
+    \item Secure encrypted file storage.
+    \item Access control: instructors access own recordings; admins full access.
+    \item Audio extraction for ML analysis; transcription generated.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Recordings downloaded successfully after class.
+    \item Transcription and audio extraction complete within 24 hours.
+    \item Access restricted to authorised users.
+\end{itemize}
+
+\subsection{Course and Curriculum Management}
+
+\subsubsection{FR-CCM-001: Course Catalog Management}
+\textbf{Priority:} Medium  
+
+\textbf{Description:} The system shall maintain a structured catalog of courses and modules.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Catalog includes course name, description, age range, prerequisites.
+    \item Each course contains sequenced modules with learning objectives.
+    \item Courses tagged by coding language (Scratch, Python, etc.).
+    \item Flashcards availability indicator.
+    \item Curriculum version control maintained.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Admins can create/update/archive courses.
+    \item Module progression enforced unless overridden.
+    \item Catalog searchable and filterable.
+\end{itemize}
+
+\subsubsection{FR-CCM-002: Class Content Management}
+\textbf{Priority:} Medium  
+
+\textbf{Description:} The system shall provide instructors with all necessary curriculum materials.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Lesson plans, project demos, and supplemental resources.
+    \item Kahoot integration for quizzes.
+    \item Flashcards accessible where available.
+    \item Version control ensuring updated materials.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item All materials accessible from instructor dashboard.
+    \item Materials organized by course and module.
+\end{itemize}
+
+\subsection{Performance Evaluation and Analytics}
+
+\subsubsection{FR-PEA-001: Instructor Performance Evaluation via ML}
+\textbf{Priority:} High  
+
+\textbf{Description:} The system shall automatically evaluate instructor performance using ML-based analysis of class recordings.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item ML model analyzes audio and transcripts.
+    \item Evaluation metrics scored 1--5:
+    \begin{itemize}
+        \item Introduction clarity
+        \item Recap effectiveness
+        \item Exercise quality
+        \item Energy and vocal engagement
+        \item Patience
+        \item Class culture
+        \item Student attention
+        \item Concept review
+        \item Curriculum fidelity
+        \item Lesson pacing
+    \end{itemize}
+    \item Weighted overall teaching effectiveness score generated.
+    \item Evaluation completed within 48 hours.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item ML model achieves minimum 75\% accuracy.
+    \item Evaluations available within 48 hours.
+    \item Recommendations are actionable.
+\end{itemize}
+
+\subsubsection{FR-PEA-002: Manual Class Evaluation}
+\textbf{Priority:} Medium  
+
+\textbf{Description:} Admins may evaluate classes manually for quality assurance.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Admins select classes for manual review.
+    \item Evaluation rubric matches ML system.
+    \item Manual evaluations can override ML scores.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Evaluations timestamped and attributed.
+    \item Completed within 5 business days.
+\end{itemize}
+
+\subsubsection{FR-PEA-003: Performance Reporting and Analytics}
+\textbf{Priority:} Medium  
+
+\textbf{Description:} The system shall provide analytics dashboards for instructors and administrators.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Instructor dashboard metrics:
+    \begin{itemize}
+        \item Performance trends (3, 6, 12 months)
+        \item Peer comparison (anonymised)
+        \item Evaluation metric breakdown
+        \item Student progression statistics
+    \end{itemize}
+    \item Admin dashboard metrics:
+    \begin{itemize}
+        \item Performance distributions
+        \item Top/bottom performers
+        \item Trends by country/language/age group
+        \item Class capacity utilization
+    \end{itemize}
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Dashboards load within 3 seconds.
+    \item Data visualizations clear and interactive.
+    \item Reports exportable to PDF/CSV.
+\end{itemize}
+
+\subsection{Communication and Notifications}
+
+\subsubsection{FR-CN-001: Automated Email Communications}
+\textbf{Priority:} High  
+
+\textbf{Description:} The system shall send automated emails at key lifecycle stages.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Start-of-month instructor email: schedule, Zoom links, roster.
+    \item End-of-month instructor email: hours verification, payments, performance summary.
+    \item Parent renewal reminders 7 days before month end; second reminder 2 days before.
+    \item Class reminders to students 1 hour before class.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Emails sent on schedule.
+    \item Content uses personalized placeholders.
+\end{itemize}
+
+\subsubsection{FR-CN-002: In-App Notifications}
+\textbf{Priority:} Medium  
+
+\textbf{Description:} The system shall provide real-time in-app notifications.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Notification types: schedule updates, evaluations, payments, announcements.
+    \item Unread count indicator.
+    \item Notification history maintained for 30 days.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Notifications appear within 30 seconds.
+    \item Unread count updates in real-time.
+\end{itemize}
+
+\subsection{Payment Management}
+
+\subsubsection{FR-PM-001: Automated Payment Calculation}
+\textbf{Priority:} High  
+
+\textbf{Description:} The system shall calculate instructor payments based on completed classes.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Payment depends on:
+    \begin{itemize}
+        \item Number of classes taught
+        \item Attendance verification
+        \item Base rate per class
+        \item Bonuses (academic and admin)
+    \end{itemize}
+    \item Payment Request Form generated containing: instructor name, month, classes taught, hours, base amount, bonuses.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Payments match manual verification.
+    \item PRF generated by month end.
+\end{itemize}
+
+\subsubsection{FR-PM-002: Payment Processing Workflow}
+\textbf{Priority:} Medium  
+
+\textbf{Description:} The system shall manage payment review, approval, and tracking.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Finance team reviews PRF before approval.
+    \item Payment statuses: pending, approved, sent.
+    \item Instructors notified upon payment.
+    \item Payment history stored for 12 months.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Status changes logged with timestamps.
+    \item Reports exportable for accounting.
+\end{itemize}
+
+\subsection{Administrative Functions}
+
+\subsubsection{FR-AF-001: User Management}
+\textbf{Priority:} High  
+
+\textbf{Description:} The system shall provide role-based user management for all system users.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Admins can create/update users (instructors, admins).
+    \item Roles:
+    \begin{itemize}
+        \item Super Admin: full access
+        \item Operations Admin: scheduling, enrollment
+        \item Finance Admin: payments
+        \item Instructor: class-level access
+    \end{itemize}
+    % \item Password reset with secure tokens.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Role permissions enforced across system.
+    % \item Reset emails sent within 5 minutes.
+\end{itemize}
+
+\subsubsection{FR-AF-002: Data Export and Reporting}
+\textbf{Priority:} Medium  
+
+\textbf{Description:} The system shall support export of key datasets.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Export formats: CSV, XLSX, PDF.
+    \item Exportable data:
+    \begin{itemize}
+        % \item Student roster
+        % \item Instructor directory
+        % \item Schedules and enrollments
+        % \item Attendance records
+        \item Performance analytics
+        \item Payment summaries
+    \end{itemize}
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    % \item Exports complete within 2 minutes for 10,000 records.
+    \item Sheets sync updates within 10 minutes.
+\end{itemize}
+
+\subsubsection{FR-AF-003: System Configuration}
+\textbf{Priority:} Low  
+
+\textbf{Description:} The system shall allow configuration of global system settings.
+
+\textbf{Detailed Requirements:}
+\begin{itemize}
+    \item Configurable parameters:
+    \begin{itemize}
+        \item Registration deadlines
+        \item Email templates
+        \item Payment rates and bonus amount
+        \item Zoom account credentials
+        \item Evaluation metric weights
+    \end{itemize}
+    \item All changes logged with timestamp and user.
+    \item Critical settings require dual approval.
+\end{itemize}
+
+\textbf{Acceptance Criteria:}
+\begin{itemize}
+    \item Invalid configurations rejected with error messages.
+    \item All changes correctly recorded in logs.
+\end{itemize}
 
 \section{Non-functional Requirements}
 
