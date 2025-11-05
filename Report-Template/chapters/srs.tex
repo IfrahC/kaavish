@@ -21,7 +21,49 @@ This section describes each function/feature provided by our system. These funct
 
 \section{Non-functional Requirements}
 
-This sections mentions the specific non-functional requirements of our system. These generally address performance, scalability, safety, availability, deployment etc.
+\subsection{Performance Requirements}
+\begin{itemize}
+    \item \textbf{Response Time:} The system should respond to instructor or admin requests (e.g., loading class data, managing students) within a reasonable time (3–5 seconds) under normal network conditions.
+    \item \textbf{Concurrent Users:} The system should support all current instructors concurrently without noticeable performance degradation.
+\end{itemize}
+
+\subsection{Reliability \& Availability}
+\begin{itemize}
+    \item \textbf{Uptime:} The system should maintain availability during the working hours of each instructor.
+    \item \textbf{Error Handling:} In case of unexpected errors (e.g., database disconnection), the system should display user-friendly error messages and attempt automatic recovery.
+\end{itemize}
+
+\subsection{Security Requirements}
+\begin{itemize}
+    \item \textbf{Authentication:} Only authorised users (admins and instructors) should be able to log in, verified through stored usernames and passwords.
+    \item \textbf{Access Control:} Instructors should only have access to their assigned classes, while admins should have full access to all data.
+    \item \textbf{Data Protection:} Sensitive information (passwords, student data, grades) should be encrypted in storage and during transmission (HTTPS).
+\end{itemize}
+
+\subsection{Usability Requirements}
+\begin{itemize}
+    \item \textbf{Interface Simplicity:} The interface should be intuitive and easy to navigate, requiring minimal training for instructors and admins.
+    \item \textbf{Accessibility:} The system should use readable fonts, consistent layouts, and colour contrast suitable for all users.
+    \item \textbf{Feedback:} The system should provide clear feedback for user actions (e.g., confirmation messages on successful operations).
+\end{itemize}
+
+\subsection{Maintainability}
+\begin{itemize}
+    \item \textbf{Modular Design:} The codebase should follow a modular architecture (e.g., MVC or component-based structure) to make updates easier.
+    \item \textbf{Documentation:} The project should include relevant developer documentation for database schema, APIs, and code structure.
+\end{itemize}
+
+\subsection{Portability}
+\begin{itemize}
+    \item \textbf{Browser Compatibility:} The CMS should function correctly on modern browsers (Chrome, Edge, Firefox).
+    \item \textbf{Device Compatibility:} The system should be optimised for desktop use.
+\end{itemize}
+
+\subsection{Compliance \& Ethical Considerations}
+\begin{itemize}
+    \item \textbf{Data Privacy:} The system must comply with general data protection principles (no unauthorised sharing of student information).
+    \item \textbf{Content Integrity:} The system must prevent unauthorised alteration or deletion of class records or grades (ideally via efficient design where no user can supersede their roles).
+\end{itemize}
 
 \section{External Interfaces}
 
