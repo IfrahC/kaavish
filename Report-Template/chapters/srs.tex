@@ -53,7 +53,7 @@ This section details all functions and features of the system. Each requirement 
 \textbf{Detailed Requirements:}
 \begin{itemize}
     \item Student profile includes: name, date of birth, current course/module.
-    \item Parent profile includes: name, email, contact number, country, billing information.
+    \item Parent profile includes: name, email, contact number, country, billing information and subscription plan.
     \item System automatically calculates student age based on date of birth.
     \item A parent may register and manage multiple students.
     \item System tracks student progress across modules and courses.
@@ -78,7 +78,7 @@ This section details all functions and features of the system. Each requirement 
     \item Attendance recorded for each of four monthly lessons (present/absent).
     \item Lesson-level data stored: project links, code ratings (0--100), Kahoot scores, instructor comments.
     \item System auto-calculates average code rating across lessons.
-    \item Instructors recommend next course/module based on performance.
+    \item Next course/module is automatically assigned, however, instructors may override.
 \end{itemize}
 
 \textbf{Acceptance Criteria:}
@@ -113,10 +113,10 @@ This section details all functions and features of the system. Each requirement 
 
 \textbf{Acceptance Criteria:}
 \begin{itemize}
-    \item No overlapping instructor class times.
+    \item No overlapping instructor class times on the same zoom account.
     \item All active students assigned to classes.
     \item Instructor class count within min/max preferences unless admin override.
-    \item Algorithm completes within 2 hours for up to 200 instructors and 2000 students.
+    % \item Algorithm completes within 2 hours for up to 200 instructors and 2000 students.
 \end{itemize}
 
 \subsubsection{FR-CSA-002: Intelligent Student--Instructor Matching}
@@ -128,14 +128,14 @@ This section details all functions and features of the system. Each requirement 
 \begin{itemize}
     \item Factors considered:
     \begin{itemize}
-        \item Student age and instructor preferred age groups.
-        \item Instructor expertise level.
-        \item Historical student performance (ratings, Kahoot scores).
-        \item Instructor teaching effectiveness scores (ML model).
+      \item Student age and instructor preferred age groups.
+      \item Instructor expertise level.
+      \item Historical student performance (ratings, Kahoot scores).
+      \item Instructor teaching effectiveness scores (ML model).
     \end{itemize}
     \item Uses round-robin allocation to ensure fairness.
     \item Prioritizes continuity with previous instructors.
-    \item Alerts admin for small class sizes (fewer than 3 students).
+    \item Alerts admin for groups classes that can be potentially merged.
 \end{itemize}
 
 \textbf{Acceptance Criteria:}
@@ -143,7 +143,7 @@ This section details all functions and features of the system. Each requirement 
     \item Matching improves student outcomes relative to random assignment.
     \item No instructor assigned beyond maximum class preference without override.
     \item Special cases flagged for manual review.
-    \item Matching executes in under 30 minutes.
+    % \item Matching executes in under 30 minutes.
 \end{itemize}
 
 \subsubsection{FR-CSA-003: Schedule Publication and Notification}
@@ -159,7 +159,7 @@ This section details all functions and features of the system. Each requirement 
         \item Zoom links
     \end{itemize}
     \item Start-of-month emails sent to instructors with full schedule and meeting links.
-    \item Students/parents receive schedule email, calendar invite, instructor bio, and meeting links.
+    % \item Students/parents receive schedule email, calendar invite, instructor bio, and meeting links.
 \end{itemize}
 
 \textbf{Acceptance Criteria:}
@@ -188,34 +188,35 @@ This section details all functions and features of the system. Each requirement 
         \item Duration: 60 minutes
     \end{itemize}
     \item Load balancing across 2 Zoom accounts; fallback to Google Meet.
+    \item 15 minute buffer maintained before and after each class to allow for overtime.
 \end{itemize}
 
 \textbf{Acceptance Criteria:}
 \begin{itemize}
-    \item Meetings created for 100\% of scheduled classes.
+    \item Meetings created for 100\% of online scheduled classes.
     \item No double-booking of Zoom accounts.
     \item Links accessible to enrolled students and instructors.
 \end{itemize}
 
-\subsubsection{FR-VCI-002: Recording Management}
-\textbf{Priority:} Medium  
+% \subsubsection{FR-VCI-002: Recording Management}
+% \textbf{Priority:} Medium  
 
-\textbf{Description:} The system shall manage storage and access to class recordings.
+% \textbf{Description:} The system shall manage storage and access to class recordings.
 
-\textbf{Detailed Requirements:}
-\begin{itemize}
-    \item Automatic download of recordings after each class.
-    \item Secure encrypted file storage.
-    \item Access control: instructors access own recordings; admins full access.
-    \item Audio extraction for ML analysis; transcription generated.
-\end{itemize}
+% \textbf{Detailed Requirements:}
+% \begin{itemize}
+%     \item Automatic download of recordings after each class.
+%     \item Secure encrypted file storage.
+%     \item Access control: instructors access own recordings; admins full access.
+%     \item Audio extraction for ML analysis; transcription generated.
+% \end{itemize}
 
-\textbf{Acceptance Criteria:}
-\begin{itemize}
-    \item Recordings downloaded successfully after class.
-    \item Transcription and audio extraction complete within 24 hours.
-    \item Access restricted to authorised users.
-\end{itemize}
+% \textbf{Acceptance Criteria:}
+% \begin{itemize}
+%     \item Recordings downloaded successfully after class.
+%     \item Transcription and audio extraction complete within 24 hours.
+%     \item Access restricted to authorised users.
+% \end{itemize}
 
 \subsection{Course and Curriculum Management}
 
@@ -236,7 +237,7 @@ This section details all functions and features of the system. Each requirement 
 \textbf{Acceptance Criteria:}
 \begin{itemize}
     \item Admins can create/update/archive courses.
-    \item Module progression enforced unless overridden.
+    \item Linear module progression enforced unless overridden.
     \item Catalog searchable and filterable.
 \end{itemize}
 
@@ -248,7 +249,7 @@ This section details all functions and features of the system. Each requirement 
 \textbf{Detailed Requirements:}
 \begin{itemize}
     \item Lesson plans, project demos, and supplemental resources.
-    \item Kahoot integration for quizzes.
+    \item Kahoot links for end-of-month assesments.
     \item Flashcards accessible where available.
     \item Version control ensuring updated materials.
 \end{itemize}
@@ -283,13 +284,13 @@ This section details all functions and features of the system. Each requirement 
         \item Lesson pacing
     \end{itemize}
     \item Weighted overall teaching effectiveness score generated.
-    \item Evaluation completed within 48 hours.
+    \item Evaluations done at the end of every working month.
 \end{itemize}
 
 \textbf{Acceptance Criteria:}
 \begin{itemize}
-    \item ML model achieves minimum 75\% accuracy.
-    \item Evaluations available within 48 hours.
+    % \item ML model achieves minimum 75\% accuracy.
+    % \item Evaluations available within 48 hours.
     \item Recommendations are actionable.
 \end{itemize}
 
@@ -308,7 +309,7 @@ This section details all functions and features of the system. Each requirement 
 \textbf{Acceptance Criteria:}
 \begin{itemize}
     \item Evaluations timestamped and attributed.
-    \item Completed within 5 business days.
+    % \item Completed within 5 business days.
 \end{itemize}
 
 \subsubsection{FR-PEA-003: Performance Reporting and Analytics}
@@ -321,9 +322,10 @@ This section details all functions and features of the system. Each requirement 
     \item Instructor dashboard metrics:
     \begin{itemize}
         \item Performance trends (3, 6, 12 months)
-        \item Peer comparison (anonymised)
+        % \item Peer comparison (anonymised)
         \item Evaluation metric breakdown
         \item Student progression statistics
+        \item Overall XP and language specific XP
     \end{itemize}
     \item Admin dashboard metrics:
     \begin{itemize}
@@ -336,7 +338,7 @@ This section details all functions and features of the system. Each requirement 
 
 \textbf{Acceptance Criteria:}
 \begin{itemize}
-    \item Dashboards load within 3 seconds.
+    % \item Dashboards load within 3 seconds.
     \item Data visualizations clear and interactive.
     \item Reports exportable to PDF/CSV.
 \end{itemize}
@@ -352,8 +354,9 @@ This section details all functions and features of the system. Each requirement 
 \begin{itemize}
     \item Start-of-month instructor email: schedule, Zoom links, roster.
     \item End-of-month instructor email: hours verification, payments, performance summary.
-    \item Parent renewal reminders 7 days before month end; second reminder 2 days before.
-    \item Class reminders to students 1 hour before class.
+    \item Start-of-month parent email: schedule, calendar invite, instructor bio, Zoom links.
+    % \item Parent renewal reminders 7 days before month end; second reminder 2 days before.
+    % \item Class reminders to students 1 hour before class.
 \end{itemize}
 
 \textbf{Acceptance Criteria:}
@@ -376,7 +379,7 @@ This section details all functions and features of the system. Each requirement 
 
 \textbf{Acceptance Criteria:}
 \begin{itemize}
-    \item Notifications appear within 30 seconds.
+    % \item Notifications appear within 30 seconds.
     \item Unread count updates in real-time.
 \end{itemize}
 
@@ -439,6 +442,7 @@ This section details all functions and features of the system. Each requirement 
         \item Super Admin: full access
         \item Operations Admin: scheduling, enrollment
         \item Finance Admin: payments
+        \item Evaluation Admin: performance reviews
         \item Instructor: class-level access
     \end{itemize}
     % \item Password reset with secure tokens.
