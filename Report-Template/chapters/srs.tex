@@ -500,6 +500,108 @@ This section details all functions and features of the system. Each requirement 
     \item All changes correctly recorded in logs.
 \end{itemize}
 
+\section{Use Cases}
+
+% This section presents detailed use cases for the system. Each use case includes actors, descriptions, data inputs/outputs, system responses, and additional notes.
+
+\subsection{Use Case 1: Generate Monthly Class Schedule}
+
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Field} & \textbf{Details} \\ \hline
+Actors & Administrator (primary), Scheduling Algorithm (system), ML Matching Algorithm (system), Instructors, Students, Zoom API \\ \hline
+Description & The administrator initiates the monthly scheduling process. The system retrieves instructor availability and student enrollment data, applies optimization algorithms, and generates a conflict-free schedule. The ML matching algorithm assigns students to suitable instructors based on age, XP, past performance, and learning preferences. Zoom meeting links are automatically generated and distributed via email and dashboards. \\ \hline
+Data & \textbf{Input:} Instructor availability, student enrollment records, instructor XP and performance data, Zoom account availability. \\
+& \textbf{Output:} Published monthly schedule, instructor-student assignments, Zoom links, notification emails, dashboard updates. \\ \hline
+Stimulus & Administrator clicks the ``Generate Schedule'' button at the end of the month. \\ \hline
+Response & System generates the schedule, validates conflicts, creates Zoom links, publishes data to dashboards, and sends notifications. Admin receives a summary with flagged edge cases. \\ \hline
+Comments & Handles small class sizes ($<3$ students), Zoom capacity constraints (2 accounts, Google Meet fallback), XP-based instructor prioritization, and round-robin workload balancing. \\ \hline
+\end{tabular}
+
+\subsection{Use Case 2: Set Weekly Availability}
+
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Field} & \textbf{Details} \\ \hline
+Actors & Instructor (primary), Scheduling Algorithm (system) \\ \hline
+Description & Instructor logs in and sets weekly availability by selecting days, time ranges, and teaching preferences (min/max classes, languages, age groups). System validates entries and stores them for the next scheduling cycle. \\ \hline
+Data & \textbf{Input:} Weekly availability (days/times), min/max classes, preferred languages, unavailable days. \\
+& \textbf{Output:} Stored availability record, on-screen confirmation, email confirmation. \\ \hline
+Stimulus & Instructor clicks ``Edit Availability'' or responds to reminder before the 10th of the month. \\ \hline
+Response & System displays existing availability, validates changes, saves data, and confirms update. Changes apply next month. \\ \hline
+Comments & Availability must be submitted by the 10th. Supports vacation ranges and multi-slot days. Each slot must be at least 1 hour. Mobile-friendly interface. \\ \hline
+\end{tabular}
+
+\subsection{Use Case 3: Submit Class Evaluation}
+
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Field} & \textbf{Details} \\ \hline
+Actors & Instructor (primary), Students, Parents (receive notifications), Payment System \\ \hline
+Description & After each class, instructor fills an evaluation form with attendance, project links, code ratings, comments, and for lesson 4: Kahoot score and recommended next module. \\ \hline
+Data & \textbf{Input:} Attendance, project link, code rating (1--100), comments, Kahoot score (lesson 4), recommended course/module. \\
+& \textbf{Output:} Saved evaluation record, updated progress metrics, parent email (lesson 4), verified teaching hours for payments. \\ \hline
+Stimulus & Instructor clicks ``Pending Evaluations'' or selects a completed class. \\ \hline
+Response & System loads roster, auto-saves draft, validates entries, stores data, updates student dashboards, and sends parent email at month end. \\ \hline
+Comments & Must be submitted within 24 hours. Late submissions flagged. Students marked absent cannot receive ratings. Evaluations locked after 24 hours unless admin unlocks. \\ \hline
+\end{tabular}
+
+\subsection{Use Case 4: Match Students to Instructors}
+
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Field} & \textbf{Details} \\ \hline
+Actors & ML Matching Algorithm (primary), Administrator (review), Instructor/Student Profiles \\ \hline
+Description & ML algorithm computes optimal student–instructor pairings based on age fit, expertise alignment, performance data, continuity preference, and workload fairness. \\ \hline
+Data & \textbf{Input:} Student profiles, instructor profiles, historical data, performance records. \\
+& \textbf{Output:} Compatibility scores, assignment list, workload distribution report, flagged cases. \\ \hline
+Stimulus & Automatically triggered during scheduling after time slots are fixed. \\ \hline
+Response & System generates all pairings, flags low-confidence matches ($<70\%$), and produces summary reports. \\ \hline
+Comments & Prioritizes student continuity, flags small class sizes, handles new instructors with limited history, and retrains model periodically using outcome data. \\ \hline
+\end{tabular}
+
+\subsection{Use Case 5: Access Zoom Link}
+
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Field} & \textbf{Details} \\ \hline
+Actors & Instructor (primary), Students/Parents, Zoom API \\ \hline
+Description & User logs in and opens their class schedule. System displays Zoom links. ``Join Class'' button becomes active 15 minutes before class. \\ \hline
+Data & \textbf{Input:} User authentication, class ID, timestamp. \\
+& \textbf{Output:} Zoom link, meeting ID/password, reminder email. \\ \hline
+Stimulus & User navigates to ``My Schedule''. \\ \hline
+Response & System verifies time, logs link access, redirects to Zoom, and sends reminder if user hasn't joined after 5 minutes. \\ \hline
+Comments & Links are recurring for all 4 lessons. System tracks join-time for attendance verification. Google Meet link generated as fallback if Zoom accounts reach capacity. \\ \hline
+\end{tabular}
+
+\subsection{Use Case 6: View Performance Report}
+
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Field} & \textbf{Details} \\ \hline
+Actors & Instructor (primary), ML Evaluation System, Administrator \\ \hline
+Description & Instructor views monthly performance report generated by ML analysis of class recordings, including score breakdown, trends, peer comparison, and recommendations. \\ \hline
+Data & \textbf{Input:} Recording audio, transcript, lesson plan, evaluation rubric. \\
+& \textbf{Output:} Metric scores (1--5), weighted score, trend graphs, peer comparison, recommendations, ML confidence score. \\ \hline
+Stimulus & Instructor opens ``My Performance'' or clicks email notification. \\ \hline
+Response & System loads report with interactive visualizations, highlights improvements/regressions, and allows PDF download. \\ \hline
+Comments & ML uses audio + NLP analysis; low-confidence reports reviewed manually. Scores affect instructor bonuses and class assignment priority. \\ \hline
+\end{tabular}
+
+\subsection{Use Case 7: Process Instructor Payments}
+
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Field} & \textbf{Details} \\ \hline
+Actors & Payment System (primary), Administrator, Instructor \\ \hline
+Description & At month-end, system calculates payments using attendance, evaluation scores, and Zoom logs. Generates Payment Request Form (PRF) for admin approval. \\ \hline
+Data & \textbf{Input:} Attendance records, instructor rate, evaluation scores, Zoom hours. \\
+& \textbf{Output:} PRF (PDF), payment status updates, instructor email. \\ \hline
+Stimulus & Auto-triggered on the 1st of the month or manually by admin. \\ \hline
+Response & System calculates base pay + bonuses, generates PRF, notifies admin, and after approval notifies instructor. \\ \hline
+Comments & Excludes classes with zero attendance. Bonuses stack. Adjustments require justification. Multi-currency support included. Payment statuses: Pending, Approved, Sent. \\ \hline
+\end{tabular}
+
 \section{Non-functional Requirements}
 
 \subsection{Performance Requirements}
