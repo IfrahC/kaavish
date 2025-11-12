@@ -56,7 +56,7 @@ All members \\ \hline
 \label{tab:tasks_timeline}
 \end{table}
 
-\subsection{Wireframes}
+\section{Wireframes}
 This section presents the initial wireframes designed for the Instructor and Admin dashboards, as well as supporting views for class and instructor management.
 
 \begin{figure}[htbp]
@@ -755,9 +755,74 @@ This section describes the specific dataset(s) used to build our system. An appr
 
 \section{System Diagram}
 This diagram gives a high-level view of the different components of our system and the interactions between them. Each component and the particular tools/technologies/libraries used to build it are described.
-\begin{figure}[H]
+
+\subsection{Users and Roles}
+
+Each role interacts with the system via the Instructor Dashboard or Admin Dashboard. 
+
+\begin{itemize}
+    \item \textbf{Instructor:} Views class schedules, receives performance evaluations, manages teaching logs, updates availability.
+    \item \textbf{Evaluation Admin:} Reviews AI-based instructor evaluations and supplements them with manual notes.
+    \item \textbf{Operations Admin:} Adds new students and instructors to the system. Oversees class schedules and instructor-student assignments.
+    \item \textbf{Finance Admin:} Manages payment processing and bonuses.
+    \item \textbf{Curriculum Team:} Updates course content and tracks which modules are active for upcoming sessions.
+\end{itemize}
+
+\subsection{Web Application (Frontend)}
+Both dashboards communicate with the backend using REST API calls for real-time data synchronization.
+\begin{itemize}
+    \item \textbf{Instructor Dashboard:} Displays assigned classes, evaluation reports, and class information (student information, Zoom links, instructor guides, etc.). It pulls class and evaluation data through REST APIs.
+    \item \textbf{Admin Dashboard:} Serves as the central control panel for operational oversight. Displays analytics, scheduling summaries, and payment status by fetching data from backend services.
+\end{itemize}
+
+\subsection{Backend Server}
+
+Each backend module communicates through internal APIs and interacts with the database to store or retrieve data.
+
+\begin{itemize}
+    \item \textbf{User Management:} Handles authentication and role-based access control.
+    \item \textbf{Matching Engine:} Implements the ML-based student-instructor matching algorithm using factors such as age, instructor experience, and class type.
+    \item \textbf{Scheduling Engine:} Prevents conflicts and ensures equitable workload distribution across instructors.
+    \item \textbf{Performance Evaluation Service:} Processes Zoom transcripts via the NLP pipeline to assess teaching quality.
+    \item \textbf{Payment Processing:} Calculates and updates instructor payments and bonuses after validations.
+    \item \textbf{Notification \& Email Service:} Sends automated notifications (e.g., new class assigned, evaluation completed).
+    \item \textbf{Student Management:} Tracks student progress according to CSPK coding journey and updates class modules accordingly.
+    \item \textbf{Curriculum Management:} Organizes teaching guides for instructors and classes according to schedules. Allows uploading of new/updated guides.
+    \item \textbf{Student Evaluation Module:} Factors in instructor comments regarding student progress when updating the current module.
+    \item \textbf{Zoom Meeting Generation:} Generates Zoom links based on the monthly schedule.
+    \item \textbf{Instructor Management:} Creates instructor profiles and tracks KPIs such as total hours taught, teaching XP, and instructor proficiencies.
+\end{itemize}
+
+\subsection{Database Layer and External Integrations}
+
+These integrations ensure seamless communication between the teaching environment and the backend automation processes.
+
+\subsection*{Databases}
+\begin{itemize}
+    \item \textbf{Instructors:} Stores instructor profiles, credentials, and availability.
+    \item \textbf{Students/Parents:} Stores enrollment data and billing information.
+    \item \textbf{Payments:} Logs payment calculations, status, and transactions.
+    \item \textbf{Evaluations/Performance Data:} Stores both AI-generated and manual evaluations for longitudinal performance tracking.
+    \item \textbf{Schedules \& Zoom Links:} Stores class schedules and meeting information.
+    \item \textbf{Users \& Roles:} Stores permissions for each user.
+    \item \textbf{Classes/Modules/Resources:} Stores lesson plans, code reviews, and supplementary resources.
+\end{itemize}
+
+\subsection*{External Integrations}
+\begin{itemize}
+    \item \textbf{Zoom API:} Generates and manages meeting links for classes.
+    \item \textbf{Email API:} Sends class schedules and reminders.
+    \item \textbf{Cloud Storage (Dropbox):} Stores Zoom recordings used for AI evaluation.
+    \item \textbf{NLP + Audio Processing Model:} Converts class audio to text and generates performance insights stored in the evaluation database.
+\end{itemize}
+
+\subsection*{Data Flow}
+The data flow begins when operations finalize the monthly student list. The Scheduling Engine generates class schedules and the system’s Matching Engine pairs students and instructors, storing assignments in the database.  Corresponding Zoom links are generated and stored via API integration. Instructors access this information through the Instructor Dashboard, while administrators can monitor system-wide metrics in real time via the Admin Dashboard. After each session, Zoom recordings are processed through the AI Evaluation Service, producing performance analytics that are reviewed by the Evaluation Team before being logged into the instructor’s profile. This data then feeds into the Finance Module for payment calculation and bonus allocation. 
+
+
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{../images/TeachWiseSystemDiagram.png}
-    \caption{TeachWise System Block Diagram}
-    \label{fig:teachwise-system-architecture}
+    \includegraphics[width=1.0\textwidth]{../images/TeachWise Use Case-driven System Block Diagram (1).png}
+    \caption{TeachWise System Block Diagram.}
+    \label{fig:teachwise_system_block_diagram}
 \end{figure}
