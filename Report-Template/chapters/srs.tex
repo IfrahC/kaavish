@@ -1,22 +1,100 @@
 This chapter provides detailed specifications of the system under development.
 
+\section{Project Plan}
+\subsection{Objectives}
+The goal of this project is to design and implement an Intelligent Scheduling and Performance Analytics Platform for Code School. The big picture is a centralized web-based CMS that automates administrative workflows, enhances scheduling efficiency, and provides AI-driven instructor evaluation reports based on classroom and student progress information. 
+
+Outside of the traditional CMS components, key objectives include: 
+\begin{itemize}
+    \item Automation: Replace manual scheduling with a centralized, conflict-free scheduling system that takes instructor preferences, timetables, and time zones into account. 
+    \item AI Integration: Utilize transcripts of past Zoom recordings to train a NLP-based model to automatically evaluate instructor performance based on classroom environment, taking key performance indicators such as etc into account. 
+    \item Integration with external APIs: Enable automated Zoom link generation and integration, along with automated email services to send emails to parents each month regarding class details and student performance.  
+    \item Analytics Dashboard: Provide visual analytics for instructors and admins to monitor student progress, teaching quality, and finance-related matters. 
+\end{itemize}
+
+\subsection{Tasks and Timelines}
+\begin{table}[ht!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\small
+\begin{tabular}{|p{3.3cm}|p{2.8cm}|p{7.2cm}|p{2.5cm}|}
+\hline
+\textbf{Phase} & \textbf{Duration} & \textbf{Tasks / Deliverables} & \textbf{Responsible Members} \\ \hline
+
+\textbf{1. Requirement Analysis \& Design} &
+Oct 2025 -- Nov 2025 &
+Collect requirements from \textit{CodeSchool}, define use cases, design ERD \& wireframes, and research relevant APIs/NLP models. &
+All members \\ \hline
+
+\textbf{2. Frontend Development} &
+Dec 2025 -- mid Jan 2026 &
+Build React (Next.js) dashboard for Admin/Instructor, design UI for performance and student modules, and gather feedback on components. &
+Zain, Naaseh \\ \hline
+
+\textbf{3. Backend \& Database Setup} &
+Jan 2026 -- early Feb 2026 &
+Set up PostgreSQL database, develop API endpoints, implement secure authentication \& data management, and review backend design. &
+Naaseh, Ifrah, Zain \\ \hline
+
+\textbf{4. ML Integration \& Scheduling Algorithm} &
+Feb 2026 &
+Develop scheduling algorithm, train NLP model for analytics, and integrate ML with backend. &
+Aina, Ifrah \\ \hline
+
+\textbf{5. System Integration \& Testing} &
+Mar 2026 &
+Integrate frontend, backend, and ML modules; conduct unit/integration tests; verify Zoom API functionality. &
+All members \\ \hline
+
+\textbf{6. Documentation \& Final Report} &
+Apr 2026 &
+Prepare final documentation, reports, and project presentation. &
+All members \\ \hline
+
+\end{tabular}
+\caption{Project Tasks and Timeline}
+\label{tab:tasks_timeline}
+\end{table}
+
+\subsection{Wireframes}
+This section presents the initial wireframes designed for the Instructor and Admin dashboards, as well as supporting views for class and instructor management.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Intructor-Dashboard-Screen.jpg}
+    \caption{Instructor Dashboard wireframe.}
+    \label{fig:instructor_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin-Dashboard-Screen.jpg}
+    \caption{Admin Dashboard wireframe.}
+    \label{fig:admin_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin-Classes-Screen.jpg}
+    \caption{Admin Classes wireframe.}
+    \label{fig:admin_classes_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin-Classes-Specific-Info-1-Screen.jpg}
+    \caption{Admin Class Details wireframe.}
+    \label{fig:admin_classes_specific_info_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin-Instructors-Screen.jpg}
+    \caption{Admin Instructors List wireframe.}
+    \label{fig:admin_instructors_wireframe}
+\end{figure}
+
 \section{Functional Requirements}
-
-% This section describes each function/feature provided by our system. These functions are logically grouped into modules based on their purpose/users/mode of operations etc (as per our system). A functional hierarchy may look like:
-% \begin{outline}
-%   \1 Instructor:
-%   \2 Profile Management:
-%   \3 Availability
-%   \3 Language Experties and Preferences
-%   \2 Function 2:
-%   \3 Sub Function 1
-%   \3 Sub Function 2
-%   \1 Admin:
-%   \2 Student Profile Management:
-%   \2 Function 2:
-%   \1 .........
-% \end{outline}
-
 
 This section details all functions and features of the system. Each requirement is organised into modules with identifiers, priorities, descriptions, detailed requirements, and acceptance criteria.
 
