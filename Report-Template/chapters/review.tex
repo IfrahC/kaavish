@@ -1,5 +1,130 @@
-This chapter presents the current state of the art in the domain and talks about other similar work that has been done in this area. It also establishes the novelty of our work by highlighting the differences between the existing work and our work.
+% This chapter presents the current state of the art in the domain and talks about other similar work that has been done in this area. It also establishes the novelty of our work by highlighting the differences between the existing work and our work.
 
-We will keep updating this chapter (especially if our project is research-intensive) as our research proceeds and we come across more work related to our problem.
+% We will keep updating this chapter (especially if our project is research-intensive) as our research proceeds and we come across more work related to our problem.
 
-% Of course, we take inspiration from \cite{einstein} but wish the work was typeset in \LaTeX \cite{knuthwebsite}, e.g. by taking help from \cite{latexcompanion}.
+% % Of course, we take inspiration from \cite{einstein} but wish the work was typeset in \LaTeX \cite{knuthwebsite}, e.g. by taking help from \cite{latexcompanion}.
+\chapter{Literature Review}
+
+\section{Introduction}
+
+Educational institutions are increasingly turning to intelligent digital systems to manage complex operations such as class scheduling, instructor allocation, and teaching quality assurance \cite{Lv2025, Almubarak2025}. In distributed learning environments—especially those relying on remote instruction—these challenges become more complex due to increased moving parts that need to be accounted for.
+
+TeachWise is designed as an intelligent Course Management System (CMS) that attempts to solve this problem by combining automated scheduling, intelligent student–instructor matching, and AI-powered performance evaluation.
+
+This review synthesizes research across three major domains:
+\begin{enumerate}
+    \item automated scheduling and resource optimization,
+    \item AI-enabled teaching evaluation through NLP, audio analysis, and prosody detection, and
+    \item intelligent learning management systems and topic modelling for curriculum fidelity.
+\end{enumerate}
+
+Across these domains, the review identifies trends, shared challenges, and gaps in current systems, using these insights as the foundation for TeachWise's integrated design for large-scale operational automation.
+
+% This chapter surveys the most relevant existing work and highlights the novelty of our system by showing how current solutions fall short. It will be updated iteratively as the research progresses and more domain-specific work is identified.
+
+\section{Automated Scheduling \& Resource Optimization}
+
+\subsection{Complexity of Educational Timetabling (UCTP)}
+
+Class scheduling is traditionally framed as the University Course Timetabling Problem (UCTP), a well-established NP-hard combinatorial optimisation problem. The task requires assigning courses, instructors, rooms, and student groups to limited time slots while respecting a variety of constraints.
+
+Hard constraints---such as preventing teacher double-booking, avoiding simultaneous room assignments, and matching classes to suitable room types---must always be satisfied for a timetable to be viable. Soft constraints---including minimizing student gaps, aligning teacher preferences, balancing workload, or spreading classes across the week---impact schedule quality but can be violated when necessary \cite{Sahargahi2021}.
+
+Manual scheduling often results in inconsistencies, suboptimal resource use, and time-consuming processes. As the search space grows combinatorially, brute-force methods become computationally infeasible, reinforcing the need for automated optimization approaches \cite{Lv2025, Sahargahi2021}.
+
+\subsection{Meta-Heuristic and CSP Approaches}
+
+Given the complexity of timetabling, most research adopts meta-heuristic algorithms designed to explore large solution spaces without exhaustive search. Commonly used methods include Genetic Algorithms (GA), Particle Swarm Optimization (PSO), Simulated Annealing (SA), Tabu Search, Ant Colony Optimization (ACO), and recent nature-inspired algorithms such as the Spotted Hyena Optimizer (SHO) \cite{Sahargahi2021, Nguyen2021}.
+
+Meta-heuristics offer several advantages:
+\begin{itemize}
+    \item they adapt well to mixed hard–soft constraint environments \cite{Sahargahi2021};
+    \item they produce high-quality, near-optimal timetables efficiently \cite{Lv2025};
+    \item they scale effectively with real-world scheduling sizes \cite{Nguyen2021}.
+\end{itemize}
+
+Comparative studies show that different strategies excel in different aspects. For example, PSO converges rapidly but may generate less optimal schedules, whereas SHO yields higher-quality solutions at the cost of additional computation time. Hybrid approaches, such as SHO--SA or GA with local search, tend to perform best overall \cite{Nguyen2021}.
+
+Alongside meta-heuristics, Constraint Programming (CP) defines scheduling as a set of variables, domains, and constraints. Tools such as Timefold (formerly OptaPlanner) evaluate violations efficiently and internally integrate meta-heuristics, enabling hybrid search strategies without requiring custom algorithm implementation \cite{Diallo2024}.
+
+\subsection{Intelligent Scheduling for Distributed Environments}
+
+Traditional timetabling research focuses on fixed, on-campus institutions. In contrast, TeachWise operates in a distributed remote-learning context with unique challenges: multi-time-zone scheduling, fluctuating instructor availability, dynamic class loads, and the absence of physical rooms.
+
+Commercial tools such as UniTime and Scientia Syllabus Plus remain tied to physical-room assignments and semester-based structures, limiting relevance to global remote operations.
+
+Recent work by Lv (2025) demonstrates that machine learning and algorithmic scheduling significantly outperform manual methods. A greedy + backtracking algorithm for optimizing English teaching resources improved student passing rates (90\% vs. <60\%), reduced resource retrieval time by over 33 seconds, and increased classroom utilization by 1.44\% \cite{Lv2025}. These outcomes highlight the operational impact of algorithmic scheduling.
+
+\textbf{Gap in Literature:} Existing solutions do not integrate time-zone variation, multi-country operations, or pedagogical matching into the scheduling process. TeachWise addresses this by combining constraint-satisfaction logic with meta-heuristic optimization and domain-aware instructor matching.
+
+\section{AI-Powered Instructor Evaluation}
+
+\subsection{Limitations of Traditional Evaluation Methods}
+
+Historically, teacher evaluation has relied on student surveys and manual classroom observations. These approaches suffer from subjectivity, evaluator bias, inconsistency, and infrequent feedback. Almubarak et al. (2025) emphasize that traditional observations fail to capture the complexity of teaching and provide insufficient guidance for instructor improvement \cite{Almubarak2025}.
+
+\subsection{NLP and Audio Analysis}
+
+Recent advances in NLP and deep learning enable scalable, objective evaluation of instruction:
+
+\begin{itemize}
+    \item \textbf{Classroom transcript analysis:} LLMs and text-as-data methods achieve high agreement with human coders in identifying instructional strategies, question types, and logical structure \cite{Eyben2013}.
+    \item \textbf{Dialogue structure modelling:} NLP models detect questioning patterns, wait-time, and turn-taking behaviour, which correlate with engagement \cite{Eyben2013}.
+    \item \textbf{Audio-based teaching analysis:} Computational paralinguistics uses spectral and prosodic features to detect teaching styles and discourse patterns \cite{Pardo2025}.
+\end{itemize}
+
+These approaches demonstrate that AI can supplement or even replace traditional evaluation by offering scalable, objective insights.
+
+\subsection{Prosody \& Emotion Analysis in Teaching Quality}
+
+Prosody---the rhythm, pitch, stress, and intonation of speech---is emerging as a key indicator of classroom climate and teaching effectiveness. Llurba \& Palau (2024) show that vocal emotional cues strongly influence student motivation and self-regulated learning \cite{Llurba2024}. Acoustic features such as pitch, loudness, jitter, shimmer, and speaking rate help detect emotional states including frustration, enthusiasm, calmness, and tension \cite{Eyben2010, Ali2015}.
+
+Pardo et al. (2025) highlight correlations between prosodic variation, teacher enthusiasm, and student engagement \cite{Pardo2025}. For remote coding classes where non-verbal cues are limited, prosody becomes even more essential.
+
+\section{Intelligent Learning Management Systems}
+
+Intelligent techniques in e-learning have grown substantially due to advancements in machine learning and data mining. Ilic et al. (2023) show that AI-enabled LMS tools support resource recommendation, automated grading, personalized pathways, dropout prediction, and performance modelling \cite{Ilic2023}. AI benefits instructors through workload reduction and supports learners through targeted feedback \cite{Ajay2024}.
+
+TeachWise extends this tradition by embedding intelligent evaluation, global scheduling, and matching logic within a unified CMS.
+
+\section{Topic Modelling \& Curriculum Fidelity}
+
+Ensuring instructors cover required topics is crucial in standardized coding education. Traditional methods rely on manual review of recordings or self-reporting, both slow and subjective.
+
+BERTopic \cite{Grootendorst2022} provides a modern alternative using BERT embeddings, UMAP dimensionality reduction, and HDBSCAN clustering. Compared to LDA, BERTopic offers richer contextual understanding and performs well on short, conversational text.
+
+It has been used to:
+\begin{itemize}
+    \item identify themes in large text corpora,
+    \item detect topic coverage patterns,
+    \item classify instructional content against curricula.
+\end{itemize}
+
+TeachWise uses BERTopic to map transcript segments to the Instructor Guide, enabling automated curriculum fidelity checks.
+
+\section{Gaps in Existing Literature}
+
+Despite maturity in scheduling, evaluation, and LMS automation, several gaps remain:
+\begin{enumerate}
+    \item \textbf{Scheduling–Pedagogy Integration Gap:} Timetabling systems optimize logistics but not instructor--student compatibility.
+    \item \textbf{Evaluation–Operations Integration Gap:} AI evaluation models do not feed into scheduling, compensation, or promotions.
+    \item \textbf{Limited Support for Distributed, Multi-Time-Zone Education.}
+    \item \textbf{Domain-Specific Evaluation:} Little work exists on coding instruction analysis.
+    \item \textbf{Limited Multimodal Integration:} Most systems analyse text or audio alone, not both.
+\end{enumerate}
+
+\section{TeachWise’s Contribution}
+
+TeachWise addresses these gaps through an integrated design combining operational automation with pedagogical intelligence:
+
+\begin{enumerate}
+    \item \textbf{Hybrid Scheduling + Pedagogical Matching:} Hard constraints enforced via CSP; soft constraints optimized using meta-heuristics.
+    \item \textbf{Domain-Specific AI Evaluation for Coding Education.}
+    \item \textbf{Multimodal Evaluation Pipeline:} OpenSMILE, Whisper, Pyannote, BERTopic/SBERT, LLMs.
+    \item \textbf{Operational Integration:} Evaluation influences compensation, scheduling priority, and professional development.
+    \item \textbf{Designed for Global Remote Teaching at Scale.}
+\end{enumerate}
+
+\section{Conclusion}
+
+While scheduling optimization, AI-based teaching evaluation, and intelligent e-learning systems have each advanced considerably, they have evolved largely in isolation. TeachWise unifies these research streams to create a multimodal CMS that automates scheduling, enhances pedagogy, and supports large-scale global operations.
