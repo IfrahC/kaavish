@@ -3,15 +3,270 @@ This chapter provides important artifacts related to design of our project.
 
 \section{Software Design}
 
-This section presents the UML class diagram and gives a brief description of each class in our system. Attributes and methods of each class and relationship among classes are clearly presented.
+This section offers a thorough description of the system's architecture. User management, class scheduling, curriculum delivery, performance evaluation, payments, and external integrations are all handled by interconnected subsystems that make up the TeachWise platform. The following describes each major class and subsystem, highlighting its functions, data characteristics, and relationships with other system elements.
+
+\subsection{User Management SubSystem}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1.0\textwidth]{../images/class_diagram.png}
+    \caption{Class Diagram of the TeachWise system.}
+    \label{fig:class_diagram}
+\end{figure}
+
+\subsubsection{User}
+For every platform actor, the \texttt{User} class serves as the primary identity object. It stands for the parent entity from which the fundamental characteristics of \texttt{Instructor}, \texttt{Admin}, and \texttt{Student} are derived. Account-level data, including name, role, and email, is stored here. It supports the fundamental operations required for platform authentication and profile maintenance:
+\begin{itemize}
+    \item \texttt{login() / logout()} - authentication workflow
+    \item \texttt{updateProfile()} - modify name, role, or contact information
+\end{itemize}
+All user types share uniform identity management logic and access control mechanisms thanks to this abstraction.
+
+\subsubsection{Instructor}
+The \texttt{Instructor} class represents the teachers registered on the platform. It stores identity attributes (\texttt{instructor\_id, user\_id}) and a calculated performance metric (\texttt{avg\_eval}). Instructors are associated with:
+\begin{itemize}
+    \item \textbf{Professional metadata:} country, coding languages, teaching experience
+    \item \textbf{Instructional KPIs:} teachingXP, totalHoursTaught, averageRating
+    \item \textbf{Class associations:} all classes taught historically and upcoming
+    \item \textbf{Performance tracking:} linked evaluations from the Performance Evaluation subsystem
+\end{itemize}
+Key behaviors:
+\begin{itemize}
+    \item \texttt{setAvailability()} - defines when the instructor can teach
+    \item \texttt{updatePreferences()} - updates language preferences
+    \item \texttt{viewSchedule()} - shows classes assigned for the week or month
+    % \item \texttt{submitEvaluation()} - submit lesson evaluations
+    \item \texttt{viewPerformanceReport()} - access performance analytics
+\end{itemize}
+The \texttt{Instructor} class is central to scheduling, matching, evaluation, and payment workflows.
+
+\paragraph{Instructor Availability}
+This class captures repeated weekly availability patterns. Each record specifies month, day of week, and time range.
+\begin{itemize}
+    \item \texttt{validate()} - checks times for logical consistency
+    \item \texttt{getTimeSlots()} - generates discrete teachable times for scheduling
+\end{itemize}
+Used extensively by the \texttt{SchedulingEngine}.
+
+\subsubsection{Admin}
+Admins are system controllers responsible for operational oversight. Attributes include \texttt{admin\_type} (finance, operations, curriculum, etc.). Admins manage:
+\begin{itemize}
+    \item User accounts
+    \item Schedule generation
+    \item Payment processing
+    \item Evaluation reviews
+    \item Report exports
+\end{itemize}
+
+\subsubsection{Parent}
+The \texttt{Parent} class represents guardians managing one or more students. Stores:
+\begin{itemize}
+    \item Contact details, country, billing information, subscription type
+\end{itemize}
+% Capabilities:
+% \begin{itemize}
+%     \item Register students
+%     \item View child's schedule
+%     \item Receive notifications about sessions, billing, or progress
+% \end{itemize}
+
+\subsubsection{Student}
+\texttt{Student} class stores:
+\begin{itemize}
+    \item Personal details, date of birth, dynamically calculated age
+    \item Current course/module
+    \item Parent association
+    \item Enrollment records
+\end{itemize}
+Functionalities:
+\begin{itemize}
+    \item \texttt{calculateAge()} - update age at runtime
+    \item \texttt{updateProgress()} - mark module progress
+    \item \texttt{getEnrollments()} - retrieve associated enrollments
+\end{itemize}
+
+\subsection{Class And Enrollment SubSystem}
+
+\subsubsection{Class}
+Represents a scheduled lesson session. Contains:
+\begin{itemize}
+    \item Time-based details: \texttt{dayOfWeek, classTime, startDate}
+    \item Instructor assignment
+    \item Course and module linkage
+    \item Zoom integrations: \texttt{link, meetingId, password}
+\end{itemize}
+Key functions:
+\begin{itemize}
+    \item \texttt{generateZoomLink()} - integrates with ZoomAPI
+    \item \texttt{getClassDetails()} - returns metadata
+    \item \texttt{getEnrolledStudents()} - retrieves enrolled students
+\end{itemize}
+
+\subsubsection{Enrollment}
+Represents a student’s participation in a specific class.
+\begin{itemize}
+    \item Records enrollment date, subscription status, link to lessons
+    \item Functions:
+    \begin{itemize}
+        \item \texttt{updateStatus()} - modify subscription state
+        \item \texttt{getLessons()} - retrieve lesson information
+        % \item \texttt{calculateAverageRating()} - computes end of month performance
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Lesson}
+Represents individual teaching instances under an enrollment.
+\begin{itemize}
+    \item Stores: attendance, project submissions, code quality, Kahoot scores, instructor comments
+    \item Functions:
+    \begin{itemize}
+        \item \texttt{recordAttendance()}
+        \item \texttt{submitEvaluation()}
+        % \item \texttt{validateRating()}
+    \end{itemize}
+\end{itemize}
+
+\subsection{Curriculum SubSystem}
+
+\subsubsection{Course}
+Defines the full curriculum structure. Contains course objectives, age range, coding language, prerequisites, flashcards, versioning. Functions:
+\begin{itemize}
+    \item \texttt{getModules()}
+    % \item \texttt{updateCurriculum()}
+    \item \texttt{isPrerequisiteMet()}
+\end{itemize}
+
+\subsubsection{Module}
+Divides courses into structured units. Stores sequence number, objectives, lesson plan paths, Kahoot and flashcard links. Functions:
+\begin{itemize}
+    \item \texttt{getContent()}
+    \item \texttt{updateCurriculum()}
+    \item \texttt{getNextModule()}
+\end{itemize}
+
+\subsection{Scheduling SubSystem}
+
+\subsubsection{Schedule}
+Represents generated monthly or weekly schedules.
+\begin{itemize}
+    \item Tracks month, year, generation date, status, associated classes
+    \item Functions:
+    \begin{itemize}
+        \item \texttt{generateMonthlySchedule()}
+        \item \texttt{publishSchedule()}
+        \item \texttt{getClasses()}
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Scheduling Engine}
+Automates class scheduling using instructor availability, student demand, and administrative constraints.
+\begin{itemize}
+    \item \texttt{optimizeSchedule()} - conflict-free schedules
+    \item \texttt{checkConflicts()} - overlapping class detection
+    \item \texttt{balanceWorkload()} - fair instructor assignments
+    \item \texttt{allocateZoomAccounts()} - prevent account collisions
+\end{itemize}
+
+\subsubsection{Matching Engine}
+Automates student-instructor pairing:
+\begin{itemize}
+    \item TeachingXP
+    % \item Teaching style
+    \item Continuity preferences
+    \item Functions:
+    \begin{itemize}
+        \item \texttt{calculateCompatibility()}
+        \item \texttt{matchStudentToInstructor()}
+        % \item \texttt{prioritizeContinuity()}
+        \item \texttt{generateRecommendations()}
+    \end{itemize}
+\end{itemize}
+
+\subsection{Performance Evaluation SubSystem}
+
+\subsubsection{Performance Evaluation}
+Stores granular metrics of instructor performance: introduction, recap, exercises, energy, patience, classroom culture, attention checks, concept review, curriculum fidelity, pacing. Computes \texttt{overallScore} and generates performance reports.
+
+\subsubsection{MLEvaluationModel}
+ML-based subsystem analyzing class recordings:
+\begin{itemize}
+    \item \texttt{analyzeRecording()}
+    \item \texttt{extractTranscript()}
+    \item \texttt{scoreMetrics()}
+    \item \texttt{generateRecommendations()}
+\end{itemize}
+
+\subsection{Payment SubSystem}
+Manages payroll for instructors: teaching hours, bonuses, total payout, payment status. Functions:
+\begin{itemize}
+    \item \texttt{calculatePayment()}
+    \item \texttt{generatePRF()}
+    \item \texttt{approvePayment()}
+\end{itemize}
+
+\subsection{External Integration}
+
+\subsubsection{Zoom API}
+Handles integration with Zoom services: meeting creation, recording retrieval, account availability checks.
+
+% \subsubsection{Notification Service}
+% Centralizes notifications: email, in-app alerts, calendar invites, schedule updates.
+
+\subsubsection{Email Template}
+Defines reusable templates with subject, body, placeholders. \texttt{renderTemplate()} fills them dynamically.
+
+\subsection{Component UML}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1.0\textwidth]{../images/uml_component.png}
+    \caption{Component Diagram of the TeachWise system.}
+    \label{fig:component_diagram}
+\end{figure}
+
+\subsubsection{User Management Component}
+Encapsulates user identity, authentication, and role-based access. Services:
+\begin{itemize}
+    \item User registration and login
+    \item Role assignment
+    \item Profile editing
+    \item Parent-Student linking
+\end{itemize}
+
+\subsubsection{Class And Enrollment Management Component}
+Manages lifecycle of classes, enrollments, and lessons. Interfaces with:
+\begin{itemize}
+    \item User Management
+    \item Curriculum
+    \item Scheduling
+    \item Performance Evaluation
+\end{itemize}
+
+\subsubsection{Curriculum Component}
+Contains \texttt{Course} and \texttt{Module} classes, managing instrcutor guides and any required resources.
+
+\subsubsection{Scheduling Component}
+Includes \texttt{Schedule}, \texttt{Scheduling Engine}, and \texttt{Matching Engine}. Automates schedules and matches students to instructors.
+
+\subsubsection{Performance Evaluation Component}
+Evaluates instructor performance using rubrics and ML-driven analysis. Integrates with \texttt{ZoomAPI} for recordings.
+
+\subsubsection{Payment Component}
+Manages compensation, payroll, bonuses, and approval workflows. Draws data from classes, lessons, and evaluations.
+
+\subsubsection{Notification Service Component}
+Centralizes all communication: email, calendar invites, in-app alerts. Integrates with all major subsystems.
+
+\subsubsection{External Integration Component}
+Houses third-party integrations: Zoom API, future payment gateways, analytics services, LMS tools. Supports modular upgrades without affecting internal components.
 
 % Your report will contain ONE of the following 2 sections.
 
 \section{Data Design}
 
-This section presents the structure of our database that caters to persistent data storage in our project. The structure is shown as a normalized data model for relational databases. It clearly shows entities, attributes, relationships with their cardinalities, and primary and foreign keys. We have used DB designer (or any other similar data modeling tool) to build our data model.
+This section presents the structure of our database that caters to persistent data storage in our project. The structure is shown as a normalized data model for relational databases. It clearly shows entities, attributes, relationships with their cardinalities, and primary and foreign keys. We have used DB designer to build our data model.
 
- \begin{figure}[htbp]
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=1.0\textwidth]{../images/teachwisecms_erd.png}
     \caption{Entity-Relationship Diagram of the database.}
@@ -21,7 +276,7 @@ This section presents the structure of our database that caters to persistent da
 \section{Technical Details}
 \label{sec:technical}
 
-This section presents the computational, algorithmic, and architectural components that form the core of TeachWise. Unlike conventional CRUD-based systems, TeachWise integrates intelligent scheduling, machine learning–based instructor evaluation, automated Zoom meeting generation, and multimodal data pipelines. For each subsystem, we describe the inputs, internal processes, and outputs, along with how these components integrate into the system-wide toolchain.
+This section presents the computational, algorithmic, and architectural components that form the core of TeachWise. Unlike conventional CRUD-based systems, TeachWise integrates intelligent scheduling, machine learning-based instructor evaluation, automated Zoom meeting generation, and multimodal data pipelines. For each subsystem, we describe the inputs, internal processes, and outputs, along with how these components integrate into the system-wide toolchain.
 
 Only methods that are technically viable and supported by research evidence are included. These represent the approaches we intend to implement based on feasibility and relevance.
 
@@ -60,9 +315,9 @@ We aim to implement a Hybrid Scheduling Model combining:
 \end{itemize}
 
 
-\subsection{Student–Instructor Matching Model}
+\subsection{Student-Instructor Matching Model}
 
-As outlined in the SRS, the system pairs students with instructors using a machine-learning–based matching model to enhance learning outcomes \cite{lv2025, almubarak2025}. 
+As outlined in the SRS, the system pairs students with instructors using a machine-learning-based matching model to enhance learning outcomes \cite{lv2025, almubarak2025}. 
 
 \subsubsection*{Inputs}
 \begin{itemize}
@@ -73,7 +328,7 @@ As outlined in the SRS, the system pairs students with instructors using a machi
 \end{itemize}
 
 \subsubsection*{Method Employed}
-We will explore a hybrid evolutionary model integrating regression and classification methods. Prior research shows strong effectiveness for machine–learning-based teacher–student allocation \cite{nguyen2021sho}.
+We will explore a hybrid evolutionary model integrating regression and classification methods. Prior research shows strong effectiveness for machine-learning-based teacher-student allocation \cite{nguyen2021sho}.
 
 Features contributing to the predicted matching score include:
 \begin{itemize}
@@ -156,7 +411,7 @@ Introduction clarity, curriculum fidelity.
     \item Sentiment and tone analysis for patience \& positivity
     \item BERTopic for curriculum alignment \cite{grootendorst2022}
     \item Linguistic feature extraction (structure, pacing, Q/A pattern)
-    \item Speaker diarization for teacher–student balance
+    \item Speaker diarization for teacher-student balance
 \end{itemize}
 
 \subsubsection*{Metric Implementation Summary}
@@ -201,7 +456,7 @@ The system produces the following outputs:
 \begin{itemize}
     \item Conflict-free monthly class schedules
     \item Auto-generated Zoom links
-    \item Student–Instructor match recommendations
+    \item Student-Instructor match recommendations
     \item Instructor performance reports
     \item KPIs and admin dashboards
     \item Payment and attendance reports
