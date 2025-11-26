@@ -11,8 +11,203 @@ This section presents the UML class diagram and gives a brief description of eac
 
 This section presents the structure of our database that caters to persistent data storage in our project. The structure is shown as a normalized data model for relational databases. It clearly shows entities, attributes, relationships with their cardinalities, and primary and foreign keys. We have used DB designer (or any other similar data modeling tool) to build our data model.
 
- 
+ \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1.0\textwidth]{../images/teachwisecms_erd.png}
+    \caption{Entity-Relationship Diagram of the database.}
+    \label{fig:erd}
+\end{figure}
+
 \section{Technical Details}
+\label{sec:technical}
+
+This section presents the computational, algorithmic, and architectural components that form the core of TeachWise. Unlike conventional CRUD-based systems, TeachWise integrates intelligent scheduling, machine learning–based instructor evaluation, automated Zoom meeting generation, and multimodal data pipelines. For each subsystem, we describe the inputs, internal processes, and outputs, along with how these components integrate into the system-wide toolchain.
+
+Only methods that are technically viable and supported by research evidence are included. These represent the approaches we intend to implement based on feasibility and relevance.
+
+\subsection{Intelligent Scheduling Algorithm}
+
+The platform uses an intelligent scheduling engine inspired by hybrid optimization techniques from recent literature \cite{lv2025, sahargahi2022, nguyen2021sho}. 
+
+\subsubsection*{Inputs}
+\begin{itemize}
+    \item Instructor availability (days, time windows, months)
+    \item Student timing preferences
+    \item Instructor expertise (language, module, age group)
+    \item Student proficiency and course requirements
+    \item Instructor past performance ratings
+    \item Zoom account availability
+\end{itemize}
+
+\subsubsection*{Method Employed}
+We aim to implement a Hybrid Scheduling Model combining:
+
+\begin{enumerate}
+    \item \textbf{Improved Parallel Genetic Algorithm (GA)}  
+    Generates multiple candidate schedules and evolves them using selection, mutation, and crossover \cite{sahargahi2022}.
+
+    \item \textbf{Local Search Optimization}  
+    Refines feasible schedules to minimize soft constraint violations \cite{sahargahi2022}.
+
+    \item \textbf{Distance-to-Feasibility Fitness Function}  
+    Ensures hard constraints (Zoom limits, overlapping classes, instructor conflicts) are always satisfied while optimizing soft constraints such as preferences, continuity, and compatibility \cite{sahargahi2022}.
+\end{enumerate}
+
+\subsubsection*{Output}
+\begin{itemize}
+    \item Conflict-free schedule with optimized soft constraints
+    \item Automatic Zoom meeting assignment integrated into the schedule
+\end{itemize}
+
+
+\subsection{Student–Instructor Matching Model}
+
+As outlined in the SRS, the system pairs students with instructors using a machine-learning–based matching model to enhance learning outcomes \cite{lv2025, almubarak2025}. 
+
+\subsubsection*{Inputs}
+\begin{itemize}
+    \item Student profile: age, proficiency, enrolled modules
+    \item Instructor features: expertise, experience, ratings history
+    \item Overlaps in availability
+    \item Historical pairing performance
+\end{itemize}
+
+\subsubsection*{Method Employed}
+We will explore a hybrid evolutionary model integrating regression and classification methods. Prior research shows strong effectiveness for machine–learning-based teacher–student allocation \cite{nguyen2021sho}.
+
+Features contributing to the predicted matching score include:
+\begin{itemize}
+    \item Language compatibility
+    \item Curriculum overlap
+    \item Instructor performance evaluation
+    \item Time-zone and availability synchronization
+\end{itemize}
+
+\subsubsection*{Outputs}
+\begin{itemize}
+    \item Ranked instructor recommendations per student
+    \item Matching scores fed into the GA scheduling model
+\end{itemize}
+
+
+\subsection{Zoom API Automation Pipeline}
+
+The system automates meeting generation using the Zoom REST API \cite{zoomapi2025}, eliminating manual workflows.
+
+\subsubsection*{Inputs}
+\begin{itemize}
+    \item Finalized class schedule
+    \item Instructor Zoom credentials
+    \item Meeting metadata (date, time, duration, class\_id)
+\end{itemize}
+
+\subsubsection*{Method Employed}
+A secure backend service makes authenticated API calls to:
+\begin{itemize}
+    \item Programmatically create Zoom meetings
+    \item Store meeting\_id, zoom\_link, and password
+    \item Link meeting IDs to class entries
+    \item Send notifications to parents, instructors, and students
+\end{itemize}
+
+\subsubsection*{Output}
+\begin{itemize}
+    \item Auto-generated Zoom links stored in the database
+    \item Email notifications to all participants
+    \item Meeting logs for reporting
+\end{itemize}
+
+
+\subsection{Instructor Performance Evaluation (ML/NLP Pipeline)}
+
+The evaluation pipeline analyzes teaching quality using multimodal ML techniques, consistent with research demonstrating AI’s promise in classroom evaluation \cite{almubarak2025}.
+
+\subsubsection*{Inputs}
+\begin{itemize}
+    \item Zoom audio recordings
+    \item Whisper-generated transcripts
+    \item Defined metrics: clarity, energy, patience, attention, fidelity, pacing
+\end{itemize}
+
+\subsubsection*{Method Employed}
+
+The evaluation pipeline consists of several components:
+
+\paragraph{A. Audio Feature Extraction}
+\begin{itemize}
+    \item OPENSmile for prosodic, spectral, and intensity features \cite{eyben2013, eyben2010}
+    \item Librosa for tempo, spectral, and speech-related features \cite{eyben2013}
+\end{itemize}
+
+\paragraph{Supported metrics:}
+Energy, engagement, patience (stress cues), pacing.
+
+\paragraph{B. Speech-to-Text Processing}
+\begin{itemize}
+    \item Whisper for high-quality transcription of noisy audio
+\end{itemize}
+
+\paragraph{Supported metrics:}
+Introduction clarity, curriculum fidelity.
+
+\paragraph{C. NLP \& Semantic Analysis}
+\begin{itemize}
+    \item Contextual LLM-based clarity assessment
+    \item Sentiment and tone analysis for patience \& positivity
+    \item BERTopic for curriculum alignment \cite{grootendorst2022}
+    \item Linguistic feature extraction (structure, pacing, Q/A pattern)
+    \item Speaker diarization for teacher–student balance
+\end{itemize}
+
+\subsubsection*{Metric Implementation Summary}
+\begin{enumerate}
+    \item \textbf{Introduction Clarity:} BERT-based structure detection \cite{almubarak2025}
+    \item \textbf{Energy \& Engagement:} Pitch, intensity, tempo variation via OPENSmile
+    \item \textbf{Patience:} Acoustic stress/pausing cues
+    \item \textbf{Student Attention:} Talk-time balance via diarization
+    \item \textbf{Curriculum Fidelity:} BERTopic-based topic extraction
+    \item \textbf{Lesson Pacing:} Speaking rate and topic progression
+\end{enumerate}
+
+\subsubsection*{Output}
+\begin{itemize}
+    \item Composite instructor performance score
+    \item Metric-level breakdown stored in the \texttt{evaluations} table
+    \item Insights powering scheduling priority and dashboards
+\end{itemize}
+
+
+\subsection{Data Flow and Integration Pipeline}
+
+A modular architecture ensures seamless coordination between ML subsystems and the main operational backend.
+
+\subsubsection*{Layers}
+\begin{itemize}
+    \item \textbf{Data Layer (PostgreSQL):} Stores instructors, students, schedules, evaluations, Zoom meetings.
+    \item \textbf{Application Layer (Next.js/Rails):}  
+    Handles scheduling engine API, Zoom API, and frontend integration.
+    \item \textbf{ML Layer (Python/TensorFlow):}  
+    Implements scheduling, evaluation, and matching.
+    \item \textbf{Integration Layer:}  
+    Email services, Zoom API gateway.
+    \item \textbf{Presentation Layer (React/Next.js):}  
+    Dashboards, schedules, analytics, class links.
+\end{itemize}
+
+\subsection{System Outputs}
+
+The system produces the following outputs:
+
+\begin{itemize}
+    \item Conflict-free monthly class schedules
+    \item Auto-generated Zoom links
+    \item Student–Instructor match recommendations
+    \item Instructor performance reports
+    \item KPIs and admin dashboards
+    \item Payment and attendance reports
+\end{itemize}
+
+These components collectively transform manual workflows into an intelligent, scalable, and automated platform.
 
 \begin{figure}[htbp]
     \centering
