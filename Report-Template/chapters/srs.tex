@@ -176,6 +176,7 @@ This section details all functions and features of the system. Each requirement 
     \item Instructors define class preferences including minimum/maximum classes per month/day.
     \item Profile automatically tracks teaching history, total classes taught, average ratings, and performance metrics.
     \item Instructors may update availability and preferences, with changes effective in the next scheduling cycle.
+    \item Instructors will be able to view their historical performance evaluation data through visual dashboards.
 \end{itemize}
 
 \textbf{Acceptance Criteria:}
@@ -197,8 +198,8 @@ This section details all functions and features of the system. Each requirement 
     \item Student profile includes: name, date of birth, current course/module.
     \item Parent profile includes: name, email, contact number, country, billing information and subscription plan.
     \item System automatically calculates student age based on date of birth.
-    \item A parent may register and manage multiple students.
     \item System tracks student progress across modules and courses.
+    \item Instructors and admins can view student progress and performance metrics.
 \end{itemize}
 
 \textbf{Acceptance Criteria:}
@@ -217,17 +218,17 @@ This section details all functions and features of the system. Each requirement 
 \begin{itemize}
     \item Enrollment links a student to a scheduled class.
     \item Subscription statuses: active, pending, suspended, cancelled.
-    \item Attendance recorded for each of four monthly lessons (present/absent).
-    \item Lesson-level data stored: project links, code ratings (0--100), Kahoot scores, instructor comments.
+    \item Attendance recorded for each lesson (present/absent/makeup).
+    \item Lesson-level data stored: project links, code ratings (0--100\%), Kahoot scores, instructor comments.
     \item System auto-calculates average code rating across lessons.
-    \item Next course/module is automatically assigned, however, instructors may override.
+    \item Next course/module is automatically assigned, however, instructors/ops may override.
 \end{itemize}
 
 \textbf{Acceptance Criteria:}
 \begin{itemize}
-    \item Attendance and performance data editable only by instructors.
+    \item Attendance and performance data editable only by instructors or ops.
     \item Accurate automatic calculation of average code rating.
-    \item Notification triggered on subscription status changes.
+    % \item Notification triggered on subscription status changes.
 \end{itemize}
 
 \subsection{Class Scheduling and Assignment}
@@ -243,14 +244,14 @@ This section details all functions and features of the system. Each requirement 
     \item Algorithm considers:
     \begin{itemize}
         \item Instructor availability and min/max class preferences.
-        \item Instructor expertise (languages, age groups), XP.
+        \item Instructor expertise (languages, age groups, class size, etc.), XP.
         \item Student preferences (time slots, age, language, class type).
         \item Existing enrollments and progression.
-        \item Zoom account availability (2 accounts; Google Meet fallback).
+        \item Zoom account availability (currently 2 accounts; Google Meet fallback).
     \end{itemize}
     \item Prevents instructor schedule conflicts.
     \item Optimizes workload balance and student-instructor fit.
-    \item Schedule includes class day, time, start date, and 4-week frequency.
+    \item Schedule includes class day, time, start date, and frequency.
 \end{itemize}
 
 \textbf{Acceptance Criteria:}
@@ -258,35 +259,36 @@ This section details all functions and features of the system. Each requirement 
     \item No overlapping instructor class times on the same zoom account.
     \item All active students assigned to classes.
     \item Instructor class count within min/max preferences unless admin override.
+    \item Ops can manually adjust schedule post-generation.
     % \item Algorithm completes within 2 hours for up to 200 instructors and 2000 students.
 \end{itemize}
 
-\subsubsection{FR-CSA-002: Intelligent Student--Instructor Matching}
-\textbf{Priority:} Critical  
+% \subsubsection{FR-CSA-002: Intelligent Student--Instructor Matching}
+% \textbf{Priority:} Critical  
 
-\textbf{Description:} The system shall match students with instructors using a machine learning--assisted algorithm.
+% \textbf{Description:} The system shall match students with instructors using a machine learning--assisted algorithm.
 
-\textbf{Detailed Requirements:}
-\begin{itemize}
-    \item Factors considered:
-    \begin{itemize}
-      \item Student age and instructor preferred age groups.
-      \item Instructor expertise level.
-      \item Historical student performance (ratings, Kahoot scores).
-      \item Instructor teaching effectiveness scores (ML model).
-    \end{itemize}
-    \item Uses round-robin allocation to ensure fairness.
-    \item Prioritizes continuity with previous instructors.
-    \item Alerts admin for groups classes that can be potentially merged.
-\end{itemize}
+% \textbf{Detailed Requirements:}
+% \begin{itemize}
+%     \item Factors considered:
+%     \begin{itemize}
+%       \item Student age and instructor preferred age groups.
+%       \item Instructor expertise level.
+%       \item Historical student performance (ratings, Kahoot scores).
+%       \item Instructor teaching effectiveness scores (ML model).
+%     \end{itemize}
+%     \item Uses round-robin allocation to ensure fairness.
+%     \item Prioritizes continuity with previous instructors.
+%     \item Alerts admin for groups classes that can be potentially merged.
+% \end{itemize}
 
-\textbf{Acceptance Criteria:}
-\begin{itemize}
-    \item Matching improves student outcomes relative to random assignment.
-    \item No instructor assigned beyond maximum class preference without override.
-    \item Special cases flagged for manual review.
-    % \item Matching executes in under 30 minutes.
-\end{itemize}
+% \textbf{Acceptance Criteria:}
+% \begin{itemize}
+%     \item Matching improves student outcomes relative to random assignment.
+%     \item No instructor assigned beyond maximum class preference without override.
+%     \item Special cases flagged for manual review.
+%     % \item Matching executes in under 30 minutes.
+% \end{itemize}
 
 \subsubsection{FR-CSA-003: Schedule Publication and Notification}
 \textbf{Priority:} High  
@@ -295,12 +297,15 @@ This section details all functions and features of the system. Each requirement 
 
 \textbf{Detailed Requirements:}
 \begin{itemize}
+    \item Ops admin finalizes and approves schedule post-generation, after which it is sent to instructors.
     \item Instructor dashboard displays monthly class list with:
     \begin{itemize}
         \item Student details (name, age, country)
         \item Zoom links
+        \item Class dates and times
+        \item Instructor guide and other teaching resources for each class
     \end{itemize}
-    \item Start-of-month emails sent to instructors with full schedule and meeting links.
+    \item Start-of-month emails drafted for instructors to review with full schedule and meeting links.
     % \item Students/parents receive schedule email, calendar invite, instructor bio, and meeting links.
 \end{itemize}
 
@@ -327,9 +332,9 @@ This section details all functions and features of the system. Each requirement 
         \item Waiting room enabled
         \item Recording enabled (cloud)
         \item Chat disabled
-        \item Duration: 60 minutes
+        \item Duration: mim. 60 minutes
     \end{itemize}
-    \item Load balancing across 2 Zoom accounts; fallback to Google Meet.
+    \item (Current) Load balancing across 2 Zoom accounts; fallback to Google Meet.
     \item 15 minute buffer maintained before and after each class to allow for overtime.
 \end{itemize}
 
@@ -337,7 +342,7 @@ This section details all functions and features of the system. Each requirement 
 \begin{itemize}
     \item Meetings created for 100\% of online scheduled classes.
     \item No double-booking of Zoom accounts.
-    \item Links accessible to enrolled students and instructors.
+    \item Links accessible to enrolled students, instructors and ops.
 \end{itemize}
 
 % \subsubsection{FR-VCI-002: Recording Management}
@@ -360,28 +365,28 @@ This section details all functions and features of the system. Each requirement 
 %     \item Access restricted to authorised users.
 % \end{itemize}
 
-\subsection{Course and Curriculum Management}
+% \subsection{Course and Curriculum Management}
 
-\subsubsection{FR-CCM-001: Course Catalog Management}
-\textbf{Priority:} Medium  
+% \subsubsection{FR-CCM-001: Course Catalog Management}
+% \textbf{Priority:} Medium  
 
-\textbf{Description:} The system shall maintain a structured catalog of courses and modules.
+% \textbf{Description:} The system shall maintain a structured catalog of courses and modules.
 
-\textbf{Detailed Requirements:}
-\begin{itemize}
-    \item Catalog includes course name, description, age range, prerequisites.
-    \item Each course contains sequenced modules with learning objectives.
-    \item Courses tagged by coding language (Scratch, Python, etc.).
-    \item Flashcards availability indicator.
-    \item Curriculum version control maintained.
-\end{itemize}
+% \textbf{Detailed Requirements:}
+% \begin{itemize}
+%     \item Catalog includes course name, description, age range, prerequisites.
+%     \item Each course contains sequenced modules with learning objectives.
+%     \item Courses tagged by coding language (Scratch, Python, etc.).
+%     \item Flashcards availability indicator.
+%     \item Curriculum version control maintained.
+% \end{itemize}
 
-\textbf{Acceptance Criteria:}
-\begin{itemize}
-    \item Admins can create/update/archive courses.
-    \item Linear module progression enforced unless overridden.
-    \item Catalog searchable and filterable.
-\end{itemize}
+% \textbf{Acceptance Criteria:}
+% \begin{itemize}
+%     \item Admins can create/update/archive courses.
+%     \item Linear module progression enforced unless overridden.
+%     \item Catalog searchable and filterable.
+% \end{itemize}
 
 \subsubsection{FR-CCM-002: Class Content Management}
 \textbf{Priority:} Medium  
@@ -404,14 +409,14 @@ This section details all functions and features of the system. Each requirement 
 
 \subsection{Performance Evaluation and Analytics}
 
-\subsubsection{FR-PEA-001: Instructor Performance Evaluation via ML}
+\subsubsection{FR-PEA-001: Instructor Performance Evaluation via NLP and Speaker Diarization}
 \textbf{Priority:} High  
 
-\textbf{Description:} The system shall automatically evaluate instructor performance using ML-based analysis of class recordings.
+\textbf{Description:} The system shall automatically evaluate instructor performance using analysis of class recordings.
 
 \textbf{Detailed Requirements:}
 \begin{itemize}
-    \item ML model analyzes audio and transcripts.
+    \item LLM model analyzes audio and transcripts.
     \item Evaluation metrics scored 1--5:
     \begin{itemize}
         \item Introduction clarity
@@ -426,7 +431,9 @@ This section details all functions and features of the system. Each requirement 
         \item Lesson pacing
     \end{itemize}
     \item Weighted overall teaching effectiveness score generated.
-    \item Evaluations done at the end of every working month.
+    \item Evaluations done at the end of every working month for every class recording for every actively teaching online instructor.
+    \item Evaluation reports include metric breakdown, trends, and improvement recommendations.
+    \item Reports accessible via instructor and admin (ops and eval) dashboards.
 \end{itemize}
 
 \textbf{Acceptance Criteria:}
@@ -444,8 +451,8 @@ This section details all functions and features of the system. Each requirement 
 \textbf{Detailed Requirements:}
 \begin{itemize}
     \item Admins select classes for manual review.
-    \item Evaluation rubric matches ML system.
-    \item Manual evaluations can override ML scores.
+    \item Evaluation rubric matches AI system.
+    \item Manual evaluations can override AI scores.
 \end{itemize}
 
 \textbf{Acceptance Criteria:}
@@ -508,7 +515,7 @@ This section details all functions and features of the system. Each requirement 
 \end{itemize}
 
 \subsubsection{FR-CN-002: In-App Notifications}
-\textbf{Priority:} Medium  
+\textbf{Priority:} Low  
 
 \textbf{Description:} The system shall provide real-time in-app notifications.
 
@@ -539,7 +546,7 @@ This section details all functions and features of the system. Each requirement 
         \item Number of classes taught
         \item Attendance verification
         \item Base rate per class
-        \item Bonuses (academic and admin)
+        \item Bonuses
     \end{itemize}
     \item Payment Request Form generated containing: instructor name, month, classes taught, hours, base amount, bonuses.
 \end{itemize}
@@ -559,7 +566,7 @@ This section details all functions and features of the system. Each requirement 
 \begin{itemize}
     \item Finance team reviews PRF before approval.
     \item Payment statuses: pending, approved, sent.
-    \item Instructors notified upon payment.
+    \item Instructors notified upon PRF generation.
     \item Payment history stored for 12 months.
 \end{itemize}
 
@@ -583,7 +590,7 @@ This section details all functions and features of the system. Each requirement 
     \begin{itemize}
         \item Super Admin: full access
         \item Operations Admin: scheduling, enrollment
-        \item Finance Admin: payments
+        \item Finance Admin: Instructor payments
         \item Evaluation Admin: performance reviews
         \item Instructor: class-level access
     \end{itemize}
@@ -593,6 +600,7 @@ This section details all functions and features of the system. Each requirement 
 \textbf{Acceptance Criteria:}
 \begin{itemize}
     \item Role permissions enforced across system.
+    \item One account can have multiple roles.
     % \item Reset emails sent within 5 minutes.
 \end{itemize}
 
@@ -611,15 +619,15 @@ This section details all functions and features of the system. Each requirement 
         % \item Schedules and enrollments
         % \item Attendance records
         \item Performance analytics
-        \item Payment summaries
+        \item Payment summaries 
     \end{itemize}
 \end{itemize}
 
-\textbf{Acceptance Criteria:}
-\begin{itemize}
+% \textbf{Acceptance Criteria:}
+% \begin{itemize}
     % \item Exports complete within 2 minutes for 10,000 records.
-    \item Sheets sync updates within 10 minutes.
-\end{itemize}
+    % \item Sheets sync updates within 10 minutes.
+% \end{itemize}
 
 \subsubsection{FR-AF-003: System Configuration}
 \textbf{Priority:} Low  
@@ -635,9 +643,12 @@ This section details all functions and features of the system. Each requirement 
         \item Payment rates and bonus amount
         \item Zoom account credentials
         \item Evaluation metric weights
+        \item Class duration and buffer times
+        \item Class types (online/in-person, frequency)
+        \item Supported coding languages
     \end{itemize}
     \item All changes logged with timestamp and user.
-    \item Critical settings require dual approval.
+    % \item Critical settings require dual approval.
 \end{itemize}
 
 \textbf{Acceptance Criteria:}
@@ -653,7 +664,7 @@ This section details all functions and features of the system. Each requirement 
 
 \subsection{Performance Requirements}
 \begin{itemize}
-    \item \textbf{Response Time:} The system should respond to instructor or admin requests (e.g., loading class data, managing students) within a reasonable time (3–5 seconds) under normal network conditions.
+    \item \textbf{Response Time:} The system should respond to instructor or admin requests (e.g., loading class data, managing students) within a reasonable time (3-5 seconds) under normal network conditions.
     \item \textbf{Concurrent Users:} The system should support all current instructors concurrently without noticeable performance degradation.
 \end{itemize}
 
@@ -666,7 +677,7 @@ This section details all functions and features of the system. Each requirement 
 \subsection{Security Requirements}
 \begin{itemize}
     \item \textbf{Authentication:} Only authorised users (admins and instructors) should be able to log in, verified through stored usernames and passwords.
-    \item \textbf{Access Control:} Instructors should only have access to their assigned classes, while admins should have full access to all data.
+    \item \textbf{Access Control:} Instructors would primarily have access to their assigned classes (including any classes that they may be substituting), while admins should have full access to all data relevant to their particular role/access level.
     \item \textbf{Data Protection:} Sensitive information (passwords, student data, grades) should be encrypted in storage and during transmission (HTTPS).
 \end{itemize}
 
@@ -685,8 +696,8 @@ This section details all functions and features of the system. Each requirement 
 
 \subsection{Portability}
 \begin{itemize}
-    \item \textbf{Browser Compatibility:} The CMS should function correctly on modern browsers (Chrome, Edge, Firefox).
-    \item \textbf{Device Compatibility:} The system should be optimised for desktop use.
+    \item \textbf{Browser Compatibility:} The CMS should function correctly on modern browsers (Chrome, Edge, Firefox, etc.).
+    \item \textbf{Device Compatibility:} The system should be optimised for desktop use with a possible mobile view.
 \end{itemize}
 
 \subsection{Compliance \& Ethical Considerations}
@@ -722,12 +733,12 @@ This section presents detailed use cases of our system.
 \hline
 \textbf{Field} & \textbf{Details} \\ \hline
 Actors & Administrator (primary), Scheduling Algorithm (system), ML Matching Algorithm (system), Instructors, Students, Zoom API \\ \hline
-Description & The administrator initiates the monthly scheduling process. The system retrieves instructor availability and student enrollment data, applies optimization algorithms, and generates a conflict-free schedule. The ML matching algorithm assigns students to suitable instructors based on age, XP, past performance, and learning preferences. Zoom meeting links are automatically generated and distributed via email and dashboards. \\ \hline
+Description & The ops admin initiates the monthly scheduling process. The system retrieves instructor availability and student enrollment data, applies optimization algorithms, and generates a conflict-free schedule. The matching algorithm assigns students to suitable instructors based on age, XP, past performance, and learning preferences. Zoom meeting links are automatically generated and distributed via email and dashboards. \\ \hline
 Data & \textbf{Input:} Instructor availability, student enrollment records, instructor XP and performance data, Zoom account availability. \\
 & \textbf{Output:} Published monthly schedule, instructor-student assignments, Zoom links, notification emails, dashboard updates. \\ \hline
 Stimulus & Administrator clicks the ``Generate Schedule'' button at the end of the month. \\ \hline
 Response & System generates the schedule, validates conflicts, creates Zoom links, publishes data to dashboards, and sends notifications. Admin receives a summary with flagged edge cases. \\ \hline
-Comments & Handles small class sizes ($<3$ students), Zoom capacity constraints (2 accounts, Google Meet fallback), XP-based instructor prioritization, and round-robin workload balancing. \\ \hline
+Comments & Handles small class sizes ($<3$ students), Zoom capacity constraints, XP-based instructor prioritization, and round-robin workload balancing. \\ \hline
 \end{tabular}
 
 \subsection{Use Case 2: Set Weekly Availability}
@@ -736,12 +747,12 @@ Comments & Handles small class sizes ($<3$ students), Zoom capacity constraints 
 \hline
 \textbf{Field} & \textbf{Details} \\ \hline
 Actors & Instructor (primary), Scheduling Algorithm (system) \\ \hline
-Description & Instructor logs in and sets weekly availability by selecting days, time ranges, and teaching preferences (min/max classes, languages, age groups). System validates entries and stores them for the next scheduling cycle. \\ \hline
+Description & Instructor logs in and sets weekly availability by selecting days, time ranges, and teaching preferences (min/max classes, languages). System validates entries and stores them for the next scheduling cycle. \\ \hline
 Data & \textbf{Input:} Weekly availability (days/times), min/max classes, preferred languages, unavailable days. \\
 & \textbf{Output:} Stored availability record, on-screen confirmation, email confirmation. \\ \hline
 Stimulus & Instructor clicks ``Edit Availability'' or responds to reminder before the 10th of the month. \\ \hline
 Response & System displays existing availability, validates changes, saves data, and confirms update. Changes apply next month. \\ \hline
-Comments & Availability must be submitted by the 10th. Supports vacation ranges and multi-slot days. Each slot must be at least 1 hour. Mobile-friendly interface. \\ \hline
+Comments & Availability must be submitted by the 10th. Supports vacation ranges and multi-slot days. Each slot must be at least 1 hour. \\ \hline
 \end{tabular}
 
 \subsection{Use Case 3: Submit Class Evaluation}
@@ -749,41 +760,41 @@ Comments & Availability must be submitted by the 10th. Supports vacation ranges 
 \begin{tabular}{|p{3.5cm}|p{11cm}|}
 \hline
 \textbf{Field} & \textbf{Details} \\ \hline
-Actors & Instructor (primary), Students, Parents (receive notifications), Payment System \\ \hline
+Actors & Instructor (primary), Students, Ops Admin, Payment System \\ \hline
 Description & After each class, instructor fills an evaluation form with attendance, project links, code ratings, comments, and for lesson 4: Kahoot score and recommended next module. \\ \hline
-Data & \textbf{Input:} Attendance, project link, code rating (1--100), comments, Kahoot score (lesson 4), recommended course/module. \\
+Data & \textbf{Input:} Attendance, project link, code rating (1--100), comments, Kahoot score (last lesson), recommended course/module. \\
 & \textbf{Output:} Saved evaluation record, updated progress metrics, parent email (lesson 4), verified teaching hours for payments. \\ \hline
 Stimulus & Instructor clicks ``Pending Evaluations'' or selects a completed class. \\ \hline
 Response & System loads roster, auto-saves draft, validates entries, stores data, updates student dashboards, and sends parent email at month end. \\ \hline
 Comments & Must be submitted within 24 hours. Late submissions flagged. Students marked absent cannot receive ratings. Evaluations locked after 24 hours unless admin unlocks. \\ \hline
 \end{tabular}
 
-\subsection{Use Case 4: Match Students to Instructors}
+% \subsection{Use Case 4: Match Students to Instructors}
 
-\begin{tabular}{|p{3.5cm}|p{11cm}|}
-\hline
-\textbf{Field} & \textbf{Details} \\ \hline
-Actors & ML Matching Algorithm (primary), Administrator (review), Instructor/Student Profiles \\ \hline
-Description & ML algorithm computes optimal student–instructor pairings based on age fit, expertise alignment, performance data, continuity preference, and workload fairness. \\ \hline
-Data & \textbf{Input:} Student profiles, instructor profiles, historical data, performance records. \\
-& \textbf{Output:} Compatibility scores, assignment list, workload distribution report, flagged cases. \\ \hline
-Stimulus & Automatically triggered during scheduling after time slots are fixed. \\ \hline
-Response & System generates all pairings, flags low-confidence matches ($<70\%$), and produces summary reports. \\ \hline
-Comments & Prioritizes student continuity, flags small class sizes, handles new instructors with limited history, and retrains model periodically using outcome data. \\ \hline
-\end{tabular}
+% \begin{tabular}{|p{3.5cm}|p{11cm}|}
+% \hline
+% \textbf{Field} & \textbf{Details} \\ \hline
+% Actors & ML Matching Algorithm (primary), Administrator (review), Instructor/Student Profiles \\ \hline
+% Description & ML algorithm computes optimal student–instructor pairings based on age fit, expertise alignment, performance data, continuity preference, and workload fairness. \\ \hline
+% Data & \textbf{Input:} Student profiles, instructor profiles, historical data, performance records. \\
+% & \textbf{Output:} Compatibility scores, assignment list, workload distribution report, flagged cases. \\ \hline
+% Stimulus & Automatically triggered during scheduling after time slots are fixed. \\ \hline
+% Response & System generates all pairings, flags low-confidence matches ($<70\%$), and produces summary reports. \\ \hline
+% Comments & Prioritizes student continuity, flags small class sizes, handles new instructors with limited history, and retrains model periodically using outcome data. \\ \hline
+% \end{tabular}
 
-\subsection{Use Case 5: Access Zoom Link}
+\subsection{Use Case 4: Access Zoom Link}
 
 \begin{tabular}{|p{3.5cm}|p{11cm}|}
 \hline
 \textbf{Field} & \textbf{Details} \\ \hline
 Actors & Instructor (primary), Students/Parents, Zoom API \\ \hline
-Description & User logs in and opens their class schedule. System displays Zoom links. ``Join Class'' button becomes active 15 minutes before class. \\ \hline
+Description & User logs in and opens their class schedule. System displays Zoom links. \\ \hline
 Data & \textbf{Input:} User authentication, class ID, timestamp. \\
 & \textbf{Output:} Zoom link, meeting ID/password, reminder email. \\ \hline
 Stimulus & User navigates to ``My Schedule''. \\ \hline
 Response & System verifies time, logs link access, redirects to Zoom, and sends reminder if user hasn't joined after 5 minutes. \\ \hline
-Comments & Links are recurring for all 4 lessons. System tracks join-time for attendance verification. Google Meet link generated as fallback if Zoom accounts reach capacity. \\ \hline
+Comments & Links are recurring for all lessons in a module (unless overriden). System tracks join-time for attendance verification. Google Meet link generated as fallback if Zoom accounts reach capacity. \\ \hline
 \end{tabular}
 
 \subsection{Use Case 6: View Performance Report}
@@ -791,13 +802,13 @@ Comments & Links are recurring for all 4 lessons. System tracks join-time for at
 \begin{tabular}{|p{3.5cm}|p{11cm}|}
 \hline
 \textbf{Field} & \textbf{Details} \\ \hline
-Actors & Instructor (primary), ML Evaluation System, Administrator \\ \hline
-Description & Instructor views monthly performance report generated by ML analysis of class recordings, including score breakdown, trends, peer comparison, and recommendations. \\ \hline
+Actors & Instructor (primary), AI Evaluation System, Evaluation Administrator \\ \hline
+Description & Instructor views monthly performance report generated by AU analysis of class recordings, including score breakdown, trends, peer comparison, and recommendations. \\ \hline
 Data & \textbf{Input:} Recording audio, transcript, lesson plan, evaluation rubric. \\
-& \textbf{Output:} Metric scores (1--5), weighted score, trend graphs, peer comparison, recommendations, ML confidence score. \\ \hline
+& \textbf{Output:} Metric scores (1--5), weighted score, trend graphs, peer comparison, recommendations, AI confidence score. \\ \hline
 Stimulus & Instructor opens ``My Performance'' or clicks email notification. \\ \hline
 Response & System loads report with interactive visualizations, highlights improvements/regressions, and allows PDF download. \\ \hline
-Comments & ML uses audio + NLP analysis; low-confidence reports reviewed manually. Scores affect instructor bonuses and class assignment priority. \\ \hline
+Comments & AI uses audio + NLP analysis; low-confidence reports reviewed manually. Scores affect instructor bonuses and class assignment priority. \\ \hline
 \end{tabular}
 
 \subsection{Use Case 7: Process Instructor Payments}
@@ -805,7 +816,7 @@ Comments & ML uses audio + NLP analysis; low-confidence reports reviewed manuall
 \begin{tabular}{|p{3.5cm}|p{11cm}|}
 \hline
 \textbf{Field} & \textbf{Details} \\ \hline
-Actors & Payment System (primary), Administrator, Instructor \\ \hline
+Actors & Payment System (primary), Finance Administrator, Instructor \\ \hline
 Description & At month-end, system calculates payments using attendance, evaluation scores, and Zoom logs. Generates Payment Request Form (PRF) for admin approval. \\ \hline
 Data & \textbf{Input:} Attendance records, instructor rate, evaluation scores, Zoom hours. \\
 & \textbf{Output:} PRF (PDF), payment status updates, instructor email. \\ \hline
@@ -829,7 +840,7 @@ Each role interacts with the system via the Instructor Dashboard or Admin Dashbo
     \item \textbf{Evaluation Admin:} Reviews AI-based instructor evaluations and supplements them with manual notes.
     \item \textbf{Operations Admin:} Adds new students and instructors to the system. Oversees class schedules and instructor-student assignments.
     \item \textbf{Finance Admin:} Manages payment processing and bonuses.
-    \item \textbf{Curriculum Team:} Updates course content and tracks which modules are active for upcoming sessions.
+    % \item \textbf{Curriculum Team:} Updates course content and tracks which modules are active for upcoming sessions.
 \end{itemize}
 
 \subsection{Web Application (Frontend)}
@@ -845,13 +856,13 @@ Each backend module communicates through internal APIs and interacts with the da
 
 \begin{itemize}
     \item \textbf{User Management:} Handles authentication and role-based access control.
-    \item \textbf{Matching Engine:} Implements the ML-based student-instructor matching algorithm using factors such as age, instructor experience, and class type.
+    % \item \textbf{Matching Engine:} Implements the ML-based student-instructor matching algorithm using factors such as age, instructor experience, and class type.
     \item \textbf{Scheduling Engine:} Prevents conflicts and ensures equitable workload distribution across instructors.
     \item \textbf{Performance Evaluation Service:} Processes Zoom transcripts via the NLP pipeline to assess teaching quality.
     \item \textbf{Payment Processing:} Calculates and updates instructor payments and bonuses after validations.
     \item \textbf{Notification \& Email Service:} Sends automated notifications (e.g., new class assigned, evaluation completed).
     \item \textbf{Student Management:} Tracks student progress according to CSPK coding journey and updates class modules accordingly.
-    \item \textbf{Curriculum Management:} Organizes teaching guides for instructors and classes according to schedules. Allows uploading of new/updated guides.
+    % \item \textbf{Curriculum Management:} Organizes teaching guides for instructors and classes according to schedules. Allows uploading of new/updated guides.
     \item \textbf{Student Evaluation Module:} Factors in instructor comments regarding student progress when updating the current module.
     \item \textbf{Zoom Meeting Generation:} Generates Zoom links based on the monthly schedule.
     \item \textbf{Instructor Management:} Creates instructor profiles and tracks KPIs such as total hours taught, teaching XP, and instructor proficiencies.

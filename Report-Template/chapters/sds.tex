@@ -315,34 +315,34 @@ We aim to implement a Hybrid Scheduling Model combining:
 \end{itemize}
 
 
-\subsection{Student-Instructor Matching Model}
+% \subsection{Student-Instructor Matching Model}
 
-As outlined in the SRS, the system pairs students with instructors using a machine-learning-based matching model to enhance learning outcomes \cite{lv2025, almubarak2025}. 
+% As outlined in the SRS, the system pairs students with instructors using a machine-learning-based matching model to enhance learning outcomes \cite{lv2025, almubarak2025}. 
 
-\subsubsection*{Inputs}
-\begin{itemize}
-    \item Student profile: age, proficiency, enrolled modules
-    \item Instructor features: expertise, experience, ratings history
-    \item Overlaps in availability
-    \item Historical pairing performance
-\end{itemize}
+% \subsubsection*{Inputs}
+% \begin{itemize}
+%     \item Student profile: age, proficiency, enrolled modules
+%     \item Instructor features: expertise, experience, ratings history
+%     \item Overlaps in availability
+%     \item Historical pairing performance
+% \end{itemize}
 
-\subsubsection*{Method Employed}
-We will explore a hybrid evolutionary model integrating regression and classification methods. Prior research shows strong effectiveness for machine-learning-based teacher-student allocation \cite{nguyen2021sho}.
+% \subsubsection*{Method Employed}
+% We will explore a hybrid evolutionary model integrating regression and classification methods. Prior research shows strong effectiveness for machine-learning-based teacher-student allocation \cite{nguyen2021sho}.
 
-Features contributing to the predicted matching score include:
-\begin{itemize}
-    \item Language compatibility
-    \item Curriculum overlap
-    \item Instructor performance evaluation
-    \item Time-zone and availability synchronization
-\end{itemize}
+% Features contributing to the predicted matching score include:
+% \begin{itemize}
+%     \item Language compatibility
+%     \item Curriculum overlap
+%     \item Instructor performance evaluation
+%     \item Time-zone and availability synchronization
+% \end{itemize}
 
-\subsubsection*{Outputs}
-\begin{itemize}
-    \item Ranked instructor recommendations per student
-    \item Matching scores fed into the GA scheduling model
-\end{itemize}
+% \subsubsection*{Outputs}
+% \begin{itemize}
+%     \item Ranked instructor recommendations per student
+%     \item Matching scores fed into the GA scheduling model
+% \end{itemize}
 
 
 \subsection{Zoom API Automation Pipeline}
@@ -439,13 +439,13 @@ A modular architecture ensures seamless coordination between ML subsystems and t
 \subsubsection*{Layers}
 \begin{itemize}
     \item \textbf{Data Layer (PostgreSQL):} Stores instructors, students, schedules, evaluations, Zoom meetings.
-    \item \textbf{Application Layer (Next.js/Rails):}  
+    \item \textbf{Application Layer (Next.js):}  
     Handles scheduling engine API, Zoom API, and frontend integration.
-    \item \textbf{ML Layer (Python/TensorFlow):}  
+    \item \textbf{Scheduling Layer (Python/TensorFlow):}  
     Implements scheduling, evaluation, and matching.
     \item \textbf{Integration Layer:}  
     Email services, Zoom API gateway.
-    \item \textbf{Presentation Layer (React/Next.js):}  
+    \item \textbf{Presentation Layer (Next.js):}  
     Dashboards, schedules, analytics, class links.
 \end{itemize}
 
