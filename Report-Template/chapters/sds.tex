@@ -370,60 +370,49 @@ A secure backend service makes authenticated API calls to:
 \end{itemize}
 
 
-\subsection{Instructor Performance Evaluation (ML/NLP Pipeline)}
+\subsection{Instructor Performance Evaluation}
 
-The evaluation pipeline analyzes teaching quality using multimodal ML techniques, consistent with research demonstrating AI’s promise in classroom evaluation \cite{almubarak2025}.
+The evaluation system utilizes a hybrid approach combining prosodic analysis and semantic curriculum fidelity evaluation \cite{Stone2019,Almubarak2025}
 
 \subsubsection*{Inputs}
 \begin{itemize}
-    \item Zoom audio recordings
-    \item Whisper-generated transcripts
-    \item Defined metrics: energy, patience, attention, pacing
+    \item \textbf{Raw Audio/Video:} 16kHz mono WAV files converted from Zoom or YouTube recordings.
+    \item \textbf{Transcripts:} JSON-formatted text with timestamps generated via OpenAI's Whisper ASR.
+    \item \textbf{Curriculum Documents:} Structured lesson plans extracted from PDF teaching guides.
 \end{itemize}
 
 \subsubsection*{Method Employed}
 
 The evaluation pipeline consists of several components:
 
-\paragraph{A. Audio Feature Extraction}
+\paragraph{A. Prosodic Feature Extraction}
+The system extracts 18 specific acoustic features established in speech prosody literature to measure instructional delivery.
 \begin{itemize}
-    \item OPENSmile for prosodic, spectral, and intensity features \cite{eyben2013, eyben2010}
-    \item Librosa for tempo, spectral, and speech-related features \cite{eyben2013}
+    \item \textbf{OpenSMILE (eGeMAPS v02):} Used for pitch (F0), jitter, shimmer, and loudness functionals \cite{Eyben2010, Jensen2020}.
+    \item \textbf{Librosa:} Used for temporal features including speech rate, RMS energy, and spectral centroid.
+    \item \textbf{Primary Metric Features:} Equivalent sound level emerged as the dominant predictor for Energy and Attention, while speech rate specifically informs Lesson Pace.
 \end{itemize}
 
-\paragraph{Supported metrics:}
-Energy, engagement, patience (stress cues), pacing.
-
-\paragraph{B. Speech-to-Text Processing}
+\paragraph{B. Machine Learning Classification}
+We employ four independent \textbf{Random Forest Classifiers} to predict teaching dimensions on a 5-point Likert scale \cite{Breiman2001}.
 \begin{itemize}
-    \item Whisper for high-quality transcription of noisy audio
+    \item \textbf{Hyperparameters:} Each model is configured with 100 decision trees and a maximum depth of 4 to prevent overfitting on the sample size ($N=113$).
+    \item \textbf{Performance:} The pipeline achieves test accuracies ranging from 73.9\% to 87.0\%, with Student Attention demonstrating the highest generalization stability.
 \end{itemize}
 
-\paragraph{Supported metrics:}
-Curriculum fidelity.
-
-\paragraph{C. NLP \& Semantic Analysis}
+\paragraph{C. RAG-based Curriculum Fidelity}
+A Retrieval-Augmented Generation (RAG) framework evaluates the semantic alignment between lesson delivery and the teaching guide \cite{Gao2024}.
 \begin{itemize}
-    \item Contextual LLM-based clarity assessment
-    \item Sentiment and tone analysis for patience \& positivity
-    \item RAG framework for curriculum alignment \cite{grootendorst2022}
-    \item Linguistic feature extraction (structure, pacing, Q/A pattern)
-    \item Speaker diarization for teacher-student balance
+    \item \textbf{Retrieval:} A custom PDF extractor parses teaching guides to isolate specific learning objectives for the model's context window.
+    \item \textbf{Inference:} Large Language Models (LLaMA3 via Ollama) analyze transcripts to identify pedagogical gaps and objective coverage.
 \end{itemize}
 
-\subsubsection*{Metric Implementation Summary}
-\begin{enumerate}
-    \item \textbf{Energy \& Engagement:} Pitch, intensity, tempo variation via OPENSmile
-    \item \textbf{Patience:} Acoustic stress/pausing cues
-    \item \textbf{Student Attention:} Talk-time balance via diarization
-    \item \textbf{Curriculum Fidelity:} RAG based topic extraction
-    \item \textbf{Lesson Pacing:} Speaking rate and topic progression
-\end{enumerate}
-
-\subsubsection*{Output}
+\subsubsection*{Output Generation}
+The final evaluation produces a comprehensive PDF report containing:
 \begin{itemize}
-    \item Composite instructor performance score
-    \item Metric-level breakdown stored in the \texttt{evaluations} table
+    \item \textbf{Hybrid Score:} A composite metric calculated as $\frac{E+P+A+L+C}{5}$.
+    \item \textbf{Confidence Metrics:} Probability distributions for each prosodic prediction.
+    \item \textbf{Qualitative Feedback:} LLM-generated coverage statements identifying specific objectives met or missed.
 \end{itemize}
 
 
@@ -434,6 +423,7 @@ A modular architecture ensures seamless coordination between ML subsystems and t
 \subsubsection*{Layers}
 \begin{itemize}
     \item \textbf{Data Layer (PostgreSQL):} Stores instructors, students, schedules, evaluations, Zoom meetings.
+    \item \textbf{Processing Layer (Python):} The core batch pipeline that handles video-to-audio conversion (FFmpeg), feature extraction (OpenSMILE/Librosa), and ML inference (Scikit-Learn/Ollama).
     \item \textbf{Application Layer (Next.js):}  
     Handles scheduling engine API, Zoom API, and frontend integration.
     \item \textbf{Scheduling Layer (Python/TensorFlow):}  
@@ -445,15 +435,12 @@ A modular architecture ensures seamless coordination between ML subsystems and t
 \end{itemize}
 
 \subsection{System Outputs}
-
-The system produces the following outputs:
-
+The integrated system produces a series of operational and analytical artifacts:
 \begin{itemize}
-    \item Conflict-free monthly class schedules
-    \item Auto-generated Zoom links
-    \item Instructor performance reports
-    \item KPIs and admin dashboards
-    \item Payment reports
+    \item \textbf{Conflict-Free Schedules:} Generated via the constraint-satisfaction engine to prevent instructor double-booking.
+    \item \textbf{Multimodal Reports:} Per-teacher PDF evaluation reports detailing delivery and content fidelity.
+    \item \textbf{Batch Summaries:} CSV logs for administrators to track performance trends across multiple student cohorts.
+    \item \textbf{Operational KPIs:} Classroom utilization rates and instructor performance averages stored in the backend.
 \end{itemize}
 
 These components collectively transform manual workflows into an intelligent, scalable, and automated platform.
