@@ -25,7 +25,7 @@ All user types share uniform identity management logic and access control mechan
 \subsubsection{Instructor}
 The \texttt{Instructor} class represents the teachers registered on the platform. It stores identity attributes (\texttt{instructor\_id, user\_id}) and a calculated performance metric (\texttt{avg\_eval}). Instructors are associated with:
 \begin{itemize}
-    \item \textbf{Professional metadata:} country, coding languages, teaching experience
+    \item \textbf{Professional metadata:} country, subjects, teaching experience
     \item \textbf{Instructional KPIs:} teachingXP, totalHoursTaught, averageRating
     \item \textbf{Class associations:} all classes taught historically and upcoming
     \item \textbf{Performance tracking:} linked evaluations from the Performance Evaluation subsystem
@@ -33,7 +33,7 @@ The \texttt{Instructor} class represents the teachers registered on the platform
 Key behaviors:
 \begin{itemize}
     \item \texttt{setAvailability()} - defines when the instructor can teach
-    \item \texttt{updatePreferences()} - updates language preferences
+    \item \texttt{updatePreferences()} - updates subject preferences
     \item \texttt{viewSchedule()} - shows classes assigned for the week or month
     % \item \texttt{submitEvaluation()} - submit lesson evaluations
     \item \texttt{viewPerformanceReport()} - access performance analytics
@@ -129,7 +129,7 @@ Represents individual teaching instances under an enrollment.
 \subsection{Curriculum SubSystem}
 
 \subsubsection{Course}
-Defines the full curriculum structure. Contains course objectives, age range, coding language, prerequisites, flashcards, versioning. Functions:
+Defines the full curriculum structure. Contains course objectives, age range, subjects, prerequisites, flashcards, versioning. Functions:
 \begin{itemize}
     \item \texttt{getModules()}
     % \item \texttt{updateCurriculum()}
@@ -277,8 +277,9 @@ This section presents the structure of our database that caters to persistent da
 \label{sec:technical}
 
 This section presents the computational, algorithmic, and architectural components that form the core of TeachWise. Unlike conventional CRUD-based systems, TeachWise integrates intelligent scheduling, machine learning-based instructor evaluation, automated Zoom meeting generation, and multimodal data pipelines. For each subsystem, we describe the inputs, internal processes, and outputs, along with how these components integrate into the system-wide toolchain.
-
-Only methods that are technically viable and supported by research evidence are included. These represent the approaches we intend to implement based on feasibility and relevance.
+\\
+\\
+\indent Only methods that are technically viable and supported by research evidence are included. These represent the approaches we implemented based on feasibility and relevance.
 
 \subsection{Intelligent Scheduling Algorithm}
 
@@ -288,30 +289,27 @@ The platform uses an intelligent scheduling engine inspired by hybrid optimizati
 \begin{itemize}
     \item Instructor availability (days, time windows, months)
     \item Student timing preferences
-    \item Instructor expertise (language, module, age group)
+    \item Instructor expertise (subject, module, age group)
     \item Student proficiency and course requirements
-    \item Instructor past performance ratings
-    \item Zoom account availability
 \end{itemize}
 
 \subsubsection*{Method Employed}
 We aim to implement a Hybrid Scheduling Model combining:
 
 \begin{enumerate}
-    \item \textbf{Improved Parallel Genetic Algorithm (GA)}  
+    \item \textbf{Improved Parallel Genetic Algorithm (GA):}  
     Generates multiple candidate schedules and evolves them using selection, mutation, and crossover \cite{sahargahi2022}.
 
-    \item \textbf{Local Search Optimization}  
+    \item \textbf{Local Search Optimization:}  
     Refines feasible schedules to minimize soft constraint violations \cite{sahargahi2022}.
 
-    \item \textbf{Distance-to-Feasibility Fitness Function}  
+    \item \textbf{Distance-to-Feasibility Fitness Function:}  
     Ensures hard constraints (Zoom limits, overlapping classes, instructor conflicts) are always satisfied while optimizing soft constraints such as preferences, continuity, and compatibility \cite{sahargahi2022}.
 \end{enumerate}
 
 \subsubsection*{Output}
 \begin{itemize}
     \item Conflict-free schedule with optimized soft constraints
-    \item Automatic Zoom meeting assignment integrated into the schedule
 \end{itemize}
 
 
@@ -369,7 +367,6 @@ A secure backend service makes authenticated API calls to:
 \begin{itemize}
     \item Auto-generated Zoom links stored in the database
     \item Email notifications to all participants
-    \item Meeting logs for reporting
 \end{itemize}
 
 
@@ -381,7 +378,7 @@ The evaluation pipeline analyzes teaching quality using multimodal ML techniques
 \begin{itemize}
     \item Zoom audio recordings
     \item Whisper-generated transcripts
-    \item Defined metrics: clarity, energy, patience, attention, fidelity, pacing
+    \item Defined metrics: energy, patience, attention, pacing
 \end{itemize}
 
 \subsubsection*{Method Employed}
@@ -403,24 +400,23 @@ Energy, engagement, patience (stress cues), pacing.
 \end{itemize}
 
 \paragraph{Supported metrics:}
-Introduction clarity, curriculum fidelity.
+Curriculum fidelity.
 
 \paragraph{C. NLP \& Semantic Analysis}
 \begin{itemize}
     \item Contextual LLM-based clarity assessment
     \item Sentiment and tone analysis for patience \& positivity
-    \item BERTopic for curriculum alignment \cite{grootendorst2022}
+    \item RAG framework for curriculum alignment \cite{grootendorst2022}
     \item Linguistic feature extraction (structure, pacing, Q/A pattern)
     \item Speaker diarization for teacher-student balance
 \end{itemize}
 
 \subsubsection*{Metric Implementation Summary}
 \begin{enumerate}
-    \item \textbf{Introduction Clarity:} BERT-based structure detection \cite{almubarak2025}
     \item \textbf{Energy \& Engagement:} Pitch, intensity, tempo variation via OPENSmile
     \item \textbf{Patience:} Acoustic stress/pausing cues
     \item \textbf{Student Attention:} Talk-time balance via diarization
-    \item \textbf{Curriculum Fidelity:} BERTopic-based topic extraction
+    \item \textbf{Curriculum Fidelity:} RAG based topic extraction
     \item \textbf{Lesson Pacing:} Speaking rate and topic progression
 \end{enumerate}
 
@@ -428,7 +424,6 @@ Introduction clarity, curriculum fidelity.
 \begin{itemize}
     \item Composite instructor performance score
     \item Metric-level breakdown stored in the \texttt{evaluations} table
-    \item Insights powering scheduling priority and dashboards
 \end{itemize}
 
 
@@ -456,10 +451,9 @@ The system produces the following outputs:
 \begin{itemize}
     \item Conflict-free monthly class schedules
     \item Auto-generated Zoom links
-    \item Student-Instructor match recommendations
     \item Instructor performance reports
     \item KPIs and admin dashboards
-    \item Payment and attendance reports
+    \item Payment reports
 \end{itemize}
 
 These components collectively transform manual workflows into an intelligent, scalable, and automated platform.

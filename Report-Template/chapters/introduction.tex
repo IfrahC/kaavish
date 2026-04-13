@@ -1,30 +1,37 @@
 \section{Problem Statement}
 
-Code School currently manages instructor recruitment, onboarding, class assignments, and payments through manual and disconnected processes. As the organization expands to serve over 20 countries and thousands of classes, these manual operations lead to inefficiencies, scheduling conflicts, and inconsistencies in instructor-student matching. Moreover, tracking instructor performance and maintaining centralized access to class-related data has become increasingly difficult, resulting in administrative overhead and limited scalability.
-
-The problem lies in the absence of an integrated, automated platform that can streamline these operations, reduce human error, and allow instructors and administrators to focus on improving the quality of education rather than managing logistics.
+Code School currently manages instructor recruitment, onboarding, class assignments, and payments through manual and disconnected processes. As the organization expands to serve over 20 countries and hundreds of classes, these manual operations lead to inefficiencies, scheduling conflicts, and inconsistencies in instructor-student matching. Moreover, tracking instructor performance and maintaining centralized access to class-related data has become increasingly difficult, resulting in administrative overhead and limited scalability.
+\\
+\\
+\indent The problem lies in the absence of an integrated, automated platform that can streamline these operations, reduce human error, and allow instructors and administrators to focus on improving the quality of education rather than managing logistics.
 
 \section{Proposed Solution}
 
-To address these challenges, we propose a web-based application designed to automate and centralize Code School's instructor and class management processes. The platform will serve as a single portal for managing instructor recruitment, onboarding, class scheduling, student assignments, and payment tracking.
-
-The system will 
+To address these challenges, we propose a web-based application designed to automate and centralize Code School's instructor and class management processes. The platform will serve as a single portal for managing instructor recruitment, onboarding, class scheduling, student assignments, payment tracking and most importantly instructor evaluations.
+\\
+\\
+\indent The system will 
 % leverage Machine Learning to intelligently match students with instructors based on factors such as age, proficiency, and coding language expertise. It will also 
-integrate with the Zoom API to automatically generate and distribute meeting links for scheduled classes. Furthermore, the platform will use performance analysis algorithms to assess instructors based on metrics such as engagement, teaching effectiveness, and adherence to the curriculum.
-
-By automating administrative workflows and integrating key functionalities into one dashboard, the system will streamline operations, ensure efficient scheduling, enhance class quality, and provide valuable insights into instructor performance.
-
-An overview of the system's modules and functionalities is presented here, while detailed descriptions are provided later in Chapter~\ref{chap:intro}.
+integrate with the Zoom and Gmail API to automatically generate and distribute meeting links for scheduled classes. Furthermore, the platform will use performance analysis algorithms to assess instructors based on metrics such as engagement, teaching style, and adherence to the curriculum.
+\\
+\\
+\indent By automating administrative workflows and integrating key functionalities into one dashboard, the system will streamline operations, ensure efficient scheduling, and provide valuable insights into instructor performance.
+\\
+\\
+\indent An overview of the system's modules and functionalities is presented here, while detailed descriptions are provided later in Chapter~\ref{chap:intro}.
 
 \section{Intended User}
 
 The primary users of this system are administrative staff and instructors working at CodeSchool. 
-
-Instructors will use the platform to view their assigned classes, access student information, join scheduled Zoom sessions, and track performance metrics through an intuitive dashboard.
-
-The administrative team will also use the platform to manage instructor registation, monitor performance analytics, handle scheduling logistics, and process payments efficiently.
-
-The admin team can also be broken down into three main roles:
+\\
+\\
+\indent Instructors will use the platform to view their assigned classes, access student information, join scheduled Zoom sessions, and track their own performance metrics through an intuitive dashboard.
+\\
+\\
+\indent The administrative team will also use the platform to manage instructor registation, monitor performance analytics, handle scheduling logistics, create instructor evaluations and process payments efficiently.
+\\
+\\
+\indent The admin team can also be broken down into three main componenets:
 \begin{itemize}
     \item \textbf{Operations:} Responsible for managing instructor and parent/student profiles. They will use the platform to generate class schedules, assign classes, and monitor instructor availability.
     \item \textbf{Evaluations:} Focused on evaluating instructor effectiveness using the integrated performance analysis tools. They will generate reports and provide feedback to instructors based on data-driven insights.
@@ -35,7 +42,7 @@ Overall, the system is designed to serve both instructors and administrators, pr
 
 \section{Project Gantt Chart and Deliverables}
 
-The TeachWise project spans two semesters (Kaavish I and II), with a clear division of tasks, milestones, and deliverables to ensure systematic progress. Kaavish I focuses on research, design, and implementation of the core modules, while Kaavish II centers on integration, testing, and deployment.
+The \textit{TeachWise}  project spans two semesters (Kaavish I and II), with a clear division of tasks, milestones, and deliverables to ensure systematic progress. Kaavish I focuses on research, design, and implementation of the core modules, while Kaavish II centers on integration, testing, and deployment.
 
 \subsection*{Kaavish I Deliverables (Fall 2025)}
 \begin{itemize}
@@ -50,10 +57,8 @@ The TeachWise project spans two semesters (Kaavish I and II), with a clear divis
 
 \subsection*{Kaavish II Deliverables (Spring 2026)}
 \begin{itemize}
-    \item Development of ML-assisted student--instructor matching algorithm.
     \item Integration of instructor performance evaluation model using NLP and audio analytics.
     \item Full dashboards for instructors and administrators, including payment management.
-    \item Comprehensive system testing: unit, integration, and user acceptance tests.
     \item Deployment-ready web platform hosted on a cloud environment.
     \item Final system demonstration, report submission, and documentation handover.
 \end{itemize}

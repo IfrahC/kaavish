@@ -1,15 +1,16 @@
-This chapter provides detailed specifications of the system under development.
+This chapter provides detailed specifications of the systems development.
 
 \section{Project Plan}
 \subsection{Objectives}
-The goal of this project is to design and implement an Intelligent Scheduling and Performance Analytics Platform for Code School. The big picture is a centralized web-based CMS that automates administrative workflows, enhances scheduling efficiency, and provides AI-driven instructor evaluation reports based on classroom and student progress information. 
-
-Outside of the traditional CMS components, key objectives include: 
+The goal of this project is to design and implement an Intelligent Scheduling and Performance Analytics Platform for Code School. The big picture is a centralized web-based CMS that automates administrative workflows, enhances scheduling efficiency, and provides AI-driven instructor evaluation reports based on classroom information. 
+\\
+\\
+\indent Outside of the traditional CMS components, key objectives include: 
 \begin{itemize}
     \item Automation: Replace manual scheduling with a centralized, conflict-free scheduling system that takes instructor preferences, timetables, and time zones into account. 
-    \item AI Integration: Utilize transcripts of past Zoom recordings to train a NLP-based model to automatically evaluate instructor performance based on classroom environment, taking key performance indicators such as etc into account. 
-    \item Integration with external APIs: Enable automated Zoom link generation and integration, along with automated email services to send emails to parents each month regarding class details and student performance.  
-    \item Analytics Dashboard: Provide visual analytics for instructors and admins to monitor student progress, teaching quality, and finance-related matters. 
+    \item AI Integration: Utilize transcripts of past Zoom recordings to train a NLP-based model to automatically evaluate instructor performance based on classroom environment, taking key performance indicators such as volume, pitch, etc into account. 
+    \item Integration with external APIs: Enable automated Zoom link generation and integration, along with automated email services to send emails to parents each month regarding class details.  
+    \item Analytics Dashboard: Provide visual analytics for instructors and admins to monitor class details,teaching quality, and finance-related matters. 
 \end{itemize}
 
 \subsection{Tasks and Timelines}
@@ -28,7 +29,7 @@ All members \\ \hline
 
 \textbf{2. Frontend Development} &
 Dec 2025 -- mid Jan 2026 &
-Build React (Next.js) dashboard for Admin/Instructor, design UI for performance and student modules, and gather feedback on components. &
+Build React (Next.js) dashboard for Instructor and gather feedback on components. &
 Zain, Naaseh \\ \hline
 
 \textbf{3. Backend \& Database Setup} &
@@ -38,12 +39,12 @@ Naaseh, Ifrah, Zain \\ \hline
 
 \textbf{4. ML Integration \& Scheduling Algorithm} &
 Feb 2026 &
-Develop scheduling algorithm, train NLP model for analytics, and integrate ML with backend. &
+Develop scheduling algorithm, train NLP model for evaluations, and integrate ML with backend. &
 Aina, Ifrah \\ \hline
 
 \textbf{5. System Integration \& Testing} &
 Mar 2026 &
-Integrate frontend, backend, and ML modules; conduct unit/integration tests; verify Zoom API functionality. &
+Integrate frontend, backend, and ML modules. &
 All members \\ \hline
 
 \textbf{6. Documentation \& Final Report} &
@@ -79,12 +80,12 @@ Please note that these timelines are not strictly fixed due to the dependence of
 \label{tab:team_roles}
 \end{table}
 
-\subsection{Resources}
+\newpage \subsection{Resources}
 \begin{itemize}
     \item \textbf{Development Environments:} VS Code, Google Colab
     \item \textbf{Frontend:} React (Next.js), Tailwind CSS
     \item \textbf{Database:} PostgreSQL, Dropbox (for recordings storage)
-    \item \textbf{APIs:} Zoom API, REST API (backend), Dropbox API
+    \item \textbf{APIs:} Zoom API, REST API (backend)
     \item \textbf{ML Frameworks:} TensorFlow
     \item \textbf{Version Control:} GitHub
 \end{itemize}
@@ -119,46 +120,150 @@ Maintain weekly sprint reviews; allocate buffer time in the final phase for bug 
 \label{tab:risk_assessment}
 \end{table}
 
-
-\section{Wireframes}
+\newpage \section{Wireframes}
 This section presents the initial wireframes designed for the Instructor and Admin dashboards, as well as supporting views for class and instructor management.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{../images/wireframes/Intructor-Dashboard-Screen.jpg}
-    \caption{Instructor Dashboard wireframe.}
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Instructor Dashboard - 1.png}
+    \caption{Instructor Dashboard wireframe - 1.}
     \label{fig:instructor_wireframe}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin-Dashboard-Screen.jpg}
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Instructor Dashboard - 2.png}
+    \caption{Instructor Dashboard wireframe - 2.}
+    \label{fig:instructor_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Instructor Class - 1.png}
+    \caption{Instructor Classes wireframe - 1.}
+    \label{fig:instructor_classes_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Instructor Class - 2.png}
+    \caption{Instructor Classes wireframe - 2.}
+    \label{fig:instructor_classes_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Instructor Class - 3.png}
+    \caption{Instructor Classes wireframe - 3.}
+    \label{fig:instructor_classes_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Instructor Class - 4.png}
+    \caption{Instructor Classes wireframe - 4.}
+    \label{fig:instructor_classes_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Instructor Profile - 1.png}
+    \caption{Instructor Profile wireframe - 1.}
+    \label{fig:instructor_profile_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Instructor Profile - 2.png}
+    \caption{Instructor Profile wireframe - 2.}
+    \label{fig:instructor_profile_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Instructor Profile - 3.png}
+    \caption{Instructor Profile wireframe - 3.}
+    \label{fig:instructor_profile_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Instructor Profile - 4.png}
+    \caption{Instructor Profile wireframe - 4.}
+    \label{fig:instructor_profile_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Instructor Profile - 5.png}
+    \caption{Instructor Profile wireframe - 5.}
+    \label{fig:instructor_profile_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Instructor Settings.png}
+    \caption{Instructor And Admin Settings wireframe.}
+    \label{fig:instructor_admin_settings_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Instructor Notifications.png}
+    \caption{Instructor And Admin Norifications wireframe.}
+    \label{fig:instructor_admin_notifications_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin Dashboard.png}
     \caption{Admin Dashboard wireframe.}
-    \label{fig:admin_wireframe}
+    \label{fig:admin_dashboard_wireframe}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin-Classes-Screen.jpg}
-    \caption{Admin Classes wireframe.}
-    \label{fig:admin_classes_wireframe}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin-Classes-Specific-Info-1-Screen.jpg}
-    \caption{Admin Class Details wireframe.}
-    \label{fig:admin_classes_specific_info_wireframe}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin-Instructors-Screen.jpg}
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin Instructors.png}
     \caption{Admin Instructors List wireframe.}
     \label{fig:admin_instructors_wireframe}
 \end{figure}
 
-\section{Functional Requirements}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin Students.png}
+    \caption{Admin Students List wireframe.}
+    \label{fig:admin_students_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin Evaluation .png}
+    \caption{Admin Evaluation wireframe.}
+    \label{fig:admin_evaluation_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin Scheduler.png}
+    \caption{Admin Scheduler wireframe.}
+    \label{fig:admin_scheduler_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin Finances - 1.png}
+    \caption{Admin Finances wireframe - 1.}
+    \label{fig:admin_finances_wireframe}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/wireframes/Admin Finances - 2.png}
+    \caption{Admin Finances wireframe - 2.}
+    \label{fig:admin_finances_wireframe}
+\end{figure}
+
+\newpage \section{Functional Requirements}
 
 This section details all functions and features of the system. Each requirement is organised into modules with identifiers, priorities, descriptions, detailed requirements, and acceptance criteria.
 
@@ -171,7 +276,7 @@ This section details all functions and features of the system. Each requirement 
 
 \textbf{Detailed Requirements:}
 \begin{itemize}
-    \item Profile includes: name, email, contact information, country, coding languages taught, preferred age groups, teaching experience level (XP).
+    \item Profile includes: name, email, contact information, country, subjects taught, preferred age groups, teaching experience level (XP).
     \item Instructors set weekly availability (day, start time, end time) with support for multiple time slots and unavailable periods.
     \item Instructors define class preferences including minimum/maximum classes per month/day.
     \item Profile automatically tracks teaching history, total classes taught, average ratings, and performance metrics.
@@ -244,7 +349,7 @@ This section details all functions and features of the system. Each requirement 
     \item Algorithm considers:
     \begin{itemize}
         \item Instructor availability and min/max class preferences.
-        \item Instructor expertise (languages, age groups, class size, etc.), XP.
+        \item Instructor expertise (subjects, age groups, class size, etc.), XP.
         \item Student preferences (time slots, age, language, class type).
         \item Existing enrollments and progression.
         \item Zoom account availability (currently 2 accounts; Google Meet fallback).
@@ -645,7 +750,7 @@ This section details all functions and features of the system. Each requirement 
         \item Evaluation metric weights
         \item Class duration and buffer times
         \item Class types (online/in-person, frequency)
-        \item Supported coding languages
+        \item Supported subjects
     \end{itemize}
     \item All changes logged with timestamp and user.
     % \item Critical settings require dual approval.
@@ -747,8 +852,8 @@ Comments & Handles small class sizes ($<3$ students), Zoom capacity constraints,
 \hline
 \textbf{Field} & \textbf{Details} \\ \hline
 Actors & Instructor (primary), Scheduling Algorithm (system) \\ \hline
-Description & Instructor logs in and sets weekly availability by selecting days, time ranges, and teaching preferences (min/max classes, languages). System validates entries and stores them for the next scheduling cycle. \\ \hline
-Data & \textbf{Input:} Weekly availability (days/times), min/max classes, preferred languages, unavailable days. \\
+Description & Instructor logs in and sets weekly availability by selecting days, time ranges, and teaching preferences (min/max classes, subjects). System validates entries and stores them for the next scheduling cycle. \\ \hline
+Data & \textbf{Input:} Weekly availability (days/times), min/max classes, subjects, unavailable days. \\
 & \textbf{Output:} Stored availability record, on-screen confirmation, email confirmation. \\ \hline
 Stimulus & Instructor clicks ``Edit Availability'' or responds to reminder before the 10th of the month. \\ \hline
 Response & System displays existing availability, validates changes, saves data, and confirms update. Changes apply next month. \\ \hline
