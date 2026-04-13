@@ -15,11 +15,11 @@ This section offers a thorough description of the system's architecture. User ma
 \end{figure}
 
 \subsubsection{User}
-For every platform actor, the \texttt{User} class serves as the primary identity object. It stands for the parent entity from which the fundamental characteristics of \texttt{Instructor}, \texttt{Admin}, and \texttt{Student} are derived. Account-level data, including name, role, and email, is stored here. It supports the fundamental operations required for platform authentication and profile maintenance:
-\begin{itemize}
-    \item \texttt{login() / logout()} - authentication workflow
-    \item \texttt{updateProfile()} - modify name, role, or contact information
-\end{itemize}
+For every platform actor, the \texttt{User} class serves as the primary identity object. It stands for the parent entity from which the fundamental characteristics of \texttt{Instructor}, \texttt{Admin}, and \texttt{Student} are derived. Account-level data, including name, country, and contact information, is stored here.
+% \begin{itemize}
+%     \item \texttt{login() / logout()} - authentication workflow
+%     \item \texttt{updateProfile()} - modify name, role, or contact information
+% \end{itemize}
 All user types share uniform identity management logic and access control mechanisms thanks to this abstraction.
 
 \subsubsection{Instructor}
@@ -49,7 +49,7 @@ This class captures repeated weekly availability patterns. Each record specifies
 Used extensively by the \texttt{SchedulingEngine}.
 
 \subsubsection{Admin}
-Admins are system controllers responsible for operational oversight. Attributes include \texttt{admin\_type} (finance, operations, curriculum, etc.). Admins manage:
+Admins are system controllers responsible for operational oversight. Admins manage:
 \begin{itemize}
     \item User accounts
     \item Schedule generation
@@ -117,7 +117,7 @@ Represents a student’s participation in a specific class.
 \subsubsection{Lesson}
 Represents individual teaching instances under an enrollment.
 \begin{itemize}
-    \item Stores: attendance, project submissions, code quality, Kahoot scores, instructor comments
+    \item Stores: attendance, project submissions, lesson rating, assessment scores, instructor comments
     \item Functions:
     \begin{itemize}
         \item \texttt{recordAttendance()}
@@ -126,23 +126,23 @@ Represents individual teaching instances under an enrollment.
     \end{itemize}
 \end{itemize}
 
-\subsection{Curriculum SubSystem}
+% \subsection{Curriculum SubSystem}
 
-\subsubsection{Course}
-Defines the full curriculum structure. Contains course objectives, age range, subjects, prerequisites, flashcards, versioning. Functions:
-\begin{itemize}
-    \item \texttt{getModules()}
-    % \item \texttt{updateCurriculum()}
-    \item \texttt{isPrerequisiteMet()}
-\end{itemize}
+% \subsubsection{Course}
+% Defines the full curriculum structure. Contains course objectives, age range, subjects, prerequisites, flashcards, versioning. Functions:
+% \begin{itemize}
+%     \item \texttt{getModules()}
+%     % \item \texttt{updateCurriculum()}
+%     \item \texttt{isPrerequisiteMet()}
+% \end{itemize}
 
-\subsubsection{Module}
-Divides courses into structured units. Stores sequence number, objectives, lesson plan paths, Kahoot and flashcard links. Functions:
-\begin{itemize}
-    \item \texttt{getContent()}
-    \item \texttt{updateCurriculum()}
-    \item \texttt{getNextModule()}
-\end{itemize}
+% \subsubsection{Module}
+% Divides courses into structured units. Stores sequence number, objectives, lesson plan paths, Kahoot and flashcard links. Functions:
+% \begin{itemize}
+%     \item \texttt{getContent()}
+%     \item \texttt{updateCurriculum()}
+%     \item \texttt{getNextModule()}
+% \end{itemize}
 
 \subsection{Scheduling SubSystem}
 
@@ -187,13 +187,13 @@ Automates student-instructor pairing:
 \subsubsection{Performance Evaluation}
 Stores granular metrics of instructor performance: introduction, recap, exercises, energy, patience, classroom culture, attention checks, concept review, curriculum fidelity, pacing. Computes \texttt{overallScore} and generates performance reports.
 
-\subsubsection{MLEvaluationModel}
-ML-based subsystem analyzing class recordings:
+\subsubsection{NLP + LLM Evaluation Model}
+NLP + LLM -based subsystem analyzing class recordings:
 \begin{itemize}
     \item \texttt{analyzeRecording()}
     \item \texttt{extractTranscript()}
     \item \texttt{scoreMetrics()}
-    \item \texttt{generateRecommendations()}
+    \item \texttt{generateReport()}
 \end{itemize}
 
 \subsection{Payment SubSystem}
@@ -254,8 +254,8 @@ Evaluates instructor performance using rubrics and ML-driven analysis. Integrate
 \subsubsection{Payment Component}
 Manages compensation, payroll, bonuses, and approval workflows. Draws data from classes, lessons, and evaluations.
 
-\subsubsection{Notification Service Component}
-Centralizes all communication: email, calendar invites, in-app alerts. Integrates with all major subsystems.
+% \subsubsection{Notification Service Component}
+% Centralizes all communication: email, calendar invites, in-app alerts. Integrates with all major subsystems.
 
 \subsubsection{External Integration Component}
 Houses third-party integrations: Zoom API, future payment gateways, analytics services, LMS tools. Supports modular upgrades without affecting internal components.
@@ -276,7 +276,7 @@ This section presents the structure of our database that caters to persistent da
 \section{Technical Details}
 \label{sec:technical}
 
-This section presents the computational, algorithmic, and architectural components that form the core of TeachWise. Unlike conventional CRUD-based systems, TeachWise integrates intelligent scheduling, machine learning-based instructor evaluation, automated Zoom meeting generation, and multimodal data pipelines. For each subsystem, we describe the inputs, internal processes, and outputs, along with how these components integrate into the system-wide toolchain.
+This section presents the computational, algorithmic, and architectural components that form the core of TeachWise. Unlike conventional CRUD-based systems, TeachWise integrates intelligent scheduling, AI-based instructor evaluation, automated Zoom meeting generation, and multimodal data pipelines. For each subsystem, we describe the inputs, internal processes, and outputs, along with how these components integrate into the system-wide toolchain.
 \\
 \\
 \indent Only methods that are technically viable and supported by research evidence are included. These represent the approaches we implemented based on feasibility and relevance.
@@ -426,7 +426,7 @@ A modular architecture ensures seamless coordination between ML subsystems and t
     \item \textbf{Processing Layer (Python):} The core batch pipeline that handles video-to-audio conversion (FFmpeg), feature extraction (OpenSMILE/Librosa), and ML inference (Scikit-Learn/Ollama).
     \item \textbf{Application Layer (Next.js):}  
     Handles scheduling engine API, Zoom API, and frontend integration.
-    \item \textbf{Scheduling Layer (Python/TensorFlow):}  
+    \item \textbf{Scheduling Layer (Python):}  
     Implements scheduling, evaluation, and matching.
     \item \textbf{Integration Layer:}  
     Email services, Zoom API gateway.

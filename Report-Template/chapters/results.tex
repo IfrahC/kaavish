@@ -1,9 +1,12 @@
+% !TeX root = ../report.tex
+
 \section{Methodology}
 \label{sec:methodology}
 
+\subsection{Evaluation}
 The TeachWise evaluation framework utilizes a hybrid approach that processes classroom audio to assess both instructional delivery and semantic content coverage.
 
-\subsection{Dataset and Preprocessing}
+\subsubsection{Dataset and Preprocessing}
 The dataset comprises 113 classroom recordings sourced from a partner online learning platform and educational YouTube content. 
 \begin{itemize}
     \item \textbf{Audio Standardization:} All recordings were standardized to 16-bit PCM, 16kHz mono WAV format to ensure consistent feature extraction across samples.
@@ -12,24 +15,71 @@ The dataset comprises 113 classroom recordings sourced from a partner online lea
     \item \textbf{Ground Truth:} Experienced educators annotated the clips on a 5-point Likert scale across four dimensions: energy, patience, student attention, and lesson pace.
 \end{itemize}
 
-\subsection{Prosodic Quality Assessment}
+\subsubsection{Prosodic Quality Assessment}
 This component evaluates the instructor's vocal delivery using machine learning on acoustic features.
 \begin{itemize}
     \item \textbf{Feature Extraction:} 18 specific acoustic features, including pitch variability, loudness, and jitter, were extracted using Librosa and OpenSMILE.
     \item \textbf{Classification Model:} Four independent Random Forest classifiers were trained, one for each quality dimension, configured with 100 decision trees and a maximum depth of 4.
 \end{itemize}
 
-\subsection{Curriculum Fidelity Evaluation}
+\subsubsection{Curriculum Fidelity Evaluation}
 The semantic component employs a Retrieval-Augmented Generation (RAG) framework to compare lesson delivery against a predefined curriculum.
 \begin{itemize}
     \item \textbf{RAG Framework:} The system utilizes LLaMA3 to perform semantic comparisons between transcripts and curriculum documents extracted directly from PDF teaching guides.
     \item \textbf{Scoring Rubric:} The model assigns a score (1–5) based on a structured rubric that assesses objective coverage and the inclusion of supplementary content.
 \end{itemize}
 
+\subsection{Scheduling}
+
+To tackle scheduling challenges, we have developed an intelligent scheduling algorithm based on a Genetic Algorithm. It considers multiple factors to generate optimal class assignments that minimize conflicts and maximize resource utilization.
+
+\subsubsection{Problem Formulation}
+  The scheduling problem was modelled as a combinatorial optimisation task. 
+  Given a set of student class requests and a set of instructors, the goal  
+  is to assign each request to an instructor and time slot such that hard   
+  constraints are satisfied and overall schedule quality is maximised.      
+                                                     
+  Each request specifies a subject (e.g. Python, Mathematics, Science), a class  
+  type (one-to-one, group, custom), the number of monthly sessions
+  required, and a list of preferred time slots. Each instructor carries a set of subjects they can teach and a weekly availability map.
+
+\subsubsection{Scheduling Patterns}
+  Requests are first classified into one of four scheduling patterns:       
+  \begin{itemize}
+    \item Weekly — $N$ sessions per month at the same repeating (day, time) slot. The standard pattern for recurring classes.
+    \item Consecutive — sessions on back-to-back calendar days at the same time.  
+    \item Custom — the student specifies exact required (day, time) slots that must be honoured.   
+    \item Flexible — N sessions distributed across any N distinct available slots, for non-standard frequencies.     
+  \end{itemize}
+
+\subsubsection{Constraint Model}
+
+  Constraints are divided into three tiers by severity:        
+  \begin{itemize}
+    \item \textbf{Hard constraints} (-50,000 per violation) must be strictly enforced to ensure a feasible schedule. These include no instructor double-booking (with an exception allowing group classes of the same subject to be merged and share a slot), no assignment outside an instructor's available hours, and custom-pattern sessions must land on their required slots.
+    \item \textbf{Medium constraints} (-500 per violation) should be satisfied to maintain quality, such as ensuring the assigned instructor is qualified to teach the requested subject.
+    \item \textbf{Soft constraints} contribute to the overall schedule quality score and include factors like the pedagogical match score from an ML model (+100 x score, 0-1 scale), student preferred time slot (+500), Zoom licence overflow for more than X simultaneous classes (-20 per excess), and missing or extra sessions (-2,000 per session).
+  \end{itemize}             
+
+\subsubsection{Genetic Algorithm}
+A genetic algorithm (GA) was used because the search space is too large for exhaustive search and the multi-objective constraint structure makes gradient-based methods unsuitable. The GA was configured with a population of 200, 100 generations, a mutation rate of 0.10, tournament size of 5, and an elite size of 5. 
+The algorithm iteratively evolves the population of schedules by selecting the fittest individuals based on the defined constraints and quality metrics, applying crossover and mutation operations to generate new candidate schedules, and retaining the best solutions across generations to converge towards an optimal schedule.
+
+\subsubsection{Benchmarking}
+  Three months of historical data (November 2024 - January 2025) from our partner instituation were parsed from operational Excel files into the GA's input format. The   GA was evaluated on the January 2025 dataset (47 requests, 7 instructors) against the actual human assignments as ground truth, across five metrics:    
+  \begin{itemize}
+    \item \textbf{Scheduling Coverage:} The percentage of requests that were successfully scheduled without hard constraint violations.
+    \item \textbf{Student Preference Satisfaction:} The percentage of scheduled sessions that were assigned to a student-preferred time slot.
+    \item \textbf{Ground Truth Alignment:} The percentage of GA-generated assignments that matched the actual human-assigned instructor and time slot.
+    \item \textbf{Pedagogical Match Quality:} The average ML-predicted pedagogical match score for the assigned instructor-subject pairs.
+    \item \textbf{Constraint Violations:} The total number of hard and medium constraint violations in the generated schedule.
+  \end{itemize}
+
 \section{Experiments and Results}
 \label{sec:results}
 
-\subsection{Prosodic Assessment Performance}
+\subsection{Evaluation}
+\subsubsection{Prosodic Assessment Performance}
 The Random Forest classifiers demonstrated strong predictive performance across all four teaching quality dimensions. The results on the held-out test set are summarized in Table \ref{tab:results}.
 
 \begin{table}[h]
@@ -52,16 +102,46 @@ Patience          & 73.9 & 0.763 & 89.3 \\ \hline
     \item \textbf{Feature Importance:} Equivalent sound level emerged as the dominant predictor across three of the four dimensions, highlighting vocal intensity as a fundamental indicator of quality.
 \end{itemize}
 
-\subsection{Curriculum Fidelity Results}
+\subsubsection{Curriculum Fidelity Results}
 The LLM-based RAG component successfully identified pedagogical gaps and generated structured evaluations.
 \begin{itemize}
     \item \textbf{Qualitative Consistency:} The system distinguished between complete objective achievement and partial delivery, assigning intermediate scores (2–3) when concepts were demonstrated without explicit explanation.
     \item \textbf{Actionable Feedback:} The model effectively generated objective coverage statements (e.g., "3 out of 4 objectives achieved") to support instructor development.
 \end{itemize}
 
-\subsection{Hybrid Score Computation}
+\subsubsection{Hybrid Score Computation}
 The final teaching effectiveness score for each session is computed as a composite unweighted average:
 \begin{equation}
-    \text{Score} = \frac{E+P+A+L+C}{5}
+    \mathrm{Score} = \frac{E+P+A+L+C}{5}
 \end{equation}
 where $E$ is Energy, $P$ is Patience, $A$ is Student Attention, $L$ is Lesson Pace, and $C$ is Curriculum Fidelity.
+
+\subsection{Scheduling}
+
+\subsubsection{Coverage}
+The GA scheduled 100\% of requests (47/47) across all subjects, with no unscheduled students.    
+
+\subsubsection{Constraint Satisfaction}
+The GA produced zero hard-constraint violations compared to the human  schedule:
+\begin{table}[h]
+\centering
+\caption{Violation Comparison}
+\label{tab:violations}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Violation Type} & \textbf{GA} & \textbf{Human} \\ \hline
+Availability violations & 0 & 1 \\ \hline
+Skill mismatches        & 0 & 6 \\ \hline
+\end{tabular}
+\end{table}
+
+The human schedule contained six instances of an instructor assigned  outside their expertise and one slot assignment outside their available hours. The GA's repair mechanism eliminated all such violations.
+
+\subsubsection{Student Preference Satisfaction}
+94.7\% of the 38 preference-eligible requests were assigned a slot matching the student's stated preferences. The human scheduler satisfied 100\% of preferences but did so at the cost of six skill mismatches and one availability violation, suggesting that human assignments traded constraint compliance for preference satisfaction in some cases.
+
+\subsubsection{Pedagogical Match Quality}
+The GA's instructor assignments achieved an average pedagogical match  score of 0.881 versus 0.718 for the human schedule — an improvement of +0.163 ($\sim$22.7\%). This indicates that including the match score  as a soft constraint in the fitness function produces meaningfully better instructor-student pairings than manual assignment.
+
+\subsubsection{Load Distribution}
+Instructor workload was slightly more concentrated in the GA output   (standard deviation 3.37 sessions) versus the human schedule (2.42). The GA naturally favours instructors with broader availability and higher match scores. Explicit fairness balancing was not included in this version and is a candidate for future work.
