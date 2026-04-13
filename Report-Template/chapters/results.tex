@@ -1,1 +1,67 @@
-We did many experiments and got the best results.
+\section{Methodology}
+\label{sec:methodology}
+
+The TeachWise evaluation framework utilizes a hybrid approach that processes classroom audio to assess both instructional delivery and semantic content coverage.
+
+\subsection{Dataset and Preprocessing}
+The dataset comprises 113 classroom recordings sourced from a partner online learning platform and educational YouTube content. 
+\begin{itemize}
+    \item \textbf{Audio Standardization:} All recordings were standardized to 16-bit PCM, 16kHz mono WAV format to ensure consistent feature extraction across samples.
+    \item \textbf{Segmentation:} Audio was partitioned into 3–4 minute clips to create standardized training samples.
+    \item \textbf{Transcription:} OpenAI’s Whisper ASR was utilized to generate timestamped JSON transcripts, providing the necessary input for semantic analysis.
+    \item \textbf{Ground Truth:} Experienced educators annotated the clips on a 5-point Likert scale across four dimensions: energy, patience, student attention, and lesson pace.
+\end{itemize}
+
+\subsection{Prosodic Quality Assessment}
+This component evaluates the instructor's vocal delivery using machine learning on acoustic features.
+\begin{itemize}
+    \item \textbf{Feature Extraction:} 18 specific acoustic features, including pitch variability, loudness, and jitter, were extracted using Librosa and OpenSMILE.
+    \item \textbf{Classification Model:} Four independent Random Forest classifiers were trained, one for each quality dimension, configured with 100 decision trees and a maximum depth of 4.
+\end{itemize}
+
+\subsection{Curriculum Fidelity Evaluation}
+The semantic component employs a Retrieval-Augmented Generation (RAG) framework to compare lesson delivery against a predefined curriculum.
+\begin{itemize}
+    \item \textbf{RAG Framework:} The system utilizes LLaMA3 to perform semantic comparisons between transcripts and curriculum documents extracted directly from PDF teaching guides.
+    \item \textbf{Scoring Rubric:} The model assigns a score (1–5) based on a structured rubric that assesses objective coverage and the inclusion of supplementary content.
+\end{itemize}
+
+\section{Experiments and Results}
+\label{sec:results}
+
+\subsection{Prosodic Assessment Performance}
+The Random Forest classifiers demonstrated strong predictive performance across all four teaching quality dimensions. The results on the held-out test set are summarized in Table \ref{tab:results}.
+
+\begin{table}[h]
+\centering
+\caption{Model Performance on Test Set ($N=23$)}
+\label{tab:results}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Metric} & \textbf{Test Acc. (\%)} & \textbf{F1-Score} & \textbf{CV Acc. (\%)} \\ \hline
+Student Attention & 87.0 & 0.879 & 91.2 \\ \hline
+Energy            & 78.3 & 0.750 & 77.8 \\ \hline
+Lesson Pace       & 78.3 & 0.788 & 89.3 \\ \hline
+Patience          & 73.9 & 0.763 & 89.3 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{itemize}
+    \item \textbf{Analysis:} Student Attention achieved the highest accuracy (87.0\%) and demonstrated robust generalization stability.
+    \item \textbf{Error Patterns:} Confusion matrices indicated that misclassifications typically occurred between adjacent score levels rather than extreme deviations.
+    \item \textbf{Feature Importance:} Equivalent sound level emerged as the dominant predictor across three of the four dimensions, highlighting vocal intensity as a fundamental indicator of quality.
+\end{itemize}
+
+\subsection{Curriculum Fidelity Results}
+The LLM-based RAG component successfully identified pedagogical gaps and generated structured evaluations.
+\begin{itemize}
+    \item \textbf{Qualitative Consistency:} The system distinguished between complete objective achievement and partial delivery, assigning intermediate scores (2–3) when concepts were demonstrated without explicit explanation.
+    \item \textbf{Actionable Feedback:} The model effectively generated objective coverage statements (e.g., "3 out of 4 objectives achieved") to support instructor development.
+\end{itemize}
+
+\subsection{Hybrid Score Computation}
+The final teaching effectiveness score for each session is computed as a composite unweighted average:
+\begin{equation}
+    \text{Score} = \frac{E+P+A+L+C}{5}
+\end{equation}
+where $E$ is Energy, $P$ is Patience, $A$ is Student Attention, $L$ is Lesson Pace, and $C$ is Curriculum Fidelity.
