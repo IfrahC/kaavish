@@ -1,13 +1,41 @@
-\section{Conclusion and Future Work}
+\section{Conclusion}
 \label{sec:conclusion}
 
-\subsection{Conclusion}
-The TeachWise evaluation framework demonstrates the efficacy of a hybrid approach that unifies prosodic analysis with grounded semantic evaluation. By achieving test accuracies between 73.9\% and 87.0\%, the system proves that machine learning models can effectively approximate complex instructional dimensions such as energy, patience, and student attention. The integration of a PDF-driven RAG framework ensures that curriculum fidelity is assessed with high specificity, addressing the critical limitations of manual observation in large-scale online platforms. TeachWise thus provides a scalable, objective, and actionable solution for managing teaching quality in distributed environments.
+TeachWise is a web-based Curriculum Management System (CMS) designed to address the operational and pedagogical challenges faced by rapidly growing online education platforms. It integrates three tightly coupled components — an intelligent scheduling algorithm, an automated instructor evaluation framework, and a centralised administrative CMS — into a unified platform that reduces manual overhead and improves decision-making quality.
 
-\subsection{Future Work}
-Future research will focus on several key areas to enhance the system's capabilities:
+\subsection{Intelligent Scheduling}
+The Genetic Algorithm (GA)-based scheduling engine successfully resolves the NP-hard combinatorial problem of assigning instructors to student requests under a rich constraint model. The results demonstrate that encoding instructor-student compatibility as a soft-constraint signal in the fitness function produces meaningfully better class assignments than manual scheduling, while also guaranteeing feasibility.
+
+\subsection{Instructor Evaluation Framework}
+The hybrid automated evaluation system combines prosodic audio analysis with curriculum fidelity assessment to produce an objective, multi-dimensional teaching quality score. The four Random Forest classifiers trained on 18 acoustic features achieved test accuracies between 73.9\% (Patience) and 87.0\% (Student Attention), with cross-validation accuracies as high as 91.2\%. These results confirm that machine learning models can reliably approximate complex instructional dimensions from audio alone, removing the dependence on resource-intensive manual classroom observations. The LLM-based curriculum fidelity component further enriches the evaluation by grounding assessments in the actual lesson curriculum, enabling precise identification of pedagogical gaps and generating actionable, objective-level feedback. Together, the prosodic and curriculum fidelity scores are combined into a single composite teaching effectiveness score that supports structured, evidence-based instructor development at scale.
+
+\subsection{CMS Platform}
+The TeachWise CMS provides a centralised portal that unifies instructor management, class scheduling, student assignments, payment tracking, and performance analytics into one integrated system. Role-differentiated dashboards for administrative staff and instructors replace the previously fragmented, spreadsheet-driven workflows at CodeSchool. Zoom API integration automates meeting link generation, while Gmail API integration streamlines communications. The platform was designed and implemented to be deployment-ready and has been validated against real operational data from a live partner institution.
+
+\subsection{Summary}
+Taken together, the TeachWise platform demonstrates that principled application of combinatorial optimisation, machine learning, and large language models can substantially improve the efficiency, fairness, and scalability of operations in online education. The system is functional, and validated on real-world data, while its modular architecture lays a strong foundation for future extension.
+
+\section{Future Work}
+\label{sec:futurework}
+
+Several directions for future development have been identified based on the limitations of the current system and opportunities for broader impact.
+
 \begin{itemize}
-    \item \textbf{Linguistic Diversity:} Expanding the dataset to include a broader range of academic subjects to improve model generalization.
-    \item \textbf{Annotation Rigor:} Utilizing a larger pool of expert annotators to establish formal inter-rater reliability coefficients.
-    \item \textbf{Multimodal Expansion:} Incorporating visual cues, such as instructor gestures and student reactions, to provide a holistic assessment of the teaching-learning process.
+
+    \item \textbf{Expanded and Balanced Dataset:} The evaluation model's training corpus of 113 recordings exhibits a moderate class imbalance, with mid-range Likert scores (3--4) being over-represented. Future work should expand the dataset substantially — targeting several hundred additional annotated clips — with deliberate over-sampling of extreme quality labels (1 and 5) to improve classifier performance at the tails of the distribution. A larger, more balanced dataset would also allow exploration of deeper model architectures beyond Random Forests.
+
+    \item \textbf{Multilingual Support (Urdu and Regional Languages):} The current evaluation pipeline primarily supports English, which restricts its applicability in educational settings where instruction commonly occurs in Urdu or involves code-switching between English and Urdu. Future work should focus on collecting and annotating classroom recordings in Urdu and other regional languages, and adapting the ASR component (e.g., fine-tuning Whisper) along with downstream classifiers to handle multilingual input. This would enable more accurate prosodic and semantic evaluation across diverse linguistic contexts.
+
+    \item \textbf{Multimodal Evaluation — Visual and Body Language Cues:} The current system relies solely on audio. Incorporating video-based signals — such as instructor body language, hand gestures, facial expressions, and student on-camera engagement — would provide a substantially richer and more holistic picture of teaching quality. Future work should explore multi-modal fusion architectures that combine acoustic features with visual features extracted from class recordings, using models such as MediaPipe or OpenCV for pose and facial action unit extraction.
+
+    \item \textbf{Curriculum Fidelity Model Training and Accuracy Benchmarking:} The current curriculum fidelity component uses a zero-shot LLM-based RAG approach (LLaMA3) with a structured rubric prompt. While the pipeline is functional and generalised, no supervised accuracy benchmark exists for this component due to the absence of labelled ground-truth fidelity scores. Future work should collect annotated curriculum fidelity labels from expert educators and use them to fine-tune or evaluate the RAG scoring model, establishing a formal quantitative baseline and enabling iterative improvement.
+
+    \item \textbf{Parallel Fitness Evaluation in the Scheduling Algorithm:} The current GA evaluates the fitness of each candidate schedule sequentially, which becomes a bottleneck as the number of requests and instructors scales. Introducing multi-threaded or asynchronous parallel fitness evaluation — for example, using Python's \texttt{concurrent.futures} module or a distributed task queue — would reduce per-generation computation time and make the algorithm tractable for much larger scheduling instances (e.g., 500+ requests per month).
+
+    \item \textbf{Modular and Configurable CMS Architecture:} The current platform is tightly integrated around CodeSchool's specific operational model. To position TeachWise as a general-purpose product for any online or hybrid education institution, the CMS should be refactored into independently deployable modules (e.g., Scheduling, Evaluation, Finance, HR Pipeline). Administrators at different institutions should be able to enable only the modules relevant to their workflows rather than being required to adopt the full system. This plug-and-play architecture would dramatically improve adoption potential across different institutional contexts.
+
+    \item \textbf{Role-Based Access Control and Segmented Admin Dashboard:} The current admin dashboard presents a unified view across all administrative functions. A production deployment should introduce fine-grained role-based access control (RBAC), ensuring that Operations staff, Evaluations staff, and Finance staff each see only the data and actions relevant to their role. This reduces information overload, strengthens data privacy, and aligns with standard enterprise security practices.
+
+    \item \textbf{HR Pipeline and Onboarding Module:} Instructor recruitment and onboarding at CodeSchool remains a partially manual process. A future HR pipeline module integrated into the CMS would support end-to-end instructor lifecycle management — from application submission and document verification through to onboarding, contract management, and offboarding — further reducing administrative overhead.
+
 \end{itemize}
