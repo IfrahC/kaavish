@@ -10,27 +10,29 @@ where $\delta_{\text{hard}}(a)$ and $\delta_{\text{med}}(a)$ are penalty indicat
 
 \section*{Prosodic Feature Extraction}
 
-Let $x(t)$ denote a raw audio waveform sampled at 16\,kHz. The fundamental frequency (pitch) $F_0(t)$ is estimated frame-by-frame using the YIN algorithm. Pitch variability is captured by the standard deviation $\sigma_{F_0}$ over a 3--4 minute segment. Loudness is computed as the root-mean-square energy:
-\[
-\text{RMS}(t) = \sqrt{\frac{1}{N}\sum_{n=0}^{N-1} x^2(t+n)}
-\]
-Additional features, including jitter (cycle-to-cycle pitch variation) and shimmer (cycle-to-cycle amplitude variation), were extracted using OpenSMILE's ComParE feature set. In total, 18 acoustic features per segment were used as input to the Random Forest classifiers.
+Let $x(t)$ denote a raw audio waveform sampled at 16,kHz. The fundamental frequency (pitch) $F_0(t)$ is estimated frame-by-frame using the YIN algorithm. Pitch variability is captured by the standard deviation $\sigma_{F_0}$ over a 3--4 minute segment. Loudness is computed as the root-mean-square energy:
+[
+$\text{RMS}(t) = \sqrt{\frac{1}{N}\sum_{n=0}^{N-1} x^2(t+n)}$
+]
+
+Additional acoustic features, including jitter (cycle-to-cycle pitch variation) and shimmer (cycle-to-cycle amplitude variation), are extracted using the OpenSMILE \texttt{eGeMAPSv02} feature set. A subset of 18 selected features per segment is used as input to the Random Forest classifiers.
 
 \section*{Random Forest Classification}
 
-Each of the four quality-dimension classifiers is an ensemble of $T=100$ decision trees. For a segment with feature vector $\mathbf{x} \in \mathbb{R}^{18}$, the predicted class label is determined by majority vote:
+Each of the four quality-dimension classifiers (energy, patience, student attention, and lesson pace) is implemented as a Random Forest ensemble consisting of $T = 100$ decision trees. Each tree uses the Gini impurity criterion for splitting and is constrained to a maximum depth of 4 to reduce overfitting and improve generalization. Class imbalance is handled using balanced class weights. At each split, a subset of features is selected using the $\sqrt{d}$ heuristic. Final predictions are obtained through majority voting across all trees:
 \[
-\hat{y} = \underset{c}{\arg\max} \sum_{t=1}^{T} \mathbf{1}\bigl[h_t(\mathbf{x}) = c\bigr]
+\hat{y} = \arg\max_{c \in \{1,2,3,4,5\}}
+\sum_{t=1}^{T} \mathbb{1}\big(h_t(\mathbf{x}) = c\big)
 \]
-where $h_t$ denotes the $t$-th decision tree and $c \in \{1, 2, 3, 4, 5\}$ is a Likert scale label. Each tree is trained on a bootstrap sample of the training set with maximum depth 4 and Gini impurity as the splitting criterion.
 
-\section*{RAG Semantic Similarity}
+where $h_t$ represents the prediction of the $t$-th tree and $c \in {1,2,3,4,5}$ is the Likert scale label.
 
-The curriculum fidelity score is derived from the cosine similarity between the lesson transcript embedding and the curriculum document chunk embeddings. Given transcript embedding $\mathbf{q}$ and curriculum chunk embedding $\mathbf{d}_i$, the retrieval score is:
-\[
-\text{sim}(\mathbf{q}, \mathbf{d}_i) = \frac{\mathbf{q} \cdot \mathbf{d}_i}{\|\mathbf{q}\|\,\|\mathbf{d}_i\|}
-\]
-The top-$k$ most similar chunks are passed as context to LLaMA3, which generates a structured rubric score (1--5) based on objective coverage and supplementary content inclusion.
+
+\section*{Curriculum Fidelity Assessment}
+
+The curriculum fidelity score is obtained using a large language model (LLaMA3) via prompt-based evaluation. The lesson transcript and corresponding curriculum content are provided directly as input to the model, which generates a structured rubric score (1--5) based on alignment with curriculum objectives and inclusion of relevant material.
+
+This approach does not employ a retrieval-augmented generation (RAG) pipeline; no embedding-based similarity or document retrieval is performed. Instead, the evaluation is conducted using zero-shot or few-shot prompting.
 
 \section*{Hybrid Teaching Score}
 
