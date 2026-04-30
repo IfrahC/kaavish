@@ -283,7 +283,7 @@ This section presents the computational, algorithmic, and architectural componen
 
 \subsection{Intelligent Scheduling Algorithm}
 
-The platform uses an intelligent scheduling engine inspired by hybrid optimization techniques from recent literature \cite{lv2025, sahargahi2022, nguyen2021sho}. 
+The platform uses an intelligent scheduling engine inspired by hybrid optimization techniques from recent literature \cite{Lv2025, Sahargahi2021, Nguyen2021}.
 
 \subsubsection*{Inputs}
 \begin{itemize}
@@ -298,13 +298,13 @@ We aim to implement a Hybrid Scheduling Model combining:
 
 \begin{enumerate}
     \item \textbf{Improved Parallel Genetic Algorithm (GA):}  
-    Generates multiple candidate schedules and evolves them using selection, mutation, and crossover \cite{sahargahi2022}.
+    Generates multiple candidate schedules and evolves them using selection, mutation, and crossover \cite{Sahargahi2021}.
 
     \item \textbf{Local Search Optimization:}  
-    Refines feasible schedules to minimize soft constraint violations \cite{sahargahi2022}.
+    Refines feasible schedules to minimize soft constraint violations \cite{Sahargahi2021}.
 
     \item \textbf{Distance-to-Feasibility Fitness Function:}  
-    Ensures hard constraints (Zoom limits, overlapping classes, instructor conflicts) are always satisfied while optimizing soft constraints such as preferences, continuity, and compatibility \cite{sahargahi2022}.
+    Ensures hard constraints (Zoom limits, overlapping classes, instructor conflicts) are always satisfied while optimizing soft constraints such as preferences, continuity, and compatibility \cite{Sahargahi2021}.
 \end{enumerate}
 
 \subsubsection*{Output}
@@ -345,7 +345,7 @@ We aim to implement a Hybrid Scheduling Model combining:
 
 \subsection{Zoom API Automation Pipeline}
 
-The system automates meeting generation using the Zoom REST API \cite{zoomapi2025}, eliminating manual workflows.
+The system automates meeting generation using the Zoom REST API \cite{ZoomAPI2025}, eliminating manual workflows.
 
 \subsubsection*{Inputs}
 \begin{itemize}
@@ -444,10 +444,3 @@ The integrated system produces a series of operational and analytical artifacts:
 \end{itemize}
 
 These components collectively transform manual workflows into an intelligent, scalable, and automated platform.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=1.0\textwidth]{../images/teachwisecms_erd.png}
-    \caption{Entity-Relationship Diagram of the database.}
-    \label{fig:erd}
-\end{figure}
