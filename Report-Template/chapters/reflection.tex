@@ -3,34 +3,78 @@
 
 \subsection{Individual Reflections}
 
-\subsubsection{Member 1: Aina }
-Developing the TeachWise evaluation pipeline was a challenging but valuable experience. One of the main difficulties was not being able to get a complete dataset from our partner school. Because of this, we had to quickly switch plans and create and label our own dataset within a short time. This taught us the importance of having backup plans and preparing for data-related issues in large projects.
-On the technical side, reaching 87.0\% accuracy for Student Attention showed that the 18-feature prosodic analysis pipeline was effective. My experience as an instructor and Teaching Assistant helped me understand how audio features relate to teaching quality.
-Overall, this project highlights the need for fair and objective tools to evaluate teaching quality, while also keeping ethical considerations in mind in modern digital education systems.
+\subsubsection{Aina Shakeel}
 
+Working on TeachWise over two semesters was one of the most formative experiences of my degree. My primary responsibilities were the scheduling algorithm and the instructor evaluation pipeline, and the journey of building both from scratch taught me far more than coursework alone could have.
 
-The development of \textit{TeachWise} was a comprehensive and hands-on learning experience, one that went further than any theoretical course work.
-A significant takeaway at the forefront of the project, was our ability to design, implement and maintain a large-scale, real-world system which is an amalgamation of multiple domains.
-Domains such as web development, machine learning, database management, API integration, modern frameworks and system design. Gaining exposure to a full-stack development cycle, all of this while ensuring maintainability and scalability. 
-\\
-\\
-\indent One of the major milestones was understanding the complexities of scheduling problems and implementing heuristic-based solutions all to achieve a near-optimal performance.
-Furthermore working on the ML/NLP pipeline exposed us to many advanced concepts. Concepts such as topic modelling, speech processing and multimodal analysis. Areas that initially seemed very abstract but became clearer as the project went on.
-\\
-\\
-\indent We encountered many technical challenges along the way, such as inetgrating multiple different systen componenets to work in tandem with each other, handling workflows that worked asynchronously, and making sure the remained consistent across modules.
-Having to over come these challenges resulted in us enhancing our debugging skills, strengthening our understanding of the design of the system, and it also taught us the importance of an iterative development approach.
-\\
-\\
-\indent Team collaboration was a major factor in the successful development of this project. Work was distributed amongs the team according to individual strengths, this allowed each member to specialize whilst also contributing to the project itself. 
-Overall this enabled very efficient parallel development. 
-\\
-\\
-\indent This was mostly due to constant and consistant communication between the team members, especially during phases where the dependencies between componenets became very important. Regular meetings (Occasionally Online), progress updates and collaborative debugging/testing sessions.
-This was able to help us to resolve issues quickly and to stay aligned with our goals and timelines. One particular challenge we did face however was in synchronizing timelines, specifically when the implementation of one componenet depeneded on the completion of another.
-\\
-\\
-\indent Another major aspect we picked up was the importance of proper documnetation, version control and early testing. The project enhanced our teamwork, adaptability and structurization skills.
-\\
-\\
-\indent Despite the intimidating stature of the project and the challenges we faced, the overall process was highly rewarding. Not only did it reinforce our technical skills but also introduced us to the importance of other factors such as project management, collaboration and real-world system development.
+One of the most important lessons I took away was how industry partnerships can change unexpectedly. At the outset, our partner institution had agreed to provide us with access to labelled curriculum and evaluation data, which was central to training and scaling the curriculum fidelity model. As the project progressed, that commitment was not fulfilled --- responses slowed, priorities shifted, and the data never materialised. This was frustrating, but it taught me a critical professional lesson: you cannot let an external dependency become a single point of failure. We responded by sourcing and annotating our own dataset from publicly available educational content, establishing our own labelling protocol, and justifying every design decision on the basis of what we actually had. Going forward, I will always build in contingency plans whenever a project depends on a third party.
+
+A second major learning was about data bias and class imbalance. Once we had our annotated dataset and trained the Random Forest classifiers, the imbalance in label distribution --- where mid-range scores dominated --- became very visible in the results. Patience, the hardest dimension to infer from audio alone, achieved the lowest accuracy (73.9\%), and error analysis confirmed that the model struggled most at the extremes of the scale. Understanding how bias manifests in model performance, not just as an abstract concept but as something you can see in a confusion matrix, made it a concrete and deeply practical lesson.
+
+On the technical side, building the prosodic feature extraction pipeline using Librosa and OpenSMILE, working with Whisper for ASR transcription, and designing the RAG-based curriculum fidelity component using LLaMA3 were all skills I developed during this project. The scheduling algorithm --- formulating the problem as a constrained combinatorial optimisation task and implementing a Genetic Algorithm from scratch --- was particularly rewarding. Watching the GA converge and outperform the historical human schedule in constraint compliance was a genuinely satisfying result.
+
+Finally, working in a team with members who had very different strengths and working styles was itself a learning experience. Dividing responsibilities along lines of individual strength --- rather than trying to have everyone do everything --- was something I came to appreciate deeply. Knowing when to ask for help, and knowing when to offer it, made the collaboration more effective than I expected going in.
+
+\subsubsection{Zain Hatim}
+
+% TODO: Add individual reflection.
+
+\subsubsection{Naaseh Sajid}
+
+% TODO: Add individual reflection.
+
+\subsubsection{Ifrah Chishti}
+
+% TODO: Add individual reflection.
+
+\subsection{Team Reflection}
+
+TeachWise was built by a team of four, and over the course of two semesters we developed not only a functioning platform but also a clearer understanding of what effective collaboration actually requires.
+
+Role distribution followed individual strengths fairly naturally. Zain took ownership of the front-end --- UI design, wireframing, and the implementation of the admin and instructor dashboards --- bringing a strong design sensibility to the visual side of the system. Aina led the backend work on the scheduling algorithm and the evaluation pipeline. Naaseh supported the backend and evaluation work alongside Aina, and played a key role in integrating the various components into a coherent system. Ifrah contributed to the scheduling module in the earlier phase of the project and subsequently shifted to supporting the backend and the finance-related CMS modules, ensuring those were fully functional and integrated.
+
+Communication was primarily asynchronous through WhatsApp, supplemented by regular in-person and online meetings for alignment, debugging sessions, and milestone reviews. The meetings became especially important during integration phases, when the outputs of one component were inputs to another and synchronisation errors would surface unexpectedly.
+
+One consistent challenge was timeline synchronisation. When a front-end screen depended on a backend endpoint that was not yet complete, or when the evaluation pipeline required preprocessed data that was still being collected, work would stall or need to be done in isolation with mock data. We managed this by defining clear interface contracts early --- agreeing on API response structures and data formats before the underlying logic was finished --- which reduced blocking dependencies significantly.
+
+Another challenge was the uneven cognitive load at different stages. The data collection and annotation sprint, in particular, required concentrated effort from a subset of the team over a short window. Better upfront distribution of that kind of task is something we would approach differently if starting again.
+
+Overall, the team dynamic was strong. Disagreements were resolved through discussion, decisions were documented, and there was a shared sense of ownership over the final product. The project would not have reached this level of completeness without genuine collaboration across all four members.
+
+\subsection{Process Reflection}
+
+\subsubsection{What Worked Well}
+
+Dividing the system into well-defined modules --- scheduling, evaluation, and the CMS front-end --- and assigning clear ownership for each turned out to be one of the best structural decisions we made. It allowed parallel development across the team and meant that problems in one component rarely blocked work on another.
+
+Adopting a constraint-tier model for the scheduling algorithm (hard, medium, and soft) was also effective. It gave the Genetic Algorithm a clear and principled signal to optimise against, and the results --- zero hard-constraint violations on the evaluation dataset versus seven in the human schedule --- validated that design choice.
+
+Using Whisper for ASR transcription was a practical decision that paid off. The quality of the transcripts on our audio corpus was consistently high enough to serve as reliable input to the RAG curriculum fidelity pipeline without significant post-processing.
+
+Regular documentation discipline, including maintaining an up-to-date SRS and SDS as the system evolved, made integration smoother and provided a useful reference when revisiting earlier design decisions.
+
+\subsubsection{What Could Be Improved}
+
+The most significant process gap was our reliance on the partner institution for evaluation data. We did not establish early enough what our fallback would be if that data did not arrive, and when it did not, we lost time that a contingency plan would have preserved.
+
+The annotation process for the audio dataset was labour-intensive and carried out late in the project timeline, compressing the time available for model experimentation. In future projects of this kind, data collection and annotation should be treated as a first-class deliverable with its own timeline and milestones, not as a precursor to the ``real'' work.
+
+The curriculum fidelity component, while functional, was not able to be evaluated quantitatively because we lacked ground-truth fidelity labels. Building a parallel annotation track --- where educators label curriculum coverage alongside the prosodic dimensions --- from the beginning would have made this component far more rigorously evaluated.
+
+\subsection{Plans vs.\ Achievements}
+
+\subsubsection{What Was Proposed}
+
+The original proposal for TeachWise described a CMS platform with five integrated modules: instructor and student management, intelligent class scheduling, automated instructor evaluation (prosodic and curriculum fidelity), payment management, and an administrative dashboard. The evaluation component was initially scoped to include prosodic analysis across four quality dimensions, with the curriculum fidelity model to be trained on labelled data provided by the partner institution.
+
+\subsubsection{What Was Achieved}
+
+All five core modules were implemented and integrated into a deployment-ready web platform. The scheduling algorithm achieved its design goals, producing constraint-compliant schedules that outperformed historical human assignments across all key metrics. The prosodic evaluation pipeline was implemented in full, with four trained Random Forest classifiers achieving test accuracies between 73.9\% and 87.0\%. The RAG-based curriculum fidelity component was designed, implemented, and demonstrated to produce qualitatively consistent structured evaluations.
+
+\subsubsection{Deviations and Reasons}
+
+The principal deviation from the original plan was in the curriculum fidelity component. The partner institution had agreed to provide access to annotated lesson recordings paired with structured curriculum documents, which would have enabled us to train a supervised curriculum fidelity classification model and benchmark its accuracy formally. That data was never made available. As a result, the curriculum fidelity model operates in a zero-shot capacity using the RAG framework with LLaMA3, rather than as a fine-tuned supervised classifier. The component is functional and produces qualitatively sound outputs, but a quantitative accuracy benchmark does not yet exist for it. This is explicitly identified as a priority for future work.
+
+A second change was the addition of the pedagogical match ML model as a soft constraint within the scheduling fitness function. This was not part of the original proposal but emerged during implementation as a natural enhancement once the evaluation pipeline was in place. Including match scores as a scheduling signal proved to be one of the more impactful design decisions, producing a 22.7\% improvement in average instructor--student pairing quality over the human baseline.
+
+These deviations were not failures of planning but rather honest responses to the constraints and opportunities that emerged during real-world development. The inability to obtain partner data was a genuine external challenge; the addition of the pedagogical match constraint was a design opportunity that we recognised and acted on. Both are reflective of the adaptive approach that characterises professional software development.

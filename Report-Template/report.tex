@@ -5,7 +5,8 @@
 \documentclass[12pt,twosided]{report}
 
 \usepackage[titletoc]{appendix} % for adding appendix to TOC
-\usepackage{biblatex}  % reference management
+\usepackage[backend=biber]{biblatex}
+\addbibresource{references.bib}
 \usepackage{geometry}  % better margins and margin control
 \usepackage{graphicx}  % to include figures
 \usepackage{hyperref}  % internal and external links
@@ -16,6 +17,8 @@
 \usepackage{titlesec}  % customize chapter title 
 \usepackage{upquote}  % prevent mishandling of single quotes in listings
 \usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
 
 % TODO: Customize the appearance of hyperref links using \hypersetup
 % See https://en.wikibooks.org/wiki/LaTeX/Hyperlinks#Customization
@@ -119,8 +122,9 @@ In this work, we present the design and implementation of the TeachWise platform
 \end{appendices}
 
 % Print the bibliography with a ToC entry and titled, "References".
-\printbibliography[heading=bibintoc,title={References}]
 
+% \printbibliography[heading=bibintoc,title={References}]
+\printbibliography
 \end{document}
 
 %%% Local Variables:

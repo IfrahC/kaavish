@@ -1,41 +1,41 @@
-% \section{Conclusion}
-% \label{sec:conclusion}
+This appendix provides supplementary mathematical background for the key techniques employed in TeachWise.
 
-% TeachWise is a web-based Curriculum Management System (CMS) designed to address the operational and pedagogical challenges faced by rapidly growing online education platforms. It integrates three tightly coupled components — an intelligent scheduling algorithm, an automated instructor evaluation framework, and a centralised administrative CMS — into a unified platform that reduces manual overhead and improves decision-making quality.
+\section*{Genetic Algorithm Fitness Function}
 
-% \subsection{Intelligent Scheduling}
-% The Genetic Algorithm (GA)-based scheduling engine successfully resolves the NP-hard combinatorial problem of assigning instructors to student requests under a rich constraint model. On the January 2025 evaluation dataset (47 requests, 7 instructors), the GA achieved 100\% scheduling coverage with zero hard-constraint violations, compared to seven violations in the manually produced human schedule. Student preference satisfaction reached 94.7\%, and the average pedagogical match score improved by 22.7\% over the baseline human assignment. These results demonstrate that encoding instructor-student compatibility as a soft-constraint signal in the fitness function produces meaningfully better class assignments than manual scheduling, while also guaranteeing feasibility.
+The fitness of a candidate schedule $S$ is computed as:
+\[
+f(S) = \sum_{a \in S} \Bigl[ w_{\text{hard}} \cdot \delta_{\text{hard}}(a) + w_{\text{med}} \cdot \delta_{\text{med}}(a) + w_{\text{soft}} \cdot \phi_{\text{soft}}(a) \Bigr]
+\]
+where $\delta_{\text{hard}}(a)$ and $\delta_{\text{med}}(a)$ are penalty indicator functions for hard and medium constraint violations respectively, and $\phi_{\text{soft}}(a)$ is the soft-constraint quality score for assignment $a$. The penalty weights are set as $w_{\text{hard}} = -50{,}000$, $w_{\text{med}} = -500$, and soft-constraint bonuses include $+500$ per satisfied student time preference and $+100 \times m$ for a pedagogical match score $m \in [0,1]$.
 
-% \subsection{Instructor Evaluation Framework}
-% The hybrid automated evaluation system combines prosodic audio analysis with curriculum fidelity assessment to produce an objective, multi-dimensional teaching quality score. The four Random Forest classifiers trained on 18 acoustic features achieved test accuracies between 73.9\% (Patience) and 87.0\% (Student Attention), with cross-validation accuracies as high as 91.2\%. These results confirm that machine learning models can reliably approximate complex instructional dimensions from audio alone, removing the dependence on resource-intensive manual classroom observations. The LLM-based RAG curriculum fidelity component further enriches the evaluation by grounding assessments in the actual lesson curriculum, enabling precise identification of pedagogical gaps and generating actionable, objective-level feedback. Together, the prosodic and curriculum fidelity scores are combined into a single composite teaching effectiveness score that supports structured, evidence-based instructor development at scale.
+\section*{Prosodic Feature Extraction}
 
-% \subsection{CMS Platform}
-% The TeachWise CMS provides a centralised portal that unifies instructor management, class scheduling, student assignments, payment tracking, and performance analytics into one integrated system. Role-differentiated dashboards for administrative staff (Operations, Evaluations, Finance) and instructors replace the previously fragmented, spreadsheet-driven workflows at CodeSchool. Zoom API integration automates meeting link generation, while Gmail API integration streamlines communications. The platform was designed and implemented to be deployment-ready and has been validated against real operational data from a live partner institution.
+Let $x(t)$ denote a raw audio waveform sampled at 16\,kHz. The fundamental frequency (pitch) $F_0(t)$ is estimated frame-by-frame using the YIN algorithm. Pitch variability is captured by the standard deviation $\sigma_{F_0}$ over a 3--4 minute segment. Loudness is computed as the root-mean-square energy:
+\[
+\text{RMS}(t) = \sqrt{\frac{1}{N}\sum_{n=0}^{N-1} x^2(t+n)}
+\]
+Additional features, including jitter (cycle-to-cycle pitch variation) and shimmer (cycle-to-cycle amplitude variation), were extracted using OpenSMILE's ComParE feature set. In total, 18 acoustic features per segment were used as input to the Random Forest classifiers.
 
-% \subsection{Summary}
-% Taken together, the TeachWise platform demonstrates that principled application of combinatorial optimisation, machine learning, and large language models can substantially improve the efficiency, fairness, and scalability of operations in online education. The system is functional, validated on real-world data, and ready for deployment at CodeSchool, while its modular architecture lays a strong foundation for future extension.
+\section*{Random Forest Classification}
 
-% \section{Future Work}
-% \label{sec:futurework}
+Each of the four quality-dimension classifiers is an ensemble of $T=100$ decision trees. For a segment with feature vector $\mathbf{x} \in \mathbb{R}^{18}$, the predicted class label is determined by majority vote:
+\[
+\hat{y} = \underset{c}{\arg\max} \sum_{t=1}^{T} \mathbf{1}\bigl[h_t(\mathbf{x}) = c\bigr]
+\]
+where $h_t$ denotes the $t$-th decision tree and $c \in \{1, 2, 3, 4, 5\}$ is a Likert scale label. Each tree is trained on a bootstrap sample of the training set with maximum depth 4 and Gini impurity as the splitting criterion.
 
-% Several directions for future development have been identified based on the limitations of the current system and opportunities for broader impact.
+\section*{RAG Semantic Similarity}
 
-% \begin{itemize}
+The curriculum fidelity score is derived from the cosine similarity between the lesson transcript embedding and the curriculum document chunk embeddings. Given transcript embedding $\mathbf{q}$ and curriculum chunk embedding $\mathbf{d}_i$, the retrieval score is:
+\[
+\text{sim}(\mathbf{q}, \mathbf{d}_i) = \frac{\mathbf{q} \cdot \mathbf{d}_i}{\|\mathbf{q}\|\,\|\mathbf{d}_i\|}
+\]
+The top-$k$ most similar chunks are passed as context to LLaMA3, which generates a structured rubric score (1--5) based on objective coverage and supplementary content inclusion.
 
-%     \item \textbf{Expanded and Balanced Dataset:} The evaluation model's training corpus of 113 recordings exhibits a moderate class imbalance, with mid-range Likert scores (3--4) being over-represented. Future work should expand the dataset substantially — targeting several hundred additional annotated clips — with deliberate over-sampling of extreme quality labels (1 and 5) to improve classifier performance at the tails of the distribution. A larger, more balanced dataset would also allow exploration of deeper model architectures beyond Random Forests.
+\section*{Hybrid Teaching Score}
 
-%     \item \textbf{Multilingual Support (Urdu and Regional Languages):} The current evaluation pipeline is English-only, limiting its applicability to CodeSchool's operations in Pakistan and the broader South Asian region, where instruction frequently occurs in Urdu or code-switches between English and Urdu. Future work should collect and annotate Urdu-medium classroom recordings and fine-tune the Whisper ASR model and downstream classifiers for Urdu, enabling accurate prosodic and semantic evaluation across both languages.
-
-%     \item \textbf{Multimodal Evaluation — Visual and Body Language Cues:} The current system relies solely on audio. Incorporating video-based signals — such as instructor body language, hand gestures, facial expressions, and student on-camera engagement — would provide a substantially richer and more holistic picture of teaching quality. Future work should explore multi-modal fusion architectures that combine acoustic features with visual features extracted from class recordings, using models such as MediaPipe or OpenCV for pose and facial action unit extraction.
-
-%     \item \textbf{Curriculum Fidelity Model Training and Accuracy Benchmarking:} The current curriculum fidelity component uses a zero-shot LLM-based RAG approach (LLaMA3) with a structured rubric prompt. While the pipeline is functional and generalised, no supervised accuracy benchmark exists for this component due to the absence of labelled ground-truth fidelity scores. Future work should collect annotated curriculum fidelity labels from expert educators and use them to fine-tune or evaluate the RAG scoring model, establishing a formal quantitative baseline and enabling iterative improvement.
-
-%     \item \textbf{Parallel Fitness Evaluation in the Scheduling Algorithm:} The current GA evaluates the fitness of each candidate schedule sequentially, which becomes a bottleneck as the number of requests and instructors scales. Introducing multi-threaded or asynchronous parallel fitness evaluation — for example, using Python's \texttt{concurrent.futures} module or a distributed task queue — would reduce per-generation computation time and make the algorithm tractable for much larger scheduling instances (e.g., 500+ requests per month).
-
-%     \item \textbf{Modular and Configurable CMS Architecture:} The current platform is tightly integrated around CodeSchool's specific operational model. To position TeachWise as a general-purpose product for any online or hybrid education institution, the CMS should be refactored into independently deployable modules (e.g., Scheduling, Evaluation, Finance, HR Pipeline). Administrators at different institutions should be able to enable only the modules relevant to their workflows rather than being required to adopt the full system. This plug-and-play architecture would dramatically improve adoption potential across different institutional contexts.
-
-%     \item \textbf{Role-Based Access Control and Segmented Admin Dashboard:} The current admin dashboard presents a unified view across all administrative functions. A production deployment should introduce fine-grained role-based access control (RBAC), ensuring that Operations staff, Evaluations staff, and Finance staff each see only the data and actions relevant to their role. This reduces information overload, strengthens data privacy, and aligns with standard enterprise security practices.
-
-%     \item \textbf{HR Pipeline and Onboarding Module:} Instructor recruitment and onboarding at CodeSchool remains a partially manual process. A future HR pipeline module integrated into the CMS would support end-to-end instructor lifecycle management — from application submission and document verification through to onboarding, contract management, and offboarding — further reducing administrative overhead.
-
-% \end{itemize}
+The final composite teaching effectiveness score for a session is an unweighted average of five dimensions:
+\[
+\text{Score} = \frac{E + P + A + L + C}{5}
+\]
+where $E$ is Energy, $P$ is Patience, $A$ is Student Attention, $L$ is Lesson Pace (each from the Random Forest classifiers, scaled to 1--5), and $C$ is the RAG-derived Curriculum Fidelity score (1--5).
